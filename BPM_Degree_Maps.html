@@ -849,9 +849,11 @@ function renderDegreePlanner(selectorId, gridId) {
       let cls = 'dp-unit split-core-major';
       if (isRemoved) cls += ' removed';
       const removedLabel = isRemoved ? `<div style="font-size:7px;color:#bbb;font-style:italic;">deleted</div>` : '';
-      const splitStyle = `border:2px solid transparent;background:
-        linear-gradient(135deg, var(--core-bg) 50%, #fff4e6 50%) padding-box,
-        linear-gradient(135deg, var(--core-border) 50%, #f58509 50%) border-box;`;
+      // Note: uses a plain solid border + single-layer background gradient
+      // (not the transparent-border + background-clip:border-box trick) —
+      // html2canvas doesn't reliably rasterize multi-layer background-clip,
+      // which was silently dropping the border on JPEG export.
+      const splitStyle = `border:2px solid #f58509;background:linear-gradient(135deg, var(--core-bg) 50%, #fff4e6 50%);`;
       return `<div class="${cls}" style="${splitStyle}">
         <div class="dp-unit-code">PMGT2855</div>
         <div class="dp-unit-name">${u ? u.name : 'Project Acceptance'}</div>
@@ -1051,9 +1053,7 @@ const STANDARD_DEGREE_MAPS_LEGEND_MAJOR_ITEMS = {
 // Split-tile swatch (diagonal core/major) shown only for majors that use the
 // dual core+major unit treatment — currently just Construction (PMGT2855).
 const STANDARD_DEGREE_MAPS_LEGEND_SPLIT_ITEMS = {
-  'construction': `<div style="display:flex;align-items:center;gap:7px;"><div style="width:23px;height:23px;border-radius:4px;border:2px solid transparent;background:
-      linear-gradient(135deg, var(--core-bg) 50%, #fff4e6 50%) padding-box,
-      linear-gradient(135deg, var(--core-border) 50%, #f58509 50%) border-box;"></div> Core &amp; Construction Major</div>`,
+  'construction': `<div style="display:flex;align-items:center;gap:7px;"><div style="width:23px;height:23px;border-radius:4px;border:2px solid #f58509;background:linear-gradient(135deg, var(--core-bg) 50%, #fff4e6 50%);"></div> Core &amp; Construction Major</div>`,
 };
 
 function getStandardDegreeMapsLegend(selectedMajor) {

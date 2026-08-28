@@ -65,8 +65,8 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);font-si
 }
 
 /* Header */
-.header{background:var(--usyd-dark);color:white;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:90px;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--usyd-red);}
-.header-left{display:flex;align-items:center;gap:16px;}
+.header{background:var(--usyd-dark);color:white;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;row-gap:10px;min-height:90px;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--usyd-red);}
+.header-left{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
 .header-logo{display:flex;align-items:center;flex-shrink:0;}
 .header-divider{width:1px;height:56px;background:rgba(255,255,255,.2);}
 .header-title{font-size:26px;color:white;font-family:var(--font-heading);font-weight:500;}
@@ -82,6 +82,21 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);font-si
 
 /* Layout */
 .main{padding:22px 28px;max-width:1700px;margin:0 auto;}
+
+/* ── Mobile layout ──────────────────────────────────────────────────── */
+html,body{overflow-x:hidden;max-width:100%;}
+@media (max-width:640px){
+  .header{padding:10px 14px;min-height:0;}
+  .header-left{gap:10px;}
+  .header-logo img{height:38px !important;}
+  .header-divider{display:none;}
+  .header-title{font-size:16px;line-height:1.25;}
+  .header-subtitle{font-size:9.5px;line-height:1.4;margin-top:2px;}
+  .header-school{font-size:8.5px;margin-top:2px;}
+  .tabs{padding:0 10px;}
+  .tab{padding:9px 12px;font-size:11px;}
+  .main{padding:12px 10px;}
+}
 .panel{display:none;}
 .panel.active{display:block;}
 .section-title{font-size:22px;font-weight:500;color:var(--text);margin-bottom:5px;}
@@ -404,25 +419,53 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);font-si
 /* ── Degree Maps tab: presentation-sized version of the degree planner ──
    Scoped to #degree-maps-grid so the compact Scenario Planner editing view
    is unaffected. !important is needed to beat the inline height/font-size
-   set by the shared renderSlot() template. */
-#degree-maps-grid .dp-table{border-spacing:12px;}
-#degree-maps-grid .dp-sem-header{font-size:24px !important;padding:6px 0 12px !important;}
-#degree-maps-grid .dp-year-label{font-size:19px !important;width:88px !important;padding-right:16px !important;}
+   set by the shared renderSlot() template.
+   Base tier below is sized for laptop/desktop viewing at 100% zoom.
+   See the (max-width:926px) and (max-width:640px) media queries further
+   down for the landscape-mobile and portrait-mobile tiers. ──────────── */
+/* --dm-scale: one shared length that every degree-map GRID TILE dimension
+   below is a plain-number multiple of. Uses container query units (cqw),
+   scoped to #degree-maps-card (the element that actually constrains the
+   table's available width), so the scale is driven by the real available
+   space rather than raw viewport width — this is what makes it shrink
+   exactly enough to always fit without overflowing, instead of clipping
+   mid-shrink like a viewport-based clamp() would. */
+#degree-maps-card{container-type:inline-size;--dm-scale:clamp(0.19px, 0.0595cqw, 1px);}
+
+/* ── Single shared scale factor: every dimension below is calc(--dm-scale * N)
+   where N is a bare number and --dm-scale is one shared length (defined on
+   #degree-maps-capture). This makes width, height, font-size, padding etc.
+   all exact linear multiples of the SAME value, so their ratios to each
+   other never change — the whole grid + elective bank scale up/down as one
+   rigid unit, preserving the base proportions exactly at every width. ──── */
+#degree-maps-grid .dp-table{border-spacing:calc(var(--dm-scale) * 8);width:auto;table-layout:auto;}
+#degree-maps-grid .dp-cell{width:auto !important;}
+#degree-maps-grid colgroup col:first-child{width:calc(var(--dm-scale) * 44) !important;}
+#degree-maps-grid colgroup col:nth-child(6){width:calc(var(--dm-scale) * 14) !important;}
+#degree-maps-grid .dp-sem-header{font-size:calc(var(--dm-scale) * 16) !important;padding:calc(var(--dm-scale) * 4) 0 calc(var(--dm-scale) * 8) !important;}
+#degree-maps-grid .dp-year-label{font-size:calc(var(--dm-scale) * 13) !important;width:calc(var(--dm-scale) * 60) !important;padding-right:calc(var(--dm-scale) * 8) !important;}
 #degree-maps-grid .dp-unit,
-#degree-maps-grid .dp-empty{height:145px !important;border-radius:8px !important;padding:12px 14px !important;}
-#degree-maps-grid .dp-unit-code{font-size:18px !important;margin-bottom:4px !important;}
-#degree-maps-grid .dp-unit-name{font-size:16px !important;line-height:1.35 !important;-webkit-line-clamp:4 !important;}
-#degree-maps-grid .dp-empty-label{font-size:13px !important;}
-#degree-maps-grid .dp-empty > div{font-size:17px !important;}
-#degree-maps-grid .eb-panel{border-radius:10px !important;}
-#degree-maps-grid .eb-header{background:var(--usyd-warm) !important;padding:14px 18px !important;}
-#degree-maps-grid .eb-title{font-size:15px !important;}
-#degree-maps-grid .eb-list{padding:16px !important;gap:12px !important;}
-#degree-maps-grid .eb-unit{width:240px !important;flex:0 0 240px !important;padding:10px 14px !important;}
-#degree-maps-grid .eb-unit-code{font-size:15px !important;}
-#degree-maps-grid .eb-unit-name{font-size:15px !important;line-height:1.35 !important;}
+#degree-maps-grid .dp-empty{width:calc(var(--dm-scale) * 180) !important;height:calc(var(--dm-scale) * 92) !important;border-radius:calc(var(--dm-scale) * 7) !important;padding:calc(var(--dm-scale) * 7) calc(var(--dm-scale) * 9) !important;}
+#degree-maps-grid .dp-unit-code{font-size:calc(var(--dm-scale) * 12.5) !important;margin-bottom:calc(var(--dm-scale) * 3) !important;}
+#degree-maps-grid .dp-unit-name{font-size:calc(var(--dm-scale) * 11.5) !important;line-height:1.3 !important;-webkit-line-clamp:3 !important;}
+#degree-maps-grid .dp-empty-label{font-size:calc(var(--dm-scale) * 10) !important;}
+#degree-maps-grid .dp-empty > div{font-size:calc(var(--dm-scale) * 12) !important;}
+#degree-maps-grid .eb-panel{border-radius:9px !important;}
+#degree-maps-grid .eb-header{background:var(--usyd-warm) !important;padding:9px 12px !important;}
+#degree-maps-grid .eb-title{font-size:13px !important;}
+#degree-maps-grid .eb-list{padding:10px !important;gap:7px !important;}
+#degree-maps-grid .eb-unit{width:calc(var(--dm-scale) * 180) !important;flex:0 0 calc(var(--dm-scale) * 180) !important;padding:calc(var(--dm-scale) * 7) calc(var(--dm-scale) * 9) !important;}
+#degree-maps-grid .eb-unit-code{font-size:calc(var(--dm-scale) * 11.5) !important;}
+#degree-maps-grid .eb-unit-name{font-size:calc(var(--dm-scale) * 11.5) !important;line-height:1.3 !important;}
 #degree-maps-grid .eb-unit-sem,
-#degree-maps-grid .badge{font-size:12px !important;padding:2px 7px !important;}
+#degree-maps-grid .badge{font-size:calc(var(--dm-scale) * 10) !important;padding:1px 6px !important;}
+
+/* ── Degree Maps: all responsive scaling (grid tiles, banner/title/card/
+   legend, elective-bank cards) is now handled via clamp() in the base
+   rules above, so it scales continuously with viewport width instead of
+   jumping at fixed breakpoints — this avoids the "squish then jump" effect
+   where a percentage-width grid kept shrinking between breakpoints while
+   height/font stayed flat. ─────────────────────────────────────────────── */
 
 /* ── Unit Profiles ── */
 .profile-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:16px;overflow:hidden;}
@@ -549,15 +592,15 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);font-si
     </div>
   </div>
 
-  <div id="degree-maps-capture" style="background:var(--bg);padding:40px;border-radius:14px;">
-    <div id="degree-maps-banner" style="background:var(--usyd-red);border-radius:12px;padding:40px 44px;margin-bottom:28px;">
-      <div id="degree-maps-title" style="font-family:var(--font-heading);font-weight:700;font-size:46px;line-height:1.15;color:white;">Bachelor of Project Management</div>
-      <div id="degree-maps-subtitle" style="display:none;font-family:var(--font-body);font-size:15px;line-height:1.5;color:rgba(255,255,255,.92);margin-top:14px;max-width:1000px;"></div>
+  <div id="degree-maps-capture" style="background:var(--bg);padding:clamp(6px,2.2vw,22px);border-radius:14px;">
+    <div id="degree-maps-banner" style="background:var(--usyd-red);border-radius:12px;padding:clamp(8px,2vw,20px) clamp(10px,2.4vw,24px);margin-bottom:clamp(8px,2vw,20px);">
+      <div id="degree-maps-title" style="font-family:var(--font-heading);font-weight:700;font-size:clamp(12px,2.2vw,22px);line-height:1.2;color:white;">Bachelor of Project Management</div>
+      <div id="degree-maps-subtitle" style="display:none;font-family:var(--font-body);font-size:clamp(8px,1.2vw,12px);line-height:1.5;color:rgba(255,255,255,.92);margin-top:10px;max-width:1000px;"></div>
     </div>
 
-    <div id="degree-maps-card" style="background:white;border:1px solid var(--border);border-radius:10px;padding:40px;">
-      <div id="degree-maps-entry-label" style="display:none;font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--text-muted);text-transform:uppercase;border:1px dashed var(--border);border-radius:5px;padding:4px 10px;margin-bottom:16px;"></div>
-      <div id="degree-maps-legend" style="display:flex;gap:24px;flex-wrap:wrap;font-size:18px;align-items:center;margin-bottom:28px;">
+    <div id="degree-maps-card" style="background:white;border:1px solid var(--border);border-radius:10px;padding:clamp(6px,2.2vw,22px);">
+      <div id="degree-maps-entry-label" style="display:none;font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--text-muted);text-transform:uppercase;border:1px dashed var(--border);border-radius:5px;padding:3px 9px;margin-bottom:12px;"></div>
+      <div id="degree-maps-legend" style="display:flex;gap:clamp(6px,1.6vw,16px);flex-wrap:wrap;font-size:clamp(8px,1.3vw,13px);align-items:center;margin-bottom:clamp(6px,1.8vw,18px);">
         <!-- rendered by JS -->
       </div>
 
@@ -1041,19 +1084,19 @@ function renderDegreePlanner(selectorId, gridId) {
 }
 
 const STANDARD_DEGREE_MAPS_LEGEND_CORE = `
-  <div style="display:flex;align-items:center;gap:7px;"><div style="width:23px;height:23px;border-radius:4px;background:var(--core-bg);border:2px solid var(--core-border);"></div> Core</div>
-  <div style="display:flex;align-items:center;gap:7px;"><div style="width:23px;height:23px;border-radius:4px;background:var(--elective-bg);border:2px solid var(--elective-border);"></div> Elective</div>`;
+  <div style="display:flex;align-items:center;gap:7px;"><div style="width:16px;height:16px;border-radius:3px;background:var(--core-bg);border:2px solid var(--core-border);"></div> Core</div>
+  <div style="display:flex;align-items:center;gap:7px;"><div style="width:16px;height:16px;border-radius:3px;background:var(--elective-bg);border:2px solid var(--elective-border);"></div> Elective</div>`;
 
 const STANDARD_DEGREE_MAPS_LEGEND_MAJOR_ITEMS = {
-  'construction': `<div style="display:flex;align-items:center;gap:7px;"><div style="width:23px;height:23px;border-radius:4px;background:#fff4e6;border:2px solid #f58509;"></div> Construction Major</div>`,
-  'built-env': `<div style="display:flex;align-items:center;gap:7px;"><div style="width:23px;height:23px;border-radius:4px;background:#c8b6fe;border:2px solid #6739b3;"></div> Built Environment Major</div>`,
-  'tables': `<div style="display:flex;align-items:center;gap:7px;"><div style="width:23px;height:23px;border-radius:4px;background:#fffc19;border:2px solid #b8b800;"></div> Table S Major</div>`,
+  'construction': `<div style="display:flex;align-items:center;gap:7px;"><div style="width:16px;height:16px;border-radius:3px;background:#fff4e6;border:2px solid #f58509;"></div> Construction Major</div>`,
+  'built-env': `<div style="display:flex;align-items:center;gap:7px;"><div style="width:16px;height:16px;border-radius:3px;background:#c8b6fe;border:2px solid #6739b3;"></div> Built Environment Major</div>`,
+  'tables': `<div style="display:flex;align-items:center;gap:7px;"><div style="width:16px;height:16px;border-radius:3px;background:#fffc19;border:2px solid #b8b800;"></div> Table S Major</div>`,
 };
 
 // Split-tile swatch (diagonal core/major) shown only for majors that use the
 // dual core+major unit treatment — currently just Construction (PMGT2855).
 const STANDARD_DEGREE_MAPS_LEGEND_SPLIT_ITEMS = {
-  'construction': `<div style="display:flex;align-items:center;gap:7px;"><div style="width:23px;height:23px;border-radius:4px;border:2px solid #f58509;background:linear-gradient(135deg, var(--core-bg) 50%, #fff4e6 50%);"></div> Core &amp; Construction Major</div>`,
+  'construction': `<div style="display:flex;align-items:center;gap:7px;"><div style="width:16px;height:16px;border-radius:3px;border:2px solid #f58509;background:linear-gradient(135deg, var(--core-bg) 50%, #fff4e6 50%);"></div> Core &amp; Construction Major</div>`,
 };
 
 function getStandardDegreeMapsLegend(selectedMajor) {
@@ -1066,9 +1109,9 @@ function getStandardDegreeMapsLegend(selectedMajor) {
 }
 
 const EXTERNAL_TABLES_LEGEND = `
-  <div style="display:flex;align-items:center;gap:7px;"><div style="width:23px;height:23px;border-radius:4px;background:var(--core-bg);border:2px solid var(--core-border);"></div> Project Management core unit</div>
-  <div style="display:flex;align-items:center;gap:7px;"><div style="width:23px;height:23px;border-radius:4px;background:var(--elective-bg);border:2px dashed var(--elective-border);"></div> Selective (choice within the major)</div>
-  <div style="display:flex;align-items:center;gap:7px;"><div style="width:23px;height:23px;border-radius:4px;background:#eef1f4;border:2px solid #94a3b8;"></div> Host degree unit</div>`;
+  <div style="display:flex;align-items:center;gap:7px;"><div style="width:16px;height:16px;border-radius:3px;background:var(--core-bg);border:2px solid var(--core-border);"></div> Project Management core unit</div>
+  <div style="display:flex;align-items:center;gap:7px;"><div style="width:16px;height:16px;border-radius:3px;background:var(--elective-bg);border:2px dashed var(--elective-border);"></div> Selective (choice within the major)</div>
+  <div style="display:flex;align-items:center;gap:7px;"><div style="width:16px;height:16px;border-radius:3px;background:#eef1f4;border:2px solid #94a3b8;"></div> Host degree unit</div>`;
 
 const EXTERNAL_TABLES_STRUCTURE = {
   s1: [
@@ -1216,7 +1259,7 @@ function exportDegreeMapJPEG(){
   // to near-lossless since the larger canvas already keeps file size reasonable.
   // backgroundColor matches --bg so the cream frame around the banner/card carries
   // through into the exported image rather than being clipped to just the card.
-  html2canvas(el,{scale:4,backgroundColor:'#fcede2',useCORS:true,logging:false}).then(canvas=>{
+  html2canvas(el,{scale:6,backgroundColor:'#fcede2',useCORS:true,logging:false}).then(canvas=>{
     const link=document.createElement('a');
     link.download=`BPM_Degree_Map_${majorLabel}.jpg`;
     link.href=canvas.toDataURL('image/jpeg',0.98);

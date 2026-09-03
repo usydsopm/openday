@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Open Day Resources</title>
+<title>Prospective Student Resources - School of Project Management</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -76,7 +76,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);font-si
 
 /* Tabs */
 .tabs{background:var(--usyd-dark);border-bottom:1px solid rgba(255,255,255,.1);display:flex;padding:0 28px;}
-.tab{padding:12px 18px;cursor:pointer;font-size:12px;font-weight:500;color:rgba(255,255,255,.5);border-bottom:3px solid transparent;transition:all .15s;white-space:nowrap;}
+.tab{padding:12px 18px;cursor:pointer;font-size:14px;font-weight:500;color:rgba(255,255,255,.5);border-bottom:3px solid transparent;transition:all .15s;white-space:nowrap;}
 .tab:hover{color:rgba(255,255,255,.85);}
 .tab.active{color:white;border-bottom-color:var(--usyd-red);}
 
@@ -94,7 +94,7 @@ html,body{overflow-x:hidden;max-width:100%;}
   .header-subtitle{font-size:9.5px;line-height:1.4;margin-top:2px;}
   .header-school{font-size:8.5px;margin-top:2px;}
   .tabs{padding:0 10px;}
-  .tab{padding:9px 12px;font-size:11px;}
+  .tab{padding:9px 12px;font-size:12.5px;}
   .main{padding:12px 10px;}
 }
 .panel{display:none;}
@@ -381,6 +381,10 @@ html,body{overflow-x:hidden;max-width:100%;}
 .dp-sem-header{font-size:14px;font-weight:700;letter-spacing:.04em;color:var(--text);padding:4px 0 5px;text-align:center;}
 .dp-year-label{font-size:13px;font-weight:700;color:var(--text-muted);text-align:right;padding-right:8px;vertical-align:middle;white-space:nowrap;width:52px;}
 .dp-cell{vertical-align:top;padding:2px;width:11%;}
+.pm-outline-top{border-top:2.5px dashed var(--core-border) !important;}
+.pm-outline-bottom{border-bottom:2.5px dashed var(--core-border) !important;}
+.pm-outline-left{border-left:2.5px dashed var(--core-border) !important;}
+.pm-outline-right{border-right:2.5px dashed var(--core-border) !important;}
 .dp-spacer-col{width:14px;}
 .dp-unit{
   border-radius:6px;border:2px solid;padding:5px 6px;
@@ -445,11 +449,27 @@ html,body{overflow-x:hidden;max-width:100%;}
 #degree-maps-grid .dp-sem-header{font-size:calc(var(--dm-scale) * 16) !important;padding:calc(var(--dm-scale) * 4) 0 calc(var(--dm-scale) * 8) !important;}
 #degree-maps-grid .dp-year-label{font-size:calc(var(--dm-scale) * 13) !important;width:calc(var(--dm-scale) * 60) !important;padding-right:calc(var(--dm-scale) * 8) !important;}
 #degree-maps-grid .dp-unit,
-#degree-maps-grid .dp-empty{width:calc(var(--dm-scale) * 180) !important;height:calc(var(--dm-scale) * 92) !important;border-radius:calc(var(--dm-scale) * 7) !important;padding:calc(var(--dm-scale) * 7) calc(var(--dm-scale) * 9) !important;}
-#degree-maps-grid .dp-unit-code{font-size:calc(var(--dm-scale) * 12.5) !important;margin-bottom:calc(var(--dm-scale) * 3) !important;}
-#degree-maps-grid .dp-unit-name{font-size:calc(var(--dm-scale) * 11.5) !important;line-height:1.3 !important;-webkit-line-clamp:3 !important;}
-#degree-maps-grid .dp-empty-label{font-size:calc(var(--dm-scale) * 10) !important;}
-#degree-maps-grid .dp-empty > div{font-size:calc(var(--dm-scale) * 12) !important;}
+#degree-maps-grid .dp-empty{width:calc(var(--dm-scale) * 178) !important;height:calc(var(--dm-scale) * 96) !important;border-radius:calc(var(--dm-scale) * 7) !important;padding:calc(var(--dm-scale) * 7) calc(var(--dm-scale) * 9) !important;}
+/* Badged tiles (minor double-counts) deliberately stay the SAME standard
+   height as every other tile on screen — -webkit-line-clamp correctly
+   truncates the name to fit in a real browser, so there's no need to make
+   these visibly taller than their neighbours. The export path needs a
+   taller box instead (html2canvas doesn't honour line-clamp, so the export
+   function grows .dp-unit-badged tiles dynamically on the CLONE only,
+   right before capture) — see exportDegreeMapJPEG. */
+/* PEP tiles (abbreviated "PEP") and true blank filler tiles carry very
+   little content, so they're rendered noticeably narrower than a normal
+   180-wide unit tile — table-layout:auto sizes each column to its widest
+   cell, so narrowing these specifically shrinks the whole PEP column and
+   removes most of the need to scroll on the Engineering stream view.
+   (Elective placeholder tiles reuse .dp-empty too but carry a full label,
+   so they're deliberately excluded via the extra class check.) */
+#degree-maps-grid .dp-unit.pep-narrow{width:calc(var(--dm-scale) * 68) !important;}
+#degree-maps-grid .dp-empty.dp-empty-blank{width:calc(var(--dm-scale) * 52) !important;}
+#degree-maps-grid .dp-unit-code{font-size:calc(var(--dm-scale) * 13.5) !important;margin-bottom:calc(var(--dm-scale) * 3) !important;}
+#degree-maps-grid .dp-unit-name{font-size:calc(var(--dm-scale) * 12.5) !important;line-height:1.3 !important;-webkit-line-clamp:3 !important;}
+#degree-maps-grid .dp-empty-label{font-size:calc(var(--dm-scale) * 11) !important;}
+#degree-maps-grid .dp-empty > div{font-size:calc(var(--dm-scale) * 13) !important;}
 #degree-maps-grid .eb-panel{border-radius:9px !important;}
 #degree-maps-grid .eb-header{background:var(--usyd-warm) !important;padding:9px 12px !important;}
 #degree-maps-grid .eb-title{font-size:13px !important;}
@@ -458,7 +478,7 @@ html,body{overflow-x:hidden;max-width:100%;}
 #degree-maps-grid .eb-unit-code{font-size:calc(var(--dm-scale) * 11.5) !important;}
 #degree-maps-grid .eb-unit-name{font-size:calc(var(--dm-scale) * 11.5) !important;line-height:1.3 !important;}
 #degree-maps-grid .eb-unit-sem,
-#degree-maps-grid .badge{font-size:calc(var(--dm-scale) * 10) !important;padding:1px 6px !important;}
+#degree-maps-grid .badge{font-size:calc(var(--dm-scale) * 11) !important;padding:1px 6px !important;}
 
 /* ── Degree Maps: all responsive scaling (grid tiles, banner/title/card/
    legend, elective-bank cards) is now handled via clamp() in the base
@@ -529,7 +549,12 @@ html,body{overflow-x:hidden;max-width:100%;}
 .dp-elective-drop{transition:all .15s;}
 .dp-elective-drop.drag-over{outline:2.5px solid #1a5c19;outline-offset:-3px;background:#d4f5d8!important;}
 .dp-elective-drop.drag-invalid{outline:2.5px solid #dc2626;outline-offset:-3px;background:#fde2e2!important;cursor:not-allowed;}
-.dp-elective-filled{padding-top:16px!important;}
+/* The extra top padding exists only to clear the ✕ remove-button, which is
+   itself only rendered for a free Table A choice the student dragged in
+   themselves (see removeBtn in renderSlot) — a minor-driven placement has no
+   button, so it's marked with .dp-unit-badged instead, and giving it this
+   padding too just wastes vertical space it never needed. */
+.dp-elective-filled:not(.dp-unit-badged){padding-top:16px!important;}
 .dp-elective-remove{position:absolute;top:2px;right:2px;width:15px;height:15px;border-radius:50%;border:none;background:rgba(0,0,0,.12);color:#333;font-size:9px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
 .dp-elective-remove:hover{background:var(--usyd-red);color:white;}
 .eb-unit.removed{background:#f0f0f0 !important;border:1.5px dashed #bbb !important;opacity:.45;}
@@ -555,8 +580,8 @@ html,body{overflow-x:hidden;max-width:100%;}
     </div>
     <div class="header-divider"></div>
     <div>
-      <div class="header-title">Open Day Resources</div>
-      <div class="header-subtitle">Bachelor of Project Management · Bachelor of Engineering Honours and Bachelor of Project Management · Project Management Table S Major</div>
+      <div class="header-title">Prospective Student Resources - School of Project Management</div>
+      <div class="header-subtitle">BACHELOR OF PROJECT MANAGEMENT · BE HONS &amp; BPM · PM TABLE S MAJOR · GRAD CERT, GRAD DIP &amp; MPM PROGRAM</div>
     </div>
   </div>
   <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
@@ -568,26 +593,24 @@ html,body{overflow-x:hidden;max-width:100%;}
 </div>
 
 <div class="tabs">
-  <a href="BPM_Degree_Maps.html" class="tab active" style="text-decoration:none;">Degree Maps</a>
-  <a href="Decision_Map.html" class="tab" style="text-decoration:none;">Decision Tree</a>
+  <a href="BPM_Degree_Maps.html" class="tab active" style="text-decoration:none;">Undergraduate Sample Course Plans</a>
+  <a href="Postgraduate_Degree_Maps.html" class="tab" style="text-decoration:none;">Postgraduate Sample Course Plans</a>
+  <a href="Decision_Map.html" class="tab" style="text-decoration:none;">Which PM program should I choose?</a>
 </div>
 
 <div class="main">
 <div class="panel active" id="degreemaps-panel">
 
   <div style="display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap;margin:14px 0 16px;">
-    <button class="btn btn-primary" onclick="exportDegreeMapJPEG()" style="font-size:11px;padding:6px 12px;">⬇ Export as JPEG</button>
+    <button class="btn btn-primary" onclick="exportDegreeMapJPEG()" style="font-size:12.5px;padding:7px 14px;">⬇ Export as JPEG</button>
     <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
-      <label style="font-size:11px;font-weight:600;color:var(--text-muted);white-space:nowrap;">Major stream:</label>
-      <select id="degree-maps-major-selector" onchange="renderDegreeMaps()" style="padding:4px 8px;border:1px solid var(--border);border-radius:5px;font-size:11px;background:white;cursor:pointer;">
-        <option value="construction">Construction (S1 Entry)</option>
-        <option value="construction-s2">Construction (S2 Entry)</option>
-        <option value="built-env">Built Environment (S1 Entry)</option>
-        <option value="built-env-s2">Built Environment (S2 Entry)</option>
-        <option value="tables">Table S (S1 Entry)</option>
-        <option value="tables-s2">Table S (S2 Entry)</option>
-        <option value="tables-ext-s1">PM Table S Major — in another degree (S1 Entry)</option>
-        <option value="tables-ext-s2">PM Table S Major — in another degree (S2 Entry)</option>
+      <label style="font-size:12.5px;font-weight:600;color:var(--text-muted);white-space:nowrap;">Course route:</label>
+      <select id="degree-maps-major-selector" onchange="renderDegreeMaps()" style="padding:6px 10px;border:1px solid var(--border);border-radius:5px;font-size:12.5px;background:white;cursor:pointer;">
+        <option value="construction-major">Construction</option>
+        <option value="built-env-major">Built Environment</option>
+        <option value="tables-major">Table S</option>
+        <option value="tables-ext-major">PM Table S Major — in another degree</option>
+        <option value="beeng-bpm">Bachelor of Engineering Honours and Bachelor of Project Management</option>
       </select>
     </div>
   </div>
@@ -595,13 +618,25 @@ html,body{overflow-x:hidden;max-width:100%;}
   <div id="degree-maps-capture" style="background:var(--bg);padding:clamp(6px,2.2vw,22px);border-radius:14px;">
     <div id="degree-maps-banner" style="background:var(--usyd-red);border-radius:12px;padding:clamp(8px,2vw,20px) clamp(10px,2.4vw,24px);margin-bottom:clamp(8px,2vw,20px);">
       <div id="degree-maps-title" style="font-family:var(--font-heading);font-weight:700;font-size:clamp(12px,2.2vw,22px);line-height:1.2;color:white;">Bachelor of Project Management</div>
+      <div id="degree-maps-disclaimer" style="font-family:var(--font-body);font-size:clamp(7px,1vw,11px);font-style:italic;color:rgba(255,255,255,.8);margin-top:4px;"></div>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px;">
+        <div id="degree-maps-stream-tabs" style="display:none;flex-wrap:wrap;gap:6px;"></div>
+        <div id="degree-maps-links" style="display:none;flex-wrap:wrap;gap:8px;margin-left:auto;"></div>
+      </div>
       <div id="degree-maps-subtitle" style="display:none;font-family:var(--font-body);font-size:clamp(8px,1.2vw,12px);line-height:1.5;color:rgba(255,255,255,.92);margin-top:10px;max-width:1000px;"></div>
     </div>
 
     <div id="degree-maps-card" style="background:white;border:1px solid var(--border);border-radius:10px;padding:clamp(6px,2.2vw,22px);">
+      <details id="degree-maps-award-reqs" style="display:none;margin-bottom:14px;border:1px solid var(--border);border-radius:8px;padding:8px 12px;background:var(--bg);">
+        <summary style="cursor:pointer;font-weight:700;font-size:12.5px;color:var(--text);">Award requirements</summary>
+        <div id="degree-maps-award-reqs-body" style="font-size:12px;line-height:1.6;color:var(--text);margin-top:8px;"></div>
+      </details>
       <div id="degree-maps-entry-label" style="display:none;font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--text-muted);text-transform:uppercase;border:1px dashed var(--border);border-radius:5px;padding:3px 9px;margin-bottom:12px;"></div>
-      <div id="degree-maps-legend" style="display:flex;gap:clamp(6px,1.6vw,16px);flex-wrap:wrap;font-size:clamp(8px,1.3vw,13px);align-items:center;margin-bottom:clamp(6px,1.8vw,18px);">
-        <!-- rendered by JS -->
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:clamp(6px,1.6vw,16px);margin-bottom:clamp(6px,1.8vw,18px);">
+        <div id="degree-maps-legend" style="display:flex;gap:clamp(6px,1.6vw,16px);flex-wrap:wrap;font-size:clamp(8px,1.3vw,13px);align-items:center;">
+          <!-- rendered by JS -->
+        </div>
+        <div id="degree-maps-minor-picker" style="display:none;align-items:center;gap:8px;margin-left:auto;font-size:12px;"></div>
       </div>
 
       <div id="degree-maps-grid" style="overflow-x:auto;">
@@ -620,11 +655,205 @@ html,body{overflow-x:hidden;max-width:100%;}
 let scenarioRemovedCodes=new Set(), proposedUnits=[], mergedUnits=[];
 
 const MINOR_LOOKUP = {
+  // People and Change — core double-counts plus its two elective units
+  'PMGT1863': {label:'P&amp;C Minor', cls:'badge-minor-pc'},
+  'PMGT1852': {label:'P&amp;C Minor', cls:'badge-minor-pc'},
+  'PMGT2821': {label:'P&amp;C Minor', cls:'badge-minor-pc'},
+  'PMGT2822': {label:'P&amp;C Minor', cls:'badge-minor-pc'},
   'PMGT3856': {label:'P&amp;C Minor', cls:'badge-minor-pc'},
   'PMGT3624': {label:'P&amp;C Minor', cls:'badge-minor-pc'},
+  // Project Controls — core double-counts plus its two elective units
+  'PMGT1860': {label:'ProjCont Minor', cls:'badge-minor-proj'},
+  'PMGT1865': {label:'ProjCont Minor', cls:'badge-minor-proj'},
+  'PMGT2855': {label:'ProjCont Minor', cls:'badge-minor-proj'},
+  'PMGT2851': {label:'ProjCont Minor', cls:'badge-minor-proj'},
   'PMGT2850': {label:'ProjCont Minor', cls:'badge-minor-proj'},
   'PMGT3623': {label:'ProjCont Minor', cls:'badge-minor-proj'},
 };
+
+// "I want to add a minor in:" feature (BPM standalone majors only). Selecting
+// a minor here (a) auto-places that minor's elective-bank units into the
+// degree's Table A elective slots, using the SAME electiveSlotAssignments
+// mechanism the drag-and-drop elective bank already uses, and (b) re-styles
+// any core unit that ALSO counts toward the minor with the same diagonal
+// split-tile treatment already used for PMGT2855 on the Construction major
+// (core green blended with the minor's colour), since that's a genuine
+// double-count, not a choice between one or the other. Colours match the
+// existing badge-minor-pc / badge-minor-proj classes exactly so the legend
+// swatch, the elective-bank badge, and the badge now shown on placed units
+// all agree.
+const MINOR_DOUBLE_COUNT = {
+  'people-change': {
+    label: 'People and Change Minor',
+    shortLabel: 'P&amp;C Minor', badgeCls: 'badge-minor-pc',
+    coreCodes: ['PMGT1863', 'PMGT1852', 'PMGT2821', 'PMGT2822'],
+    electiveCodes: ['PMGT3856', 'PMGT3624'], // one S1 (PMGT3856) + one S2 (PMGT3624) unit
+    bg: '#ede4fb', border: '#a78bda', text: '#5b3a99',
+  },
+  'project-controls': {
+    label: 'Project Controls Minor',
+    shortLabel: 'ProjCont Minor', badgeCls: 'badge-minor-proj',
+    coreCodes: ['PMGT1860', 'PMGT1865', 'PMGT2855', 'PMGT2851'],
+    electiveCodes: ['PMGT2850', 'PMGT3623'], // one S1 (PMGT2850) + one S2 (PMGT3623) unit
+    bg: '#dff5f2', border: '#4fb3a0', text: '#0f6b5c',
+  },
+};
+// Which "Course route" the minor picker applies to, and which underlying
+// S1/S2 DEGREE_STRUCTURES variant is active right now for that route.
+const MAJOR_TO_MINOR_GROUP = {
+  'construction': 'construction-major', 'construction-s2': 'construction-major',
+  'built-env': 'built-env-major', 'built-env-s2': 'built-env-major',
+  'tables': 'tables-major', 'tables-s2': 'tables-major',
+};
+const minorSelection = {}; // keyed by group id ('construction-major' etc.), persists across S1/S2 tab switches
+let minorGreyedSlots = {}; // keyed like electiveSlotAssignments — elective slots hidden/greyed while a minor is active
+
+function buildSplitGradient(colors) {
+  // Evenly-spaced diagonal split for 2 or 3 colours, reusing the exact
+  // technique (plain border + single-layer gradient) that was needed for
+  // reliable html2canvas/JPEG export on the original PMGT2855 split tile.
+  if (colors.length === 2) return `linear-gradient(135deg, ${colors[0]} 50%, ${colors[1]} 50%)`;
+  return `linear-gradient(135deg, ${colors[0]} 33%, ${colors[1]} 33% 66%, ${colors[2]} 66%)`;
+}
+
+function onMinorSelected(groupId, minorId) {
+  minorSelection[groupId] = minorId || '';
+  renderDegreeMaps();
+}
+
+// True if `code` already sits somewhere in the structure outside of an
+// ELECTIVE slot — either as a bare core unit, or as a named external major
+// slot (MAJOR_C_PMGT3623 etc). Used to stop the minor picker from placing a
+// SECOND copy of a unit that the major already requires by name — e.g.
+// Construction's Scheduling requirement already renders PMGT3623 as
+// MAJOR_C_PMGT3623, so Project Controls must re-colour that existing tile
+// rather than adding another PMGT3623 into a separate elective slot.
+function isCodeNamedElsewhereInStructure(code, structure) {
+  return structure.some(row => ['s1', 's2'].some(semKey =>
+    row[semKey].some(slot => slot === code || slot === `MAJOR_C_${code}` || slot === `MAJOR_BE_${code}` || slot === `MAJOR_TS_${code}`)
+  ));
+}
+
+function applyMinorElectiveAssignments(selectedMajor, groupId) {
+  // Clear this major's previous minor-driven assignments before reapplying —
+  // otherwise switching minors (or switching back to "none") would leave
+  // stale placements behind.
+  Object.keys(electiveSlotAssignments).forEach(k => {
+    if (k.startsWith(selectedMajor + '::')) delete electiveSlotAssignments[k];
+  });
+  Object.keys(minorGreyedSlots).forEach(k => {
+    if (k.startsWith(selectedMajor + '::')) delete minorGreyedSlots[k];
+  });
+  const minorId = groupId ? minorSelection[groupId] : '';
+  if (!minorId) return;
+  const minor = MINOR_DOUBLE_COUNT[minorId];
+  const baseStructure = DEGREE_STRUCTURES[selectedMajor];
+  const structure = getEffectiveStructure(selectedMajor, groupId);
+  if (!minor || !structure || !baseStructure) return;
+
+  const codesNeedingSlot = minor.electiveCodes.filter(c => !isCodeNamedElsewhereInStructure(c, baseStructure));
+
+  // Match each elective to a same-semester ELECTIVE slot (an S2-only unit
+  // must not land in an S1 slot) rather than filling slots in raw order —
+  // getEffectiveStructure() has already made room in whichever semester was
+  // short, so a same-semester match is always available here.
+  codesNeedingSlot.forEach(code => {
+    const u = UNITS.find(x => x.code === code);
+    const codeSem = u ? u.sem : 'S1&S2';
+    for (const row of structure) {
+      let placed = false;
+      for (const semKey of ['s1', 's2']) {
+        const semTag = semKey.toUpperCase();
+        const idx = row[semKey].findIndex((slot, i) =>
+          slot === 'ELECTIVE' && electiveSemMatches(codeSem, semTag) &&
+          !electiveSlotAssignments[`${selectedMajor}::y${row.year}${semTag}-${i}`]
+        );
+        if (idx !== -1) {
+          electiveSlotAssignments[`${selectedMajor}::y${row.year}${semTag}-${idx}`] = code;
+          placed = true;
+          break;
+        }
+      }
+      if (placed) break;
+    }
+  });
+
+  // If the structure had to gain elective capacity to fit the minor
+  // (getEffectiveStructure added a slot, or swapped one in for Table S),
+  // that many of the ORIGINAL, still-unused ELECTIVE slots are now
+  // redundant — the minor's real credit-point cost didn't change, only
+  // which semester it falls in, so an extra active elective would silently
+  // over-deliver credit. Grey those specific slots out rather than leaving
+  // them as a free extra choice.
+  const totalElectiveNow = structure.reduce((n, row) => n + row.s1.filter(s => s === 'ELECTIVE').length + row.s2.filter(s => s === 'ELECTIVE').length, 0);
+  const totalElectiveBase = baseStructure.reduce((n, row) => n + row.s1.filter(s => s === 'ELECTIVE').length + row.s2.filter(s => s === 'ELECTIVE').length, 0);
+  let capacityAdded = totalElectiveNow - totalElectiveBase;
+  if (capacityAdded > 0) {
+    for (const row of structure) {
+      for (const semKey of ['s1', 's2']) {
+        const semTag = semKey.toUpperCase();
+        row[semKey].forEach((slot, i) => {
+          if (capacityAdded > 0 && slot === 'ELECTIVE' && !electiveSlotAssignments[`${selectedMajor}::y${row.year}${semTag}-${i}`]) {
+            minorGreyedSlots[`${selectedMajor}::y${row.year}${semTag}-${i}`] = true;
+            capacityAdded--;
+          }
+        });
+      }
+    }
+  }
+}
+
+function getEffectiveStructure(selectedMajor, groupId) {
+  // Returns the major's normal DEGREE_STRUCTURES entry unchanged UNLESS a
+  // minor is selected whose elective units don't fit the semesters the
+  // major's own ELECTIVE slots happen to fall in (e.g. Built Environment's
+  // two elective slots are both Semester 1, but every minor needs one S1 +
+  // one S2 unit) — in that case, returns a cloned structure that makes room
+  // in the short semester, so the minor can actually be completed rather
+  // than silently leaving a unit unplaced.
+  const base = DEGREE_STRUCTURES[selectedMajor];
+  const minorId = groupId ? minorSelection[groupId] : '';
+  if (!minorId || !base) return base;
+  const minor = MINOR_DOUBLE_COUNT[minorId];
+  if (!minor) return base;
+  const codesNeedingSlot = minor.electiveCodes.filter(c => !isCodeNamedElsewhereInStructure(c, base));
+  if (!codesNeedingSlot.length) return base;
+
+  const clone = base.map(row => ({year: row.year, s1: [...row.s1], s2: [...row.s2]}));
+
+  const availS1 = () => clone.reduce((n, row) => n + row.s1.filter(s => s === 'ELECTIVE').length, 0);
+  const availS2 = () => clone.reduce((n, row) => n + row.s2.filter(s => s === 'ELECTIVE').length, 0);
+  const needS1 = codesNeedingSlot.filter(c => (UNITS.find(u => u.code === c) || {}).sem === 'S1').length;
+  const needS2 = codesNeedingSlot.filter(c => (UNITS.find(u => u.code === c) || {}).sem === 'S2').length;
+
+  // Table S: neither elective slot is ever in Semester 1 (both sit in
+  // Year 3 Semester 2), so an S1-required unit has nowhere to go. Rather
+  // than adding an extra column and greying out the now-redundant slot,
+  // simply swap the first "Table S Major" placeholder in Year 3 S1 with
+  // the second ELECTIVE slot in Year 3 S2 — that keeps both semesters at
+  // their normal width (no widening, no grey-out needed at all here) since
+  // it's a straight one-for-one exchange, not an addition.
+  if ((selectedMajor === 'tables' || selectedMajor === 'tables-s2') && needS1 > availS1()) {
+    const y3 = clone.find(r => r.year === 3);
+    const firstMajorTsIdx = y3.s1.indexOf('MAJOR_TS');
+    const electiveIdxs = y3.s2.reduce((acc, s, i) => s === 'ELECTIVE' ? [...acc, i] : acc, []);
+    const secondElectiveIdx = electiveIdxs[1];
+    if (firstMajorTsIdx !== -1 && secondElectiveIdx !== undefined) {
+      y3.s1[firstMajorTsIdx] = 'ELECTIVE';
+      y3.s2[secondElectiveIdx] = 'MAJOR_TS';
+    }
+  }
+
+  const lastIdx = clone.length - 1;
+  ['s1', 's2'].forEach((semKey, i) => {
+    const deficit = Math.max(0, (i === 0 ? needS1 - availS1() : needS2 - availS2()));
+    for (let n = 0; n < deficit; n++) {
+      clone[lastIdx][semKey].push('ELECTIVE'); // added to the final year, closest to where minor electives normally sit
+      clone.forEach((row, idx) => { if (idx !== lastIdx) row[semKey].push('BLANK'); });
+    }
+  });
+  return clone;
+}
 
 function minorBadge(code, fontSize) {
   const m = MINOR_LOOKUP[code];
@@ -828,7 +1057,7 @@ function resetElectivePlacements(selectorId) {
   refreshDegreePlanners();
 }
 
-function renderDegreePlanner(selectorId, gridId) {
+function renderDegreePlanner(selectorId, gridId, overrideMajor) {
   selectorId = selectorId || 'major-selector';
   gridId = gridId || 'degree-planner-grid';
   const container = document.getElementById(gridId);
@@ -836,11 +1065,16 @@ function renderDegreePlanner(selectorId, gridId) {
 
   // Read selected major
   const majorSel = document.getElementById(selectorId);
-  const selectedMajor = majorSel ? majorSel.value : 'construction';
-  const DEGREE_STRUCTURE = DEGREE_STRUCTURES[selectedMajor] || DEGREE_STRUCTURES['construction'];
+  const selectedMajor = overrideMajor || (majorSel ? majorSel.value : 'construction');
+  const minorGroupId = MAJOR_TO_MINOR_GROUP[selectedMajor] || null;
+  const DEGREE_STRUCTURE = getEffectiveStructure(selectedMajor, minorGroupId) || DEGREE_STRUCTURES['construction'];
 
   // Degree Maps tab: keep the title/subtitle/legend in sync with the selected major
   if (gridId === 'degree-maps-grid') {
+    // Clear any --dm-scale override left over from the BE/BPM view (which
+    // shrinks the shared tile scale to fit its 10-column layout) so standard
+    // 8-column majors always render at the normal presentation size.
+    container.style.removeProperty('--dm-scale');
     const titleEl = document.getElementById('degree-maps-title');
     if (titleEl) {
       const MAJOR_DISPLAY_NAMES = {
@@ -852,6 +1086,7 @@ function renderDegreePlanner(selectorId, gridId) {
         'tables-s2': 'Table S Major',
       };
       titleEl.textContent = `Bachelor of Project Management (${MAJOR_DISPLAY_NAMES[selectedMajor] || ''})`;
+      setCourseDisclaimer(titleEl.textContent);
     }
     const subtitleEl = document.getElementById('degree-maps-subtitle');
     if (subtitleEl) subtitleEl.style.display = 'none';
@@ -862,6 +1097,25 @@ function renderDegreePlanner(selectorId, gridId) {
     }
     const legendEl = document.getElementById('degree-maps-legend');
     if (legendEl) legendEl.innerHTML = getStandardDegreeMapsLegend(selectedMajor);
+
+    applyMinorElectiveAssignments(selectedMajor, minorGroupId);
+    const minorPickerEl = document.getElementById('degree-maps-minor-picker');
+    if (minorPickerEl) {
+      if (minorGroupId) {
+        const current = minorSelection[minorGroupId] || '';
+        minorPickerEl.innerHTML = `
+          <label style="font-weight:600;color:var(--text-muted);white-space:nowrap;">I want to add a minor in:</label>
+          <select onchange="onMinorSelected('${minorGroupId}', this.value)" style="padding:4px 8px;border:1px solid var(--border);border-radius:5px;font-size:12px;background:white;cursor:pointer;">
+            <option value=""${current === '' ? ' selected' : ''}>None</option>
+            <option value="project-controls"${current === 'project-controls' ? ' selected' : ''}>Project Controls</option>
+            <option value="people-change"${current === 'people-change' ? ' selected' : ''}>People and Change</option>
+          </select>`;
+        minorPickerEl.style.display = 'flex';
+      } else {
+        minorPickerEl.innerHTML = '';
+        minorPickerEl.style.display = 'none';
+      }
+    }
   }
 
   const removedSet = scenarioRemovedCodes;
@@ -885,28 +1139,38 @@ function renderDegreePlanner(selectorId, gridId) {
 
     // PMGT2855_C — BPM core unit that also fulfils Construction major.
     // Rendered as a diagonal split tile (core green / major orange) since
-    // it's genuinely both at once, not one or the other.
+    // it's genuinely both at once, not one or the other. If the Project
+    // Controls minor is also selected (which separately double-counts
+    // PMGT2855), this becomes a genuine triple-count, so the tile extends
+    // to a three-way split rather than silently dropping one indicator.
     if (slot === 'PMGT2855_C') {
       const u = unitMap['PMGT2855'];
       const isRemoved = removedSet.has('PMGT2855') && u && u.type === 'core';
       let cls = 'dp-unit split-core-major';
       if (isRemoved) cls += ' removed';
       const removedLabel = isRemoved ? `<div style="font-size:7px;color:#bbb;font-style:italic;">deleted</div>` : '';
+      const minorGroupIdForSlot = MAJOR_TO_MINOR_GROUP[selectedMajor];
+      const activeMinorId = minorGroupIdForSlot ? minorSelection[minorGroupIdForSlot] : null;
+      const activeMinor = activeMinorId ? MINOR_DOUBLE_COUNT[activeMinorId] : null;
+      const alsoMinor = !!(activeMinor && activeMinor.coreCodes.includes('PMGT2855'));
       // Note: uses a plain solid border + single-layer background gradient
       // (not the transparent-border + background-clip:border-box trick) —
       // html2canvas doesn't reliably rasterize multi-layer background-clip,
       // which was silently dropping the border on JPEG export.
-      const splitStyle = `border:2px solid #f58509;background:linear-gradient(135deg, var(--core-bg) 50%, #fff4e6 50%);`;
-      return `<div class="${cls}" style="${splitStyle}">
+      const splitStyle = alsoMinor
+        ? `border:2px solid ${activeMinor.border};background:${buildSplitGradient(['var(--core-bg)', '#fff4e6', activeMinor.bg])};`
+        : `border:2px solid #f58509;background:linear-gradient(135deg, var(--core-bg) 50%, #fff4e6 50%);`;
+      const badgeM = alsoMinor ? minorBadge('PMGT2855', '7px') : '';
+      return `<div class="${cls}${alsoMinor ? ' dp-unit-badged' : ''}" style="${splitStyle}">
         <div class="dp-unit-code">PMGT2855</div>
         <div class="dp-unit-name">${u ? u.name : 'Project Acceptance'}</div>
+        ${badgeM}
         ${removedLabel}
       </div>`;
     }
 
     // Named external major slots: MAJOR_BE_DAAE1001, MAJOR_C_CIVL1900, MAJOR_C_PMGT3623 etc
     if (slot.startsWith('MAJOR_BE_') || slot.startsWith('MAJOR_C_') || slot.startsWith('MAJOR_TS_')) {
-      const parts = slot.split('_');
       // Determine major type from prefix
       let bg, border, textColor;
       if (slot.startsWith('MAJOR_BE_')) { bg='#c8b6fe'; border='#6739b3'; textColor='#4a2080'; }
@@ -915,6 +1179,26 @@ function renderDegreePlanner(selectorId, gridId) {
       // Extract unit code (everything after last _prefix)
       const extCode = slot.replace(/^MAJOR_(BE|C|TS)_/, '');
       const extName = EXTERNAL_UNIT_NAMES[extCode] || extCode;
+
+      // A named major slot can ALSO be one of the active minor's required
+      // units (e.g. Construction's Scheduling requirement already renders
+      // PMGT3623 here — Project Controls needs that exact unit too). Rather
+      // than placing a second copy in a separate elective slot (see
+      // isCodeNamedElsewhereInStructure), this existing tile gets the split
+      // treatment instead, so PMGT3623 shows once, correctly marked as
+      // counting toward both.
+      const minorGroupIdForNamed = MAJOR_TO_MINOR_GROUP[selectedMajor];
+      const activeMinorIdForNamed = minorGroupIdForNamed ? minorSelection[minorGroupIdForNamed] : null;
+      const activeMinorForNamed = activeMinorIdForNamed ? MINOR_DOUBLE_COUNT[activeMinorIdForNamed] : null;
+      const isMinorNamed = !!(activeMinorForNamed && activeMinorForNamed.electiveCodes.includes(extCode));
+      if (isMinorNamed) {
+        const badge = minorBadge(extCode, '7px');
+        return `<div class="dp-unit split-core-major dp-unit-badged" style="border:2px solid ${activeMinorForNamed.border};background:${buildSplitGradient([bg, activeMinorForNamed.bg])};">
+          <div class="dp-unit-code" style="color:${textColor};">${extCode}</div>
+          <div class="dp-unit-name">${extName}</div>
+          ${badge}
+        </div>`;
+      }
       return `<div class="dp-unit" style="background:${bg};border:2px solid ${border};height:72px;">
         <div class="dp-unit-code" style="color:${textColor};">${extCode}</div>
         <div class="dp-unit-name">${extName}</div>
@@ -928,16 +1212,49 @@ function renderDegreePlanner(selectorId, gridId) {
     }
     if (slot === 'ELECTIVE') {
       const fullKey = `${selectedMajor}::${slotKey}`;
+      // Made redundant by the minor picker overloading/swapping a semester
+      // to fit a unit elsewhere (see applyMinorElectiveAssignments) — this
+      // slot's normal 6cp allowance has effectively moved to that other
+      // slot, so it's shown greyed out and non-interactive rather than as
+      // a live extra elective, to avoid silently over-delivering credit.
+      if (minorGreyedSlots[fullKey]) {
+        return `<div class="dp-empty" style="background:#f2f2f2;border:2px dashed #c5c5c5;height:72px;border-radius:6px;display:flex;align-items:center;justify-content:center;">
+          <div style="font-size:8.5px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.05em;text-align:center;">Not needed<br>(minor selected)</div>
+        </div>`;
+      }
       const assignedCode = electiveSlotAssignments[fullKey];
       if (assignedCode) {
         const au = unitMap[assignedCode];
         if (au) {
           const auRemoved = removedSet.has(au.code);
           const removedLabel = auRemoved ? `<div style="font-size:7px;color:#bbb;font-style:italic;">deleted</div>` : '';
-          return `<div class="dp-unit elective dp-elective-filled${auRemoved ? ' removed' : ''}">
-            <button class="dp-elective-remove" title="Remove from this slot" onclick="unassignElectiveSlot('${fullKey}')">✕</button>
+          // An elective auto-placed by the minor picker (below) is recoloured
+          // to that minor's colour instead of the standard blue "elective"
+          // shade, so it's visually obvious this slot is being filled BY the
+          // minor rather than a free Table A choice.
+          const minorGroupIdForElective = MAJOR_TO_MINOR_GROUP[selectedMajor];
+          const activeMinorIdForElective = minorGroupIdForElective ? minorSelection[minorGroupIdForElective] : null;
+          const activeMinorForElective = activeMinorIdForElective ? MINOR_DOUBLE_COUNT[activeMinorIdForElective] : null;
+          const isMinorElective = !!(activeMinorForElective && activeMinorForElective.electiveCodes.includes(au.code));
+          const minorStyle = isMinorElective
+            ? ` style="background:${activeMinorForElective.bg};border-color:${activeMinorForElective.border};"`
+            : '';
+          // Also shown when dragged in manually from the elective bank (not
+          // just when auto-placed by the minor picker) — minorBadge() looks
+          // the code up in MINOR_LOOKUP regardless of how it got here, so a
+          // student who drags PMGT3623 in themselves still sees "ProjCont
+          // Minor" on it.
+          const badge = minorBadge(au.code, '7px');
+          // The remove (✕) button only makes sense for a free Table A choice
+          // the student dragged in themselves — a minor-driven placement is
+          // fixed by the minor selection itself, so there's nothing sensible
+          // for that button to do here, and it was cluttering the tile.
+          const removeBtn = isMinorElective ? '' : `<button class="dp-elective-remove" title="Remove from this slot" onclick="unassignElectiveSlot('${fullKey}')">✕</button>`;
+          return `<div class="dp-unit elective dp-elective-filled${auRemoved ? ' removed' : ''}${isMinorElective ? ' dp-unit-badged' : ''}"${minorStyle}>
+            ${removeBtn}
             <div class="dp-unit-code">${au.code}</div>
             <div class="dp-unit-name">${au.name}</div>
+            ${badge}
             ${removedLabel}
           </div>`;
         }
@@ -958,6 +1275,30 @@ function renderDegreePlanner(selectorId, gridId) {
 
     const isCoreMajorC  = CORE_MAJOR_C.has(u.code)  && (selectedMajor === 'construction' || selectedMajor === 'construction-s2');
     const isCoreMajorBE = CORE_MAJOR_BE.has(u.code) && (selectedMajor === 'built-env' || selectedMajor === 'built-env-s2');
+
+    // Minor double-counting: a core unit that's ALSO one of the minor's
+    // required units gets the same diagonal-split treatment as PMGT2855_C
+    // above (core green blended with the minor's colour), extended to a
+    // three-way split in the rare case it's simultaneously a major
+    // double-count too (see PMGT2855_C handling).
+    const minorGroupIdForSlot = MAJOR_TO_MINOR_GROUP[selectedMajor];
+    const activeMinorId = minorGroupIdForSlot ? minorSelection[minorGroupIdForSlot] : null;
+    const activeMinor = activeMinorId ? MINOR_DOUBLE_COUNT[activeMinorId] : null;
+    const isMinorDoubleCount = !!(activeMinor && u.type === 'core' && activeMinor.coreCodes.includes(u.code));
+
+    if (isMinorDoubleCount) {
+      const removedLabelM = isRemoved ? `<div style="font-size:7px;color:#bbb;font-style:italic;">deleted</div>` : '';
+      const stripes = isCoreMajorC ? ['var(--core-bg)', '#fff4e6', activeMinor.bg]
+        : isCoreMajorBE ? ['var(--core-bg)', '#c8b6fe', activeMinor.bg]
+        : ['var(--core-bg)', activeMinor.bg];
+      const badge = minorBadge(u.code, '7px');
+      return `<div class="dp-unit split-core-major dp-unit-badged${isRemoved ? ' removed' : ''}" style="border:2px solid ${activeMinor.border};background:${buildSplitGradient(stripes)};">
+        <div class="dp-unit-code">${u.code}</div>
+        <div class="dp-unit-name">${u.name}</div>
+        ${badge}
+        ${removedLabelM}
+      </div>`;
+    }
 
     let cls = u.type === 'core' ? 'core' : 'elective';
     if (isCoreMajorC)  cls = 'major-construction';
@@ -991,20 +1332,28 @@ function renderDegreePlanner(selectorId, gridId) {
   const firstSemTag = isS2Entry ? 'S2' : 'S1';
   const secondSemTag = isS2Entry ? 'S1' : 'S2';
 
+  // Normally always 4 — only wider when getEffectiveStructure() above added
+  // an extra ELECTIVE slot to fit a minor whose units didn't match this
+  // major's usual elective semesters (e.g. Built Environment normally has no
+  // Semester 2 elective slot at all, so a minor needing an S2 unit forces a
+  // 5th column / 30cp semester rather than silently dropping that unit).
+  const firstColCount = Math.max(4, ...DEGREE_STRUCTURE.map(r => r[firstKey].length));
+  const secondColCount = Math.max(4, ...DEGREE_STRUCTURE.map(r => r[secondKey].length));
+
   let tableHtml = `<div style="overflow-x:auto;">
     <table class="dp-table">
       <colgroup>
         <col style="width:44px">
-        <col><col><col><col>
+        ${'<col>'.repeat(firstColCount)}
         <col style="width:14px">
-        <col><col><col><col>
+        ${'<col>'.repeat(secondColCount)}
       </colgroup>
       <thead>
         <tr>
           <td></td>
-          <td colspan="4" class="dp-sem-header">${firstLabel}</td>
+          <td colspan="${firstColCount}" class="dp-sem-header">${firstLabel}</td>
           <td style="width:14px;"></td>
-          <td colspan="4" class="dp-sem-header">${secondLabel}</td>
+          <td colspan="${secondColCount}" class="dp-sem-header">${secondLabel}</td>
         </tr>
       </thead>
       <tbody>`;
@@ -1031,13 +1380,21 @@ function renderDegreePlanner(selectorId, gridId) {
       const numB = parseInt(b.code.replace(/\D/g, ''), 10);
       return numA - numB;
     });
-  // Exclude electives already placed into a slot for the currently selected major
+  // Exclude electives already placed into a slot for the currently selected
+  // major, AND any code the major already requires by name elsewhere in its
+  // structure (e.g. PMGT3623 is Construction's own Scheduling requirement,
+  // rendered as MAJOR_C_PMGT3623 — it was never a free Table A choice there,
+  // with or without a minor selected, so it shouldn't appear draggable here).
   const placedCodesForMajor = new Set(
     Object.entries(electiveSlotAssignments)
       .filter(([k]) => k.startsWith(selectedMajor + '::'))
       .map(([,v]) => v)
   );
-  const allElectives = allElectivesRaw.filter(u => !placedCodesForMajor.has(u.code));
+  const majorStructureForBank = DEGREE_STRUCTURES[selectedMajor];
+  const allElectives = allElectivesRaw.filter(u =>
+    !placedCodesForMajor.has(u.code) &&
+    !(majorStructureForBank && isCodeNamedElsewhereInStructure(u.code, majorStructureForBank))
+  );
 
   const ebItems = allElectives.map(u => {
     const isRemoved = removedSet.has(u.code);
@@ -1105,7 +1462,44 @@ function getStandardDegreeMapsLegend(selectedMajor) {
   const baseMajor = (selectedMajor || '').replace(/-s2$/, '');
   const majorItem = STANDARD_DEGREE_MAPS_LEGEND_MAJOR_ITEMS[baseMajor] || '';
   const splitItem = STANDARD_DEGREE_MAPS_LEGEND_SPLIT_ITEMS[baseMajor] || '';
-  return STANDARD_DEGREE_MAPS_LEGEND_CORE + majorItem + splitItem;
+  const minorGroupId = MAJOR_TO_MINOR_GROUP[selectedMajor];
+  const minorId = minorGroupId ? minorSelection[minorGroupId] : null;
+  const minor = minorId ? MINOR_DOUBLE_COUNT[minorId] : null;
+  if (!minor) return STANDARD_DEGREE_MAPS_LEGEND_CORE + majorItem + splitItem;
+
+  const swatch = (bg, border) => `<div style="width:16px;height:16px;border-radius:3px;background:${bg};border:2px solid ${border};"></div>`;
+
+  // Plain minor-elective swatch — the auto-placed units (PMGT3856/PMGT3624
+  // or PMGT2850/PMGT3623) that are ONLY part of the minor, not double-
+  // counting anything else, shown in the minor's solid colour.
+  const minorUnitItem = `<div style="display:flex;align-items:center;gap:7px;">${swatch(minor.bg, minor.border)} ${minor.label} unit</div>`;
+
+  // Core unit that's ALSO required by the minor (the plain 2-way split).
+  const coreMinorItem = `<div style="display:flex;align-items:center;gap:7px;">${swatch(`linear-gradient(135deg, var(--core-bg) 50%, ${minor.bg} 50%)`, minor.border)} ${minor.label} &amp; Core (double counted)</div>`;
+
+  const majorColor = baseMajor === 'construction' ? '#fff4e6' : baseMajor === 'built-env' ? '#c8b6fe' : '#fffc19';
+  const majorName = baseMajor === 'construction' ? 'Construction Major' : baseMajor === 'built-env' ? 'Built Environment Major' : 'Table S Major';
+
+  // Rare triple-count: a core unit that's simultaneously required by the
+  // major itself (PMGT2855 on Construction, via the PMGT2855_C slot) AND by
+  // the minor — only shown when that specific overlap actually exists for
+  // the selected major + minor combination, not just whenever a minor is on.
+  const structure = DEGREE_STRUCTURES[selectedMajor];
+  const hasCoreMajorMinorTriple = !!(structure && minor.coreCodes.includes('PMGT2855') &&
+    structure.some(row => row.s1.includes('PMGT2855_C') || row.s2.includes('PMGT2855_C')));
+  const tripleItem = hasCoreMajorMinorTriple
+    ? `<div style="display:flex;align-items:center;gap:7px;">${swatch(`linear-gradient(135deg, var(--core-bg) 33%, ${majorColor} 33% 66%, ${minor.bg} 66%)`, minor.border)} Core &amp; ${majorName} &amp; ${minor.label} (triple counted)</div>`
+    : '';
+
+  // Major+minor overlap where the shared unit ISN'T a plain core unit but
+  // the major's own NAMED requirement (PMGT3623 on Construction, via
+  // Scheduling) — distinct from the core-based swatches above.
+  const overlapCode = minor.electiveCodes.find(c => structure && isCodeNamedElsewhereInStructure(c, structure));
+  const namedOverlapItem = overlapCode
+    ? `<div style="display:flex;align-items:center;gap:7px;">${swatch(`linear-gradient(135deg, ${majorColor} 50%, ${minor.bg} 50%)`, minor.border)} ${overlapCode} counts toward both the major and the minor</div>`
+    : '';
+
+  return STANDARD_DEGREE_MAPS_LEGEND_CORE + majorItem + splitItem + minorUnitItem + coreMinorItem + tripleItem + namedOverlapItem;
 }
 
 const EXTERNAL_TABLES_LEGEND = `
@@ -1131,7 +1525,13 @@ const EXTERNAL_TABLES_STRUCTURE = {
   ],
 };
 
-const EXTERNAL_TABLES_SUBTITLE = 'You can take a Project Management major via a Table S arrangement in any degree that allows for it — such as a Bachelor of Arts, Bachelor of Commerce, Bachelor of Science, and more. This lets you combine Project Management with your passion in another area, learning the fundamental project management skills, theories, and methods required in today\u2019s complex business environment.';
+const EXTERNAL_TABLES_SUBTITLE = 'You can take a Project Management major via a Table S arrangement in any degree that allows for it — such as a Bachelor of Arts, Bachelor of Commerce, Bachelor of Science, and more. This lets you combine Project Management with your passion in another area, learning the fundamental project management skills, theories, and methods required in today\u2019s complex business environment. <a href="https://www.sydney.edu.au/courses/subject-areas/major/project-management.html" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline;">What courses can I take a PM major in?</a>';
+
+const EXTERNAL_TABLES_LINKS_DATA = {
+  uac: 'https://uac.edu.au/course-search/search/find-a-course-undergraduate',
+  findCourse: 'https://www.sydney.edu.au/courses/search.html#f-courses_search_type=Courses',
+  handbook: 'https://www.sydney.edu.au/handbooks/interdisciplinary-studies/table-s/subject-areas/project-management/unit-of-study-table.html',
+};
 
 function renderExternalTableSSlot(slot) {
   if (slot === 'HOST') {
@@ -1158,10 +1558,17 @@ function renderExternalTableSMap(entryType) {
   const structure = EXTERNAL_TABLES_STRUCTURE[entryType] || EXTERNAL_TABLES_STRUCTURE.s1;
 
   const titleEl = document.getElementById('degree-maps-title');
-  if (titleEl) titleEl.textContent = `Project Management Major (Table S) — ${entryType === 's2' ? 'S2' : 'S1'} Entry`;
+  if (titleEl) { titleEl.textContent = `Project Management Major (Table S) — in another degree`; setCourseDisclaimer('Project Management Major (Table S)'); }
 
   const subtitleEl = document.getElementById('degree-maps-subtitle');
-  if (subtitleEl) { subtitleEl.textContent = EXTERNAL_TABLES_SUBTITLE; subtitleEl.style.display = 'block'; }
+  if (subtitleEl) { subtitleEl.innerHTML = EXTERNAL_TABLES_SUBTITLE; subtitleEl.style.display = 'block'; }
+
+  renderDegreeLinks([
+    {label: 'UAC', url: EXTERNAL_TABLES_LINKS_DATA.uac},
+    {label: 'Find a Course (USYD)', url: EXTERNAL_TABLES_LINKS_DATA.findCourse},
+    {label: 'Handbook', url: EXTERNAL_TABLES_LINKS_DATA.handbook},
+  ]);
+  renderAwardRequirements(null);
 
   const entryLabelEl = document.getElementById('degree-maps-entry-label');
   if (entryLabelEl) { entryLabelEl.textContent = entryType === 's2' ? 'Semester 2 Entry' : 'Semester 1 Entry'; entryLabelEl.style.display = 'inline-block'; }
@@ -1241,11 +1648,891 @@ function renderExternalTableSMap(entryType) {
   container.innerHTML = `<div class="dp-layout">${tableHtml}${sbHtml}</div>`;
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+//  BE Hons (Stream) / BPM combined degrees — generic multi-stream renderer.
+//  Standalone static render path (see renderExternalTableSMap above for the
+//  established precedent): this degree's structure (5 years, a 0cp PEP slot
+//  every semester in Y1–4, no drag-and-drop electives since stream elective
+//  unit lists aren't tracked here) doesn't fit the 3-year/4-slot
+//  DEGREE_STRUCTURES model used by the standalone BPM majors, so it gets its
+//  own data + renderer. Adding a new stream = adding one entry to ENG_STREAMS
+//  plus a dropdown option; everything else (layout, scaling, PM outline,
+//  legend) is shared.
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Category colours shared across every stream, so switching streams doesn't
+// change what a colour means.
+// streamCore is no longer here — each stream now defines its own core/
+// elective colors (see `colors` on each ENG_STREAMS entry) so every stream
+// gets a distinct hue instead of sharing one teal.
+const ENG_CATEGORY_STYLES = {
+  foundation:      {bg:'#e3edf7', border:'#1565C0', text:'#0e427d'},
+  projects:        {bg:'#e3e0fb', border:'#6a5acd', text:'#3d2f8f'},
+  pep:             {bg:'#ffe066', border:'#e8960c', text:'#6b3f00'},
+  industryElective:{bg:'#f0ebe3', border:'#8c7355', text:'#54432c'},
+};
+
+// Foundations Table + PEP units are structurally identical across every
+// Engineering stream (confirmed against the degree resolution clause), so
+// they're defined once and reused by every entry in ENG_STREAMS.
+const ENG_SHARED_UNITS = {
+  'MATH1061': {name:'Mathematics 1A', cat:'foundation'},
+  'MATH1062': {name:'Mathematics 1B', cat:'foundation'},
+  'ENGG1810': {name:'Introduction to Engineering Computing', cat:'foundation'},
+  'ENGP1001': {name:'Professional Engagement Program 1A', cat:'pep'},
+  'ENGP1002': {name:'Professional Engagement Program 1B', cat:'pep'},
+  'ENGP1003': {name:'Professional Engagement Program 1C', cat:'pep'},
+  'ENGP2001': {name:'Professional Engagement Program 2A', cat:'pep'},
+  'ENGP2002': {name:'Professional Engagement Program 2B', cat:'pep'},
+  'ENGP2003': {name:'Professional Engagement Program 2C', cat:'pep'},
+  'ENGP3001': {name:'Professional Engagement Program 3A', cat:'pep'},
+  'ENGP3002': {name:'Professional Engagement Program 3B', cat:'pep'},
+};
+
+const ENG_STREAMS = {
+  civil: {
+    shortName: 'Civil',
+    colors: {core:{bg:'#e3f4f0',border:'#16A085',text:'#0e6856'}, elective:{bg:'#eff8f6',border:'#7fcbbc'}},
+    units: {
+      'CIVL1900': {name:'Introduction to Civil Engineering', cat:'projects'},
+      'CIVL4022': {name:'Thesis A', cat:'projects'},
+      'CIVL4023': {name:'Thesis B', cat:'projects'},
+      'CIVL1802': {name:'Statics', cat:'streamCore'},
+      'CIVL1022': {name:'Geological Hazards', cat:'streamCore'},
+      'CIVL1110': {name:'Materials', cat:'streamCore'},
+      'MATH2061': {name:'Linear Mathematics and Vector Calculus', cat:'streamCore'},
+      'CIVL2201': {name:'Structural Mechanics', cat:'streamCore'},
+      'CIVL2010': {name:'Environmental Engineering', cat:'streamCore'},
+      'CIVL1810': {name:'Engineering Construction and Surveying', cat:'streamCore'},
+      'CIVL2700': {name:'Transport Systems', cat:'streamCore'},
+      'CIVL3205': {name:'Concrete Structures 1', cat:'streamCore'},
+      'CIVL2611': {name:'Introductory Fluid Mechanics', cat:'streamCore'},
+      'CIVL2410': {name:'Soil Mechanics 1', cat:'streamCore'},
+      'CIVL3705': {name:'Transport Design: Sustainable and Safe Access', cat:'streamCore'},
+      'CIVL3612': {name:'Fluid Mechanics', cat:'streamCore'},
+      'CIVL3206': {name:'Steel Structures 1', cat:'streamCore'},
+      'CIVL3811': {name:'Engineering Design and Construction', cat:'streamCore'},
+      'CIVL4903': {name:'Civil Engineering Design', cat:'streamCore'},
+    },
+    structure: [
+      {year:1, s1:['PMGT1850','MATH1061','CIVL1900','CIVL1802','ENGP1001'], s2:['PMGT1865','MATH1062','CIVL1022','CIVL1110','ENGP1002']},
+      {year:2, s1:['PMGT1863','MATH2061','CIVL2201','ENGG1810','ENGP1003'], s2:['PMGT1711','PMGT1852','CIVL2010','CIVL1810','ENGP2001']},
+      {year:3, s1:['PMGT1860','PMGT2711','CIVL2700','CIVL3205','ENGP2002'], s2:['PMGT2854','PMGT2821','CIVL2611','CIVL2410','ENGP2003']},
+      {year:4, s1:['PMGT2855','PMGT2851','CIVL3705','CIVL3612','ENGP3001'], s2:['PMGT2822','STREAM_ELECTIVE','CIVL3206','CIVL3811','ENGP3002']},
+      {year:5, s1:['PMGT3854','PMGT3858','CIVL4903','CIVL4022','BLANK'],    s2:['STREAM_ELECTIVE','STREAM_ELECTIVE','STREAM_ELECTIVE','CIVL4023','BLANK']},
+    ],
+  },
+  electrical: {
+    shortName: 'Electrical',
+    colors: {core:{bg:'#e0f6fa',border:'#00B8D9',text:'#00788d'}, elective:{bg:'#edfafc',border:'#73d8ea'}},
+    electiveLabel: 'Electrical Stream Specialist Elective',
+    units: {
+      'ELEC1004': {name:'Practical Introduction to Electrical Engineering', cat:'projects'},
+      'ELEC4712': {name:'Thesis A', cat:'projects'},
+      'ELEC4713': {name:'Thesis B', cat:'projects'},
+      // Electrical uses INFO1110 rather than the shared ENGG1810 to fulfil
+      // its Introductory Computing requirement within the Foundations Table
+      // — a different specific unit, but same category and credit total.
+      'INFO1110': {name:'Introduction to Programming', cat:'foundation'},
+      'PHYS1001': {name:'Physics 1 (Regular)', cat:'streamCore'},
+      'ELEC1601': {name:'Introduction to Computer Systems', cat:'streamCore'},
+      'PHYS1003': {name:'Physics 1 (Technological)', cat:'streamCore'},
+      'ELEC2100': {name:'Fundamentals of Elec and Electronic Eng', cat:'streamCore'},
+      'ELEC2602': {name:'Digital Logic', cat:'streamCore'},
+      'MATH2061': {name:'Linear Mathematics and Vector Calculus', cat:'streamCore'},
+      'ELEC2104': {name:'Electronic Devices and Circuits', cat:'streamCore'},
+      'ELEC2103': {name:'Simulation and Numerical Solutions in Engineering', cat:'streamCore'},
+      'ELEC2302': {name:'Signals and Systems', cat:'streamCore'},
+      'PHYS2213': {name:'Physics 2EE', cat:'streamCore'},
+      'ELEC3506': {name:'Communications Networks', cat:'streamCore'},
+      'ELEC3304': {name:'Control', cat:'streamCore'},
+      'ELEC3305': {name:'Digital Signal Processing', cat:'streamCore'},
+      'ELEC3203': {name:'Electricity Networks', cat:'streamCore'},
+      'COMP2123': {name:'Data Structures & Algorithms', cat:'streamCore'},
+    },
+    structure: [
+      {year:1, s1:['PMGT1850','MATH1061','PHYS1001','ELEC1004','ENGP1001'],  s2:['PMGT1865','MATH1062','ELEC1601','PHYS1003','ENGP1002']},
+      {year:2, s1:['PMGT1860','ELEC2100','ELEC2602','MATH2061','ENGP1003'], s2:['PMGT1711','ELEC2104','ELEC2103','ELEC2302','ENGP2001']},
+      {year:3, s1:['PMGT2851','PMGT1863','PMGT2711','INFO1110','ENGP2002'], s2:['PMGT1852','PHYS2213','ELEC3506','ELEC3304','ENGP2003']},
+      {year:4, s1:['PMGT2855','ELEC3305','ELEC3203','COMP2123','ENGP3001'], s2:['PMGT2854','PMGT2822','PMGT2821','STREAM_ELECTIVE','ENGP3002']},
+      {year:5, s1:['PMGT3854','PMGT3858','STREAM_ELECTIVE','ELEC4712','BLANK'], s2:['STREAM_ELECTIVE','STREAM_ELECTIVE','STREAM_ELECTIVE','ELEC4713','BLANK']},
+    ],
+  },
+  mechanical: {
+    shortName: 'Mechanical',
+    colors: {core:{bg:'#fcf0e4',border:'#E67E22',text:'#965216'}, elective:{bg:'#fdf6f0',border:'#f1b885'}},
+    units: {
+      'MECH1560': {name:'Introduction to Mechanical Engineering', cat:'projects'},
+      'AMME4111': {name:'Thesis A', cat:'projects'},
+      'AMME4112': {name:'Thesis B', cat:'projects'},
+      'MECH1400': {name:'Design and Construction of Mechanical Systems', cat:'streamCore'},
+      'AMME1802': {name:'Engineering Mechanics', cat:'streamCore'},
+      'MECH2400': {name:'Mechanical Systems Design 1', cat:'streamCore'},
+      'AMME2500': {name:'Engineering Dynamics', cat:'streamCore'},
+      'AMME1705': {name:'Introduction to Electromechanical Systems', cat:'streamCore'},
+      'AMME2000': {name:'Engineering Analysis', cat:'streamCore'},
+      'MECH2460': {name:'Manufacturing Engineering', cat:'streamCore'},
+      'AMME1362': {name:'Introduction to Engineering Materials', cat:'streamCore'},
+      'AMME2301': {name:'Mechanics of Solids', cat:'streamCore'},
+      'AMME2261': {name:'Fluid Mechanics 1', cat:'streamCore'},
+      'MECH3460': {name:'Mechanical Systems Design 2', cat:'streamCore'},
+      'MECH3361': {name:'Mechanics of Solids 2', cat:'streamCore'},
+      'AMME2262': {name:'Introduction to Thermal Engineering', cat:'streamCore'},
+      'MECH3362': {name:'Engineering Materials for Adv Manufacturing', cat:'streamCore'},
+      'MECH3261': {name:'Fluid Mechanics 2', cat:'streamCore'},
+      'AMME3060': {name:'Engineering Methods', cat:'streamCore'},
+      'MECH3260': {name:'Thermal Engineering and Environment', cat:'streamCore'},
+      'AMME3500': {name:'System Dynamics and Control', cat:'streamCore'},
+    },
+    // Source table lists "ENGG1860: Project Initiation & Scope" under
+    // Project Management Core in Y3S1 — no such code exists; every other
+    // stream's 14-unit PM core includes PMGT1860 "Project Initiation and
+    // Scope" instead, and only treating this as PMGT1860 brings the PM
+    // total to the expected 84cp. Built as PMGT1860 on that basis — worth
+    // double-checking against the source resolution document.
+    structure: [
+      {year:1, s1:['PMGT1850','MATH1061','ENGG1810','MECH1560','ENGP1001'],  s2:['PMGT1865','MATH1062','MECH1400','AMME1802','ENGP1002']},
+      {year:2, s1:['MECH2400','AMME2500','AMME1705','AMME2000','ENGP1003'], s2:['PMGT1711','MECH2460','AMME1362','AMME2301','ENGP2001']},
+      {year:3, s1:['PMGT1863','PMGT1860','PMGT2711','AMME2261','ENGP2002'], s2:['PMGT1852','MECH3460','MECH3361','AMME2262','ENGP2003']},
+      {year:4, s1:['PMGT2855','PMGT2851','MECH3362','MECH3261','ENGP3001'], s2:['PMGT2821','PMGT2822','AMME3060','MECH3260','ENGP3002']},
+      {year:5, s1:['PMGT3858','PMGT3854','AMME3500','AMME4111','BLANK'], s2:['PMGT2854','STREAM_ELECTIVE','STREAM_ELECTIVE','AMME4112','BLANK']},
+    ],
+  },
+  environmental: {
+    shortName: 'Environmental',
+    colors: {core:{bg:'#e6efe6',border:'#2E7D32',text:'#1e5120'}, elective:{bg:'#f0f6f1',border:'#8cb88e'}},
+    units: {
+      'ENVE1001': {name:'Introduction to Environmental Engineering', cat:'projects'},
+      'ENVE4811': {name:'Thesis A', cat:'projects'},
+      'ENVE4812': {name:'Thesis B', cat:'projects'},
+      'CHNG1106': {name:'Engineering for a Sustainable Society', cat:'streamCore'},
+      'CHNG1103': {name:'Conservation of Mass and Energy', cat:'streamCore'},
+      'CIVL1802': {name:'Statics', cat:'streamCore'},
+      'AMME2261': {name:'Fluid Mechanics 1', cat:'streamCore'},
+      'AMME2000': {name:'Engineering Analysis', cat:'streamCore'},
+      'CIVL2010': {name:'Environmental Engineering', cat:'streamCore'},
+      'AMME2262': {name:'Introduction to Thermal Engineering', cat:'streamCore'},
+      'CHEM1111': {name:'Chemistry 1A', cat:'streamCore'},
+      'ENSC2001': {name:'Environmental Monitoring', cat:'streamCore'},
+      'CHNG2803': {name:'Heat and Mass Transfer', cat:'streamCore'},
+      'CIVL3614': {name:'Hydrology', cat:'streamCore'},
+      'CIVL2410': {name:'Soil Mechanics 1', cat:'streamCore'},
+      'CHNG5005': {name:'Wastewater Engineering', cat:'streamCore'},
+      'ENVE3001': {name:'Water Supply and Management', cat:'streamCore'},
+      'MECH3261': {name:'Fluid Mechanics 2', cat:'streamCore'},
+      'ENVE3004': {name:'Waste Management', cat:'streamCore'},
+      'ENVE3002': {name:'Air and Noise Engineering', cat:'streamCore'},
+      'ENVE4800': {name:'Environmental Engineering Design', cat:'streamCore'},
+      'CIVL5351': {name:'Geoenvironmental Engineering', cat:'streamCore'},
+      'CHNG5003': {name:'Green Engineering', cat:'streamCore'},
+    },
+    // No stream elective slots — the 20 stream-core units plus the 2 thesis
+    // units already total exactly 120cp for the Engineering Stream Table
+    // requirement, with nothing left over to select.
+    structure: [
+      {year:1, s1:['PMGT1850','ENGG1810','ENVE1001','MATH1061','ENGP1001'],  s2:['PMGT1865','CHNG1106','CHNG1103','MATH1062','ENGP1002']},
+      {year:2, s1:['PMGT1860','CIVL1802','AMME2261','AMME2000','ENGP1003'], s2:['PMGT1852','CIVL2010','AMME2262','CHEM1111','ENGP2001']},
+      {year:3, s1:['PMGT2855','PMGT1863','ENSC2001','CHNG2803','ENGP2002'], s2:['PMGT2822','PMGT1711','CIVL3614','CIVL2410','ENGP2003']},
+      {year:4, s1:['PMGT2711','CHNG5005','ENVE3001','MECH3261','ENGP3001'], s2:['PMGT2854','PMGT2821','ENVE3004','ENVE3002','ENGP3002']},
+      {year:5, s1:['PMGT3858','PMGT2851','ENVE4800','ENVE4811','BLANK'],    s2:['PMGT3854','CIVL5351','CHNG5003','ENVE4812','BLANK']},
+    ],
+  },
+  mechanicalSpace: {
+    shortName: 'Mechanical with Space',
+    colors: {core:{bg:'#faeae0',border:'#D35400',text:'#893700'}, elective:{bg:'#fcf3ed',border:'#e7a173'}},
+    units: {
+      'MECH1560': {name:'Introduction to Mechanical Engineering', cat:'projects'},
+      'AMME4111': {name:'Thesis A', cat:'projects'},
+      'AMME4112': {name:'Thesis B', cat:'projects'},
+      'AMME1802': {name:'Engineering Mechanics', cat:'streamCore'},
+      'MECH1400': {name:'Design and Construction of Mechanical Systems', cat:'streamCore'},
+      'MECH2400': {name:'Mechanical Systems Design 1', cat:'streamCore'},
+      'AMME1705': {name:'Introduction to Electromechanical Systems', cat:'streamCore'},
+      'AMME2000': {name:'Engineering Analysis', cat:'streamCore'},
+      'AMME2500': {name:'Engineering Dynamics', cat:'streamCore'},
+      'MECH2460': {name:'Manufacturing Engineering', cat:'streamCore'},
+      'AMME1362': {name:'Introduction to Engineering Materials', cat:'streamCore'},
+      'AMME2301': {name:'Mechanics of Solids', cat:'streamCore'},
+      'AMME2261': {name:'Fluid Mechanics 1', cat:'streamCore'},
+      'MECH3361': {name:'Mechanics of Solids 2', cat:'streamCore'},
+      'AERO2705': {name:'Space Engineering 1', cat:'streamCore'},
+      'AMME2262': {name:'Introduction to Thermal Engineering', cat:'streamCore'},
+      'MECH3362': {name:'Engineering Materials for Adv Manufacturing', cat:'streamCore'},
+      'MECH3261': {name:'Fluid Mechanics 2', cat:'streamCore'},
+      'AERO3760': {name:'Space Engineering 2', cat:'streamCore'},
+      'AMME3060': {name:'Engineering Methods', cat:'streamCore'},
+      'AMME3500': {name:'System Dynamics and Control', cat:'streamCore'},
+      'AERO4701': {name:'Space Engineering 3', cat:'streamCore'},
+      'MECH3260': {name:'Thermal Engineering and Environment', cat:'streamCore'},
+    },
+    // No stream elective slots — the 20 stream-core units plus the 2 thesis
+    // units already total exactly 120cp for the Engineering Stream Table
+    // requirement, with nothing left over to select (same pattern as
+    // Environmental).
+    // NOTE: source table lists PMGT3854 (Legal Aspects of Projects) in
+    // Year 5 Semester 2 — same discrepancy flagged for Mechanical and
+    // Environmental; every other stream has it in Year 5 Semester 1. Built
+    // as given; see discrepancy log.
+    structure: [
+      {year:1, s1:['PMGT1850','MATH1061','ENGG1810','MECH1560','ENGP1001'],  s2:['PMGT1865','MATH1062','AMME1802','MECH1400','ENGP1002']},
+      {year:2, s1:['MECH2400','AMME1705','AMME2000','AMME2500','ENGP1003'], s2:['PMGT1711','MECH2460','AMME1362','AMME2301','ENGP2001']},
+      {year:3, s1:['PMGT1860','PMGT1863','PMGT2711','AMME2261','ENGP2002'], s2:['PMGT1852','MECH3361','AERO2705','AMME2262','ENGP2003']},
+      {year:4, s1:['PMGT2855','PMGT2851','MECH3362','MECH3261','ENGP3001'], s2:['PMGT2822','PMGT2821','AERO3760','AMME3060','ENGP3002']},
+      {year:5, s1:['PMGT3858','AMME3500','AERO4701','AMME4111','BLANK'],    s2:['PMGT3854','PMGT2854','MECH3260','AMME4112','BLANK']},
+    ],
+  },
+  mechatronic: {
+    shortName: 'Mechatronic',
+    colors: {core:{bg:'#efeaff',border:'#7C4DFF',text:'#5132a6'}, elective:{bg:'#f6f3ff',border:'#b79dff'}},
+    electiveLabel: 'Mechatronic Stream Elective (incl. Machine Learning, max 6cp)',
+    units: {
+      'MTRX1701': {name:'Introduction to Mechatronic Engineering', cat:'projects'},
+      'AMME4111': {name:'Thesis A', cat:'projects'},
+      'AMME4112': {name:'Thesis B', cat:'projects'},
+      'MTRX1702': {name:'Mechatronics 1', cat:'streamCore'},
+      'AMME1802': {name:'Engineering Mechanics', cat:'streamCore'},
+      'MECH2400': {name:'Mechanical Systems Design 1', cat:'streamCore'},
+      'AMME1705': {name:'Introduction to Electromechanical Systems', cat:'streamCore'},
+      'AMME2500': {name:'Engineering Dynamics', cat:'streamCore'},
+      'MECH2460': {name:'Manufacturing Engineering', cat:'streamCore'},
+      'MTRX1705': {name:'Introduction to Mechatronic Design', cat:'streamCore'},
+      'AMME2301': {name:'Mechanics of Solids', cat:'streamCore'},
+      'AMME2000': {name:'Engineering Analysis', cat:'streamCore'},
+      'MTRX2700': {name:'Mechatronics 2', cat:'streamCore'},
+      'AMME2200': {name:'Introductory Thermofluids', cat:'streamCore'},
+      'AMME1362': {name:'Introduction to Engineering Materials', cat:'streamCore'},
+      'ELEC2104': {name:'Electronic Devices and Circuits', cat:'streamCore'},
+      'ELEC3204': {name:'Power Electronics and Applications', cat:'streamCore'},
+      'AMME3500': {name:'System Dynamics and Control', cat:'streamCore'},
+      'MECH3460': {name:'Mechanical Systems Design 2', cat:'streamCore'},
+      'MTRX3700': {name:'Mechatronics 3', cat:'streamCore'},
+      'MTRX3760': {name:'Mechatronic Systems Design', cat:'streamCore'},
+    },
+    structure: [
+      {year:1, s1:['PMGT1850','MATH1061','ENGG1810','MTRX1701','ENGP1001'],  s2:['PMGT1852','MATH1062','MTRX1702','AMME1802','ENGP1002']},
+      {year:2, s1:['PMGT1860','MECH2400','AMME1705','AMME2500','ENGP1003'], s2:['PMGT1865','MECH2460','MTRX1705','AMME2301','ENGP2001']},
+      {year:3, s1:['PMGT2855','PMGT1863','AMME2000','MTRX2700','ENGP2002'], s2:['PMGT1711','AMME2200','AMME1362','ELEC2104','ENGP2003']},
+      {year:4, s1:['PMGT2851','PMGT2711','ELEC3204','AMME3500','ENGP3001'], s2:['PMGT2822','PMGT2821','MECH3460','MTRX3700','ENGP3002']},
+      {year:5, s1:['PMGT3858','PMGT3854','STREAM_ELECTIVE','AMME4111','BLANK'], s2:['PMGT2854','STREAM_ELECTIVE','MTRX3760','AMME4112','BLANK']},
+    ],
+  },
+  mechatronicSpace: {
+    shortName: 'Mechatronic with Space',
+    colors: {core:{bg:'#eae6f5',border:'#512DA8',text:'#351d6d'}, elective:{bg:'#f3f0f9',border:'#9f8ccf'}},
+    electiveLabel: 'Mechatronic w/ Space Stream Elective (max 6cp ML)',
+    units: {
+      'MTRX1701': {name:'Introduction to Mechatronic Engineering', cat:'projects'},
+      'AMME4111': {name:'Thesis A', cat:'projects'},
+      'AMME4112': {name:'Thesis B', cat:'projects'},
+      'MTRX1702': {name:'Mechatronics 1', cat:'streamCore'},
+      'AMME1802': {name:'Engineering Mechanics', cat:'streamCore'},
+      'MECH2400': {name:'Mechanical Systems Design 1', cat:'streamCore'},
+      'AMME1705': {name:'Introduction to Electromechanical Systems', cat:'streamCore'},
+      'AMME2500': {name:'Engineering Dynamics', cat:'streamCore'},
+      'MECH2460': {name:'Manufacturing Engineering', cat:'streamCore'},
+      'MTRX1705': {name:'Introduction to Mechatronic Design', cat:'streamCore'},
+      'AMME2301': {name:'Mechanics of Solids', cat:'streamCore'},
+      'AMME2000': {name:'Engineering Analysis', cat:'streamCore'},
+      'MTRX2700': {name:'Mechatronics 2', cat:'streamCore'},
+      'AMME2200': {name:'Introductory Thermofluids', cat:'streamCore'},
+      'AERO2705': {name:'Space Engineering 1', cat:'streamCore'},
+      'ELEC2104': {name:'Electronic Devices and Circuits', cat:'streamCore'},
+      'ELEC3204': {name:'Power Electronics and Applications', cat:'streamCore'},
+      'AMME3500': {name:'System Dynamics and Control', cat:'streamCore'},
+      'AERO3760': {name:'Space Engineering 2', cat:'streamCore'},
+      'MTRX3700': {name:'Mechatronics 3', cat:'streamCore'},
+      'MTRX3760': {name:'Mechatronic Systems Design', cat:'streamCore'},
+      'AERO4701': {name:'Space Engineering 3', cat:'streamCore'},
+    },
+    structure: [
+      {year:1, s1:['PMGT1850','MATH1061','ENGG1810','MTRX1701','ENGP1001'],  s2:['PMGT1852','MATH1062','MTRX1702','AMME1802','ENGP1002']},
+      {year:2, s1:['PMGT1860','MECH2400','AMME1705','AMME2500','ENGP1003'], s2:['PMGT1865','MECH2460','MTRX1705','AMME2301','ENGP2001']},
+      {year:3, s1:['PMGT2851','PMGT1863','AMME2000','MTRX2700','ENGP2002'], s2:['PMGT1711','AMME2200','AERO2705','ELEC2104','ENGP2003']},
+      {year:4, s1:['PMGT2855','PMGT2711','ELEC3204','AMME3500','ENGP3001'], s2:['PMGT2821','AERO3760','MTRX3700','MTRX3760','ENGP3002']},
+      {year:5, s1:['PMGT3854','PMGT3858','AERO4701','AMME4111','BLANK'],    s2:['PMGT2854','PMGT2822','STREAM_ELECTIVE','AMME4112','BLANK']},
+    ],
+  },
+  software: {
+    shortName: 'Software',
+    colors: {core:{bg:'#fbe5e5',border:'#DC2626',text:'#8f1919'}, elective:{bg:'#fdf0f0',border:'#ec8888'}},
+    electiveLabel: 'Software Stream Elective (1000/2000 or 3000+ Level)',
+    electiveLabel2: 'Software Stream Elective (3000+ Level)',
+    units: {
+      'ELEC1005': {name:'Introduction to Software Engineering', cat:'projects'},
+      'ELEC4712': {name:'Thesis A', cat:'projects'},
+      'ELEC4713': {name:'Thesis B', cat:'projects'},
+      // Software uses INFO1110 rather than the shared ENGG1810 to fulfil its
+      // Introductory Computing requirement within the Foundations Table —
+      // a different specific unit, but same category and credit total.
+      'INFO1110': {name:'Introduction to Programming', cat:'foundation'},
+      'INFO1113': {name:'Object-Oriented Programming', cat:'streamCore'},
+      'ELEC1601': {name:'Introduction to Computer Systems', cat:'streamCore'},
+      'MATH2069': {name:'Discrete Mathematics and Graph Theory', cat:'streamCore'},
+      'COMP2123': {name:'Data Structures & Algorithms', cat:'streamCore'},
+      'ISYS2110': {name:'Analysis & Design of Web Information Systems', cat:'streamCore'},
+      'ISYS2120': {name:'Data & Information Management', cat:'streamCore'},
+      'SOFT2201': {name:'Software Construction and Design 1', cat:'streamCore'},
+      'SOFT2412': {name:'Agile Software Development Practices', cat:'streamCore'},
+      'COMP2017': {name:'Systems Programming', cat:'streamCore'},
+      'SOFT3202': {name:'Software Construction and Design 2', cat:'streamCore'},
+      'INFO3616': {name:'Principles of Security and Security Engineering', cat:'streamCore'},
+      'ELEC3609': {name:'Internet Software Platforms', cat:'streamCore'},
+      'SOFT3888': {name:'Software Development Project', cat:'streamCore'},
+      'ELEC5618': {name:'Software Quality Engineering', cat:'streamCore'},
+      'ELEC5619': {name:'Object Oriented Application Frameworks', cat:'streamCore'},
+    },
+    structure: [
+      {year:1, s1:['PMGT1850','MATH1061','ELEC1005','INFO1110','ENGP1001'],  s2:['PMGT1865','MATH1062','INFO1113','ELEC1601','ENGP1002']},
+      {year:2, s1:['PMGT1860','MATH2069','COMP2123','ISYS2110','ENGP1003'], s2:['PMGT1711','ISYS2120','SOFT2201','SOFT2412','ENGP2001']},
+      {year:3, s1:['PMGT1863','PMGT2711','COMP2017','SOFT3202','ENGP2002'], s2:['PMGT1852','INFO3616','ELEC3609','SOFT3888','ENGP2003']},
+      {year:4, s1:['PMGT2855','PMGT2851','STREAM_ELECTIVE','ELEC5618','ENGP3001'], s2:['PMGT2822','PMGT2821','STREAM_ELECTIVE','ELEC5619','ENGP3002']},
+      {year:5, s1:['PMGT3858','PMGT3854','ELEC4712','STREAM_ELECTIVE_2','BLANK'], s2:['PMGT2854','ELEC4713','STREAM_ELECTIVE_2','STREAM_ELECTIVE_2','BLANK']},
+    ],
+  },
+  biomedical: {
+    shortName: 'Biomedical',
+    colors: {core:{bg:'#fce8f2',border:'#E84393',text:'#972c60'}, elective:{bg:'#fdf2f7',border:'#f298c4'}},
+    units: {
+      'BMET1960': {name:'Biomedical Engineering 1A', cat:'projects'},
+      'BMET4111': {name:'Thesis A', cat:'projects'},
+      'BMET4112': {name:'Thesis B', cat:'projects'},
+      'CHEM1111': {name:'Chemistry 1A', cat:'streamCore'},
+      'AMME1802': {name:'Engineering Mechanics', cat:'streamCore'},
+      'BMET1961': {name:'Biomedical Engineering 1B', cat:'streamCore'},
+      'BMET2902': {name:'Introduction to Bioelectronics', cat:'streamCore'},
+      'BMET2903': {name:'Biomedical Physics', cat:'streamCore'},
+      'BMET2901': {name:'Anatomy and Physiology for Engineers', cat:'streamCore'},
+      'AMME1362': {name:'Introduction to Engineering Materials', cat:'streamCore'},
+      'BMET3660': {name:'Biomanufacturing', cat:'streamCore'},
+      'BMET2960': {name:'Biomedical Engineering 2', cat:'streamCore'},
+      'BMET3961': {name:'Biomaterials', cat:'streamCore'},
+      'BMET2922': {name:'Computational Analysis for Biomedical Signals', cat:'streamCore'},
+      'BMET3971': {name:'Tissue Engineering', cat:'streamCore'},
+      'BMET3921': {name:'Biomedical Design and Technology', cat:'streamCore'},
+    },
+    // BMET3921 (Y4S2) can be taken in Semester 1 instead per the resolution
+    // note; shown in its default S2 slot here.
+    // The Industry/Enterprise slot (Y4S2) is a pick from two named options
+    // (not an open stream elective), so it's rendered with both codes shown.
+    industryOptions: [
+      {code:'BMET3990', name:'Biomedical Product Development'},
+      {code:'BMET5992', name:'Regulatory Affairs in the Medical Industry'},
+    ],
+    structure: [
+      {year:1, s1:['PMGT1850','MATH1061','CHEM1111','BMET1960','ENGP1001'],  s2:['MATH1062','ENGG1810','AMME1802','BMET1961','ENGP1002']},
+      {year:2, s1:['PMGT1860','PMGT1863','BMET2902','BMET2903','ENGP1003'], s2:['PMGT1711','PMGT1852','BMET2901','AMME1362','ENGP2001']},
+      {year:3, s1:['PMGT2855','PMGT2711','BMET3660','BMET2960','ENGP2002'], s2:['PMGT1865','PMGT2821','BMET3961','BMET2922','ENGP2003']},
+      {year:4, s1:['PMGT2851','STREAM_ELECTIVE','STREAM_ELECTIVE','BMET3971','ENGP3001'], s2:['PMGT2854','PMGT2822','BMET3921','INDUSTRY_ELECTIVE','ENGP3002']},
+      {year:5, s1:['PMGT3858','PMGT3854','STREAM_ELECTIVE','BMET4111','BLANK'], s2:['STREAM_ELECTIVE','STREAM_ELECTIVE','STREAM_ELECTIVE','BMET4112','BLANK']},
+    ],
+  },
+  cbe: {
+    shortName: 'Chemical and Biomolecular',
+    colors: {core:{bg:'#fffae7',border:'#FDD835',text:'#605214'}, elective:{bg:'#fffcf1',border:'#feea90'}},
+    units: {
+      'CHNG1108': {name:'Introduction to Chemical Engineering', cat:'projects'},
+      'CHNG4811': {name:'Thesis A', cat:'projects'},
+      'CHNG4812': {name:'Thesis B', cat:'projects'},
+      'CHEM1111': {name:'Chemistry 1A', cat:'streamCore'},
+      'CHNG1103': {name:'Conservation of Mass and Energy', cat:'streamCore'},
+      'CHNG2803': {name:'Heat and Mass Transfer', cat:'streamCore'},
+      'CHEM1112': {name:'Chemistry 1B', cat:'streamCore'},
+      'CHNG2801': {name:'Fluid Mechanics', cat:'streamCore'},
+      'CHNG2802': {name:'Chemical Engineering Modelling and Analysis', cat:'streamCore'},
+      'CHNG1106': {name:'Engineering for a Sustainable Society', cat:'streamCore'},
+      'CHNG2804': {name:'Chemical Engineering Thermodynamics', cat:'streamCore'},
+      'CHNG2806': {name:'Separation Processes', cat:'streamCore'},
+      'CHNG3802': {name:'Process Dynamics and Control', cat:'streamCore'},
+      'CHNG3801': {name:'Process Plant Design', cat:'streamCore'},
+      'CHNG3805': {name:'Particle Processing', cat:'streamCore'},
+      'CHNG3803': {name:'Reaction Engineering', cat:'streamCore'},
+      'CHNG3806': {name:'Risk Management for Chemical Engineering', cat:'streamCore'},
+      'CHNG3804': {name:'Biochemical Engineering', cat:'streamCore'},
+      'CHNG4802': {name:'Chemical Engineering Design A', cat:'streamCore'},
+      'CHNG4806': {name:'Chemical Engineering Design B', cat:'streamCore'},
+    },
+    structure: [
+      {year:1, s1:['PMGT1850','MATH1061','ENGG1810','CHNG1108','ENGP1001'],   s2:['PMGT1865','MATH1062','CHEM1111','CHNG1103','ENGP1002']},
+      {year:2, s1:['CHNG2803','CHEM1112','CHNG2801','CHNG2802','ENGP1003'],   s2:['PMGT1852','CHNG1106','CHNG2804','CHNG2806','ENGP2001']},
+      {year:3, s1:['PMGT1860','PMGT1863','PMGT2855','CHNG3802','ENGP2002'],   s2:['PMGT2822','PMGT2821','PMGT1711','CHNG3801','ENGP2003']},
+      {year:4, s1:['PMGT2851','PMGT2711','CHNG3805','CHNG3803','ENGP3001'],   s2:['PMGT2854','STREAM_ELECTIVE','CHNG3806','CHNG3804','ENGP3002']},
+      {year:5, s1:['PMGT3858','PMGT3854','CHNG4811','CHNG4802','BLANK'],      s2:['STREAM_ELECTIVE','STREAM_ELECTIVE','CHNG4812','CHNG4806','BLANK']},
+    ],
+  },
+  aero: {
+    shortName: 'Aeronautical',
+    colors: {core:{bg:'#e2f4fc',border:'#0EA5E9',text:'#096b97'}, elective:{bg:'#eef9fd',border:'#7acef3'}},
+    electiveLabel: 'Aeronautical Stream Core Extension Unit',
+    units: {
+      'AERO1560': {name:'Introduction to Aerospace Engineering', cat:'projects'},
+      'AMME4111': {name:'Thesis A', cat:'projects'},
+      'AMME4112': {name:'Thesis B', cat:'projects'},
+      'AERO1400': {name:'Intro to Aircraft Construction and Design', cat:'streamCore'},
+      'AMME1802': {name:'Engineering Mechanics', cat:'streamCore'},
+      'AMME1705': {name:'Introduction to Electromechanical Systems', cat:'streamCore'},
+      'AMME2500': {name:'Engineering Dynamics', cat:'streamCore'},
+      'AMME2000': {name:'Engineering Analysis', cat:'streamCore'},
+      'AMME1362': {name:'Introduction to Engineering Materials', cat:'streamCore'},
+      'AMME2301': {name:'Mechanics of Solids', cat:'streamCore'},
+      'AMME2200': {name:'Introductory Thermofluids', cat:'streamCore'},
+      'AMME3500': {name:'System Dynamics and Control', cat:'streamCore'},
+      'AERO2710': {name:'Analysis of Aerospace Engineering Data', cat:'streamCore'},
+      'AERO2460': {name:'Aerospace Design 1', cat:'streamCore'},
+      'AERO2703': {name:'Aircraft Performance and Operations', cat:'streamCore'},
+      'AERO3260': {name:'Aerodynamics 1', cat:'streamCore'},
+      'AERO3360': {name:'Aerospace Structures 1', cat:'streamCore'},
+      'AERO3261': {name:'Propulsion', cat:'streamCore'},
+      'AERO3465': {name:'Aerospace Design 2', cat:'streamCore'},
+      'AERO3560': {name:'Flight Mechanics 1', cat:'streamCore'},
+      'AERO4460': {name:'Aerospace Design 3', cat:'streamCore'},
+    },
+    structure: [
+      {year:1, s1:['PMGT1850','MATH1061','ENGG1810','AERO1560','ENGP1001'],  s2:['PMGT1865','MATH1062','AERO1400','AMME1802','ENGP1002']},
+      {year:2, s1:['PMGT1860','AMME1705','AMME2500','AMME2000','ENGP1003'], s2:['PMGT1711','AMME1362','AMME2301','AMME2200','ENGP2001']},
+      {year:3, s1:['PMGT2711','PMGT1863','AMME3500','AERO2710','ENGP2002'], s2:['PMGT1852','AERO2460','AERO2703','AERO3260','ENGP2003']},
+      {year:4, s1:['PMGT2855','PMGT2851','AERO3360','AERO3261','ENGP3001'], s2:['PMGT2821','PMGT2822','AERO3465','AERO3560','ENGP3002']},
+      {year:5, s1:['PMGT3854','PMGT3858','AERO4460','AMME4111','BLANK'],    s2:['PMGT2854','STREAM_ELECTIVE','STREAM_ELECTIVE','AMME4112','BLANK']},
+    ],
+  },
+  aeroSpace: {
+    shortName: 'Aeronautical with Space',
+    colors: {core:{bg:'#e0e9f5',border:'#0047AB',text:'#003580'}, elective:{bg:'#edf2f9',border:'#739ad1'}},
+    electiveLabel: 'Aeronautical with Space Stream Core Extension Unit',
+    units: {
+      'AERO1560': {name:'Introduction to Aerospace Engineering', cat:'projects'},
+      'AMME4111': {name:'Thesis A', cat:'projects'},
+      'AMME4112': {name:'Thesis B', cat:'projects'},
+      'AMME1802': {name:'Engineering Mechanics', cat:'streamCore'},
+      'AERO1400': {name:'Intro to Aircraft Construction and Design', cat:'streamCore'},
+      'AMME2500': {name:'Engineering Dynamics', cat:'streamCore'},
+      'AMME2000': {name:'Engineering Analysis', cat:'streamCore'},
+      'AMME1705': {name:'Introduction to Electromechanical Systems', cat:'streamCore'},
+      'AMME1362': {name:'Introduction to Engineering Materials', cat:'streamCore'},
+      'AMME2301': {name:'Mechanics of Solids', cat:'streamCore'},
+      'AMME2200': {name:'Introductory Thermofluids', cat:'streamCore'},
+      'AERO2710': {name:'Analysis of Aerospace Engineering Data', cat:'streamCore'},
+      'AMME3500': {name:'System Dynamics and Control', cat:'streamCore'},
+      'AERO2460': {name:'Aerospace Design 1', cat:'streamCore'},
+      'AERO2705': {name:'Space Engineering 1', cat:'streamCore'},
+      'AERO3260': {name:'Aerodynamics 1', cat:'streamCore'},
+      'AERO3261': {name:'Propulsion', cat:'streamCore'},
+      'AERO3360': {name:'Aerospace Structures 1', cat:'streamCore'},
+      'AERO3465': {name:'Aerospace Design 2', cat:'streamCore'},
+      'AERO3760': {name:'Space Engineering 2', cat:'streamCore'},
+      'AERO3560': {name:'Flight Mechanics 1', cat:'streamCore'},
+      'AERO4701': {name:'Space Engineering 3', cat:'streamCore'},
+    },
+    structure: [
+      {year:1, s1:['PMGT1850','MATH1061','ENGG1810','AERO1560','ENGP1001'],  s2:['PMGT1865','MATH1062','AMME1802','AERO1400','ENGP1002']},
+      {year:2, s1:['PMGT1860','AMME2500','AMME2000','AMME1705','ENGP1003'], s2:['PMGT1852','AMME1362','AMME2301','AMME2200','ENGP2001']},
+      {year:3, s1:['PMGT2855','PMGT1863','AERO2710','AMME3500','ENGP2002'], s2:['PMGT1711','AERO2460','AERO2705','AERO3260','ENGP2003']},
+      {year:4, s1:['PMGT2851','PMGT2711','AERO3261','AERO3360','ENGP3001'], s2:['PMGT2821','AERO3465','AERO3760','AERO3560','ENGP3002']},
+      {year:5, s1:['PMGT3854','PMGT3858','AERO4701','AMME4111','BLANK'],    s2:['PMGT2854','PMGT2822','STREAM_ELECTIVE','AMME4112','BLANK']},
+    ],
+  },
+};
+
+// Order streams are shown in the tabs — alphabetical by shortName, matching
+// how SoPM lists course routes elsewhere. Add new stream ids here as they're
+// built; nothing else needs to change to make them appear as a tab.
+const ENG_STREAM_ORDER = ['aero', 'aeroSpace', 'biomedical', 'cbe', 'civil', 'electrical', 'environmental', 'mechanical', 'mechanicalSpace', 'mechatronic', 'mechatronicSpace', 'software'];
+let engStreamActive = null; // persists the selected tab across dropdown changes
+
+function renderEngStreamTabsUI(activeId) {
+  const tabsEl = document.getElementById('degree-maps-stream-tabs');
+  if (!tabsEl) return;
+  tabsEl.innerHTML = ENG_STREAM_ORDER.map(id => {
+    const s = ENG_STREAMS[id];
+    const active = id === activeId;
+    const style = active
+      ? 'background:white;color:var(--usyd-red);border-color:white;'
+      : 'background:transparent;color:white;border-color:rgba(255,255,255,.5);';
+    return `<button onclick="selectEngStreamTab('${id}')" style="padding:5px 13px;border-radius:999px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid;transition:all .15s ease;${style}">${s.shortName}</button>`;
+  }).join('');
+  tabsEl.style.display = 'flex';
+}
+
+function selectEngStreamTab(id) {
+  engStreamActive = id;
+  renderEngStreamMap(id);
+}
+
+function engStreamLegend(streamId) {
+  const stream = ENG_STREAMS[streamId];
+  const swatch = (bg, border, dashed) => `<div style="width:16px;height:16px;border-radius:3px;background:${bg};border:2px ${dashed ? 'dashed' : 'solid'} ${border};"></div>`;
+  const allSlots = stream.structure.flatMap(row => [...row.s1, ...row.s2]);
+  const hasElective = allSlots.includes('STREAM_ELECTIVE');
+  const hasElective2 = allSlots.includes('STREAM_ELECTIVE_2');
+  let rows = [
+    `<div style="display:flex;align-items:center;gap:7px;">${swatch('var(--core-bg)','var(--core-border)')} Project Management core unit</div>`,
+    `<div style="display:flex;align-items:center;gap:7px;">${swatch(stream.colors.core.bg, stream.colors.core.border)} ${stream.shortName} Stream Core</div>`,
+  ];
+  if (hasElective) {
+    rows.push(`<div style="display:flex;align-items:center;gap:7px;">${swatch(stream.colors.elective.bg, stream.colors.elective.border, true)} ${stream.electiveLabel || (stream.shortName + ' Stream Elective')}</div>`);
+  }
+  if (hasElective2 && stream.electiveLabel2 && stream.electiveLabel2 !== stream.electiveLabel) {
+    rows.push(`<div style="display:flex;align-items:center;gap:7px;">${swatch(stream.colors.elective.bg, stream.colors.elective.border, true)} ${stream.electiveLabel2}</div>`);
+  }
+  rows = rows.concat([
+    `<div style="display:flex;align-items:center;gap:7px;">${swatch(ENG_CATEGORY_STYLES.foundation.bg, ENG_CATEGORY_STYLES.foundation.border)} Engineering Foundations Table</div>`,
+    `<div style="display:flex;align-items:center;gap:7px;">${swatch(ENG_CATEGORY_STYLES.projects.bg, ENG_CATEGORY_STYLES.projects.border)} Engineering Projects Table</div>`,
+    `<div style="display:flex;align-items:center;gap:7px;">${swatch(ENG_CATEGORY_STYLES.pep.bg, ENG_CATEGORY_STYLES.pep.border)} Professional Engagement Program (0cp)</div>`,
+  ]);
+  if (stream.industryOptions) {
+    rows.push(`<div style="display:flex;align-items:center;gap:7px;">${swatch(ENG_CATEGORY_STYLES.industryElective.bg, ENG_CATEGORY_STYLES.industryElective.border)} Industry/Enterprise Unit</div>`);
+  }
+  return rows.join('\n');
+}
+
+function renderEngStreamSlot(streamId, slot) {
+  const stream = ENG_STREAMS[streamId];
+  if (slot === 'BLANK') {
+    return `<div class="dp-empty dp-empty-blank"><div class="dp-empty-label">—</div></div>`;
+  }
+  if (slot === 'STREAM_ELECTIVE' || slot === 'STREAM_ELECTIVE_2') {
+    const label = slot === 'STREAM_ELECTIVE_2'
+      ? (stream.electiveLabel2 || stream.electiveLabel || (stream.shortName + ' Stream Elective'))
+      : (stream.electiveLabel || (stream.shortName + ' Stream Elective'));
+    const ec = stream.colors.elective;
+    // overflow:hidden + line-clamp guards against long custom elective
+    // labels overflowing the fixed tile height (the shared .dp-empty CSS
+    // sets height via !important, so a long label needs its own clamp
+    // rather than relying on the tile growing to fit).
+    return `<div class="dp-empty" style="background:${ec.bg};border:2px dashed ${ec.border};height:72px;border-radius:6px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+      <div style="font-size:8.5px;font-weight:600;color:${stream.colors.core.text};text-transform:uppercase;letter-spacing:.05em;text-align:center;padding:2px;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;">${label}</div>
+    </div>`;
+  }
+  if (slot === 'INDUSTRY_ELECTIVE') {
+    const s = ENG_CATEGORY_STYLES.industryElective;
+    const optionsText = stream.industryOptions.map(o => o.code).join(' or ');
+    return `<div class="dp-unit" style="background:${s.bg};border:2px solid ${s.border};height:72px;">
+      <div class="dp-unit-code" style="color:${s.text};font-size:8px;">${optionsText}</div>
+      <div class="dp-unit-name">Industry/Enterprise Unit — select one</div>
+    </div>`;
+  }
+  // PM core units are looked up from the shared UNITS array so this stays in
+  // sync with the standalone BPM tool's unit names.
+  const pmUnit = UNITS.find(u => u.code === slot);
+  if (pmUnit) {
+    return `<div class="dp-unit core">
+      <div class="dp-unit-code">${pmUnit.code}</div>
+      <div class="dp-unit-name">${pmUnit.name}</div>
+    </div>`;
+  }
+  const meta = ENG_SHARED_UNITS[slot] || stream.units[slot];
+  if (!meta) return `<div class="dp-empty"><div class="dp-empty-label">${slot}</div></div>`;
+  const s = meta.cat === 'streamCore' ? stream.colors.core : ENG_CATEGORY_STYLES[meta.cat];
+  if (meta.cat === 'pep') {
+    // PEP tiles are rendered narrower (see .pep-narrow CSS) since a full
+    // unit code + name doesn't fit legibly at that width — shown as the
+    // code (small, one line) above "PEP" plus its stage suffix (e.g. "1A",
+    // pulled from the unit name) below.
+    const suffix = meta.name.trim().split(' ').pop();
+    return `<div class="dp-unit pep-narrow" style="background:${s.bg};border:2px solid ${s.border};height:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <div style="font-family:var(--font-mono);font-size:calc(var(--dm-scale) * 8);font-weight:700;color:${s.text};white-space:nowrap;line-height:1.2;">${slot}</div>
+      <div style="font-size:calc(var(--dm-scale) * 12);font-weight:700;color:${s.text};letter-spacing:.02em;line-height:1.3;text-align:center;white-space:normal;">PEP ${suffix}</div>
+    </div>`;
+  }
+  return `<div class="dp-unit" style="background:${s.bg};border:2px solid ${s.border};height:72px;">
+    <div class="dp-unit-code" style="color:${s.text};">${slot}</div>
+    <div class="dp-unit-name">${meta.name}</div>
+  </div>`;
+}
+
+function renderEngStreamMap(streamId) {
+  const stream = ENG_STREAMS[streamId];
+  if (!stream) return;
+  const container = document.getElementById('degree-maps-grid');
+  if (!container) return;
+
+  engStreamActive = streamId;
+  renderEngStreamTabsUI(streamId);
+
+  const titleEl = document.getElementById('degree-maps-title');
+  if (titleEl) { titleEl.textContent = `Bachelor of Engineering Honours (${stream.shortName}) and Bachelor of Project Management`; setCourseDisclaimer(titleEl.textContent); }
+
+  const subtitleEl = document.getElementById('degree-maps-subtitle');
+  if (subtitleEl) subtitleEl.style.display = 'none';
+
+  const entryLabelEl = document.getElementById('degree-maps-entry-label');
+  if (entryLabelEl) { entryLabelEl.textContent = 'Semester 1 Entry'; entryLabelEl.style.display = 'inline-block'; }
+
+  renderDegreeLinks([
+    {label: 'Course Page', url: ENG_LINKS.coursePage},
+    {label: 'Handbook', url: ENG_LINKS.handbook},
+    {label: 'UAC', url: ENG_LINKS.uac},
+    {label: 'CUSP', url: ENG_LINKS.cusp},
+  ]);
+  renderAwardRequirements(ENG_AWARD_HTML);
+
+  const legendEl = document.getElementById('degree-maps-legend');
+  if (legendEl) legendEl.innerHTML = engStreamLegend(streamId);
+
+  let tableHtml = `<div id="beeng-table-wrap" style="position:relative;overflow-x:auto;">
+    <table class="dp-table">
+      <colgroup>
+        <col style="width:44px">
+        <col><col><col><col><col>
+        <col style="width:14px">
+        <col><col><col><col><col>
+      </colgroup>
+      <thead>
+        <tr>
+          <td></td>
+          <td colspan="5" class="dp-sem-header">Semester 1</td>
+          <td style="width:14px;"></td>
+          <td colspan="5" class="dp-sem-header">Semester 2</td>
+        </tr>
+      </thead>
+      <tbody>`;
+
+  // isPM: same check renderEngStreamSlot uses to decide whether a slot renders
+  // as a PM core tile (looked up from the shared UNITS array).
+  const isPM = slot => !!UNITS.find(u => u.code === slot);
+
+  stream.structure.forEach(row => {
+    tableHtml += `<tr>
+      <td class="dp-year-label">Year ${row.year}</td>
+      ${row.s1.map(slot => `<td class="dp-cell" data-pm-side="s1" data-pm-slot="${isPM(slot) ? '1' : '0'}">${renderEngStreamSlot(streamId, slot)}</td>`).join('')}
+      <td style="width:14px;"></td>
+      ${row.s2.map(slot => `<td class="dp-cell" data-pm-side="s2" data-pm-slot="${isPM(slot) ? '1' : '0'}">${renderEngStreamSlot(streamId, slot)}</td>`).join('')}
+    </tr>`;
+  });
+  tableHtml += `</tbody></table></div>`;
+
+  container.innerHTML = `<div class="dp-layout">${tableHtml}</div>`;
+
+  // This view has 10 content columns (5 per semester) vs the 8 (4 per
+  // semester) the shared --dm-scale sizing assumes on #degree-maps-card. An
+  // earlier version shrank --dm-scale ~20% here so the table would never
+  // need to scroll, but that made every tile's text noticeably smaller than
+  // every other major in the tool — not worth it. Tiles now stay full size
+  // and match every other major; the wrapper below is horizontally
+  // scrollable (overflow-x:auto) for the modest overflow this creates on
+  // narrower screens, the same trade-off any wide table would need.
+
+  drawEngStreamPMOutline(container);
+}
+
+// Draws one dashed rectilinear outline around the whole contiguous block of
+// PM tiles per semester side (not a border on each tile individually). PM
+// tiles are always left-aligned within their row, but the number of PM
+// columns varies row to row (1 or 2, or 0 in Y5), so a single fixed rectangle
+// can't hug them — this measures each row's actual rendered PM cell(s) and
+// traces a stepped ("staircase") outline around the union, separately for
+// the Semester 1 block and the Semester 2 block.
+function drawEngStreamPMOutline(container) {
+  const wrap = container.querySelector('#beeng-table-wrap');
+  if (!wrap) return;
+
+  // Rewritten to use plain CSS borders on the PM cells themselves, instead
+  // of an absolutely-positioned SVG overlay. The SVG approach was correct
+  // in every way that could be checked — byte-identical path data between
+  // the live page and the export clone, a real browser rendering it
+  // perfectly — but html2canvas was still visually FUSING separate,
+  // independently-closed shapes into one connected outline whenever a
+  // stream had a gap (a semester with zero PM units splitting the outline
+  // into two boxes, e.g. Year 1 alone vs. Year 3–5 together). This held
+  // true across every structural variation tried: multiple <path> siblings
+  // in one <svg>, fully separate <svg> elements per box, and a single
+  // compound path with multiple "M ... Z" subpaths — confirmed under a
+  // solid (non-dashed) stroke to be a genuine shape-fusion, not a dash-
+  // pattern illusion. Plain per-cell borders sidestep the problem entirely
+  // by not asking html2canvas to rasterize a custom vector path at all.
+  wrap.querySelectorAll('.pm-outline-cell').forEach(td => {
+    td.classList.remove('pm-outline-cell', 'pm-outline-top', 'pm-outline-bottom', 'pm-outline-left', 'pm-outline-right');
+  });
+
+  ['s1', 's2'].forEach(side => {
+    const rows = Array.from(wrap.querySelectorAll('tr')).map(tr =>
+      Array.from(tr.querySelectorAll(`td[data-pm-side="${side}"]`))
+    ).filter(cells => cells.length > 0);
+
+    // Width (in contiguous PM cells from the left) of each row — 0 for a
+    // row with no PM unit that semester, which is exactly where a gap
+    // should split the outline into separate boxes.
+    const widths = rows.map(cells => {
+      let lastPM = -1;
+      cells.forEach((td, i) => { if (td.dataset.pmSlot === '1' && i === lastPM + 1) lastPM = i; });
+      return lastPM + 1;
+    });
+
+    // Standard grid-perimeter tracing: a cell gets a border on whichever
+    // side(s) don't have a same-column PM neighbour, correctly handling an
+    // arbitrary staircase shape (width changing row to row) as well as
+    // gaps, without needing to special-case either.
+    rows.forEach((cells, r) => {
+      const w = widths[r];
+      for (let c = 0; c < w; c++) {
+        const td = cells[c];
+        const widthAbove = r > 0 ? widths[r - 1] : 0;
+        const widthBelow = r < rows.length - 1 ? widths[r + 1] : 0;
+        td.classList.add('pm-outline-cell');
+        if (c === 0) td.classList.add('pm-outline-left');
+        if (c === w - 1) td.classList.add('pm-outline-right');
+        if (r === 0 || c >= widthAbove) td.classList.add('pm-outline-top');
+        if (r === rows.length - 1 || c >= widthBelow) td.classList.add('pm-outline-bottom');
+      }
+    });
+  });
+}
+
+// The outline above is computed once from live pixel positions
+// (getBoundingClientRect) at render time. If the layout later reflows —
+// window resize, browser zoom, a sidebar opening/closing, anything that
+// changes #degree-maps-card's width — those coordinates go stale and the
+// dashed box drifts out of alignment with the tiles until something forces
+// a fresh render. A ResizeObserver on the card re-draws the outline (not
+// the whole table) whenever its width actually changes, so no manual
+// refresh is needed.
+let engOutlineRedrawTimer = null;
+function redrawEngStreamOutline() {
+  const container = document.getElementById('degree-maps-grid');
+  if (!container) return;
+  const wrap = container.querySelector('#beeng-table-wrap');
+  if (!wrap) return; // not currently on an Engineering stream — nothing to redraw
+  wrap.querySelectorAll('svg').forEach(svg => svg.remove());
+  drawEngStreamPMOutline(container);
+}
+function scheduleEngOutlineRedraw() {
+  clearTimeout(engOutlineRedrawTimer);
+  engOutlineRedrawTimer = setTimeout(redrawEngStreamOutline, 120);
+}
+(function initEngOutlineResizeObserver() {
+  const card = document.getElementById('degree-maps-card');
+  if (!card || typeof ResizeObserver === 'undefined') return;
+  new ResizeObserver(scheduleEngOutlineRedraw).observe(card);
+})();
+
+// Construction / Built Environment / Table S each collapse to a single
+// "Course route" dropdown entry, with S1/S2 Entry as tabs underneath —
+// same pattern as the Engineering streams above, reusing the same tabs
+// container and pill styling since only one tab set is ever shown at once.
+// External links + award-requirements text shown per course route. Links are
+// exactly as supplied by PM Admin — the external Table S major (a PM major
+// taken within another host degree) doesn't get the BPM-specific links since
+// it isn't the Bachelor of Project Management course itself; flagged rather
+// than guessed.
+const BPM_LINKS = {
+  coursePage: 'https://www.sydney.edu.au/courses/courses/uc/bachelor-of-project-management0.html',
+  handbook: 'https://www.sydney.edu.au/handbooks/engineering/project-management/overview.html',
+  uac: 'https://uac.edu.au/course-search/search/undergraduate/course/513610',
+  majorHandbook: {
+    'construction-major': 'https://www.sydney.edu.au/handbooks/engineering/project-management/project-management-majors/construction/unit-of-study-table.html',
+    'built-env-major': 'https://www.sydney.edu.au/handbooks/engineering/project-management/project-management-majors/built-environment/unit-of-study-table.html',
+    'tables-major': 'https://www.sydney.edu.au/handbooks/interdisciplinary-studies/table-s/subject-areas.html',
+  },
+};
+const ENG_LINKS = {
+  uac: 'https://uac.edu.au/course-search/search/undergraduate/course/513590',
+  handbook: 'https://www.sydney.edu.au/handbooks/engineering/engineering-honours/combined-course-resolutions.html',
+  coursePage: 'https://www.sydney.edu.au/courses/courses/uc/bachelor-of-engineering-honours-and-bachelor-of-project-management.html',
+  cusp: 'https://cusp.sydney.edu.au/',
+};
+
+const BPM_AWARD_HTML = `
+  <p style="margin:0 0 6px;">Candidates must complete 144 credit points including:</p>
+  <ol type="a" style="padding-left:20px;margin:0;">
+    <li>84 credit points of degree core units as set out in Table A;</li>
+    <li>a major (48 credit points) from Table A or Table S;</li>
+    <li>optionally, a Table A minor (36 credit points), noting that specified core units may be cross counted in Table A minors; and</li>
+    <li>additional electives from Table A as may be necessary to gain credit to complete the requirements of the degree.</li>
+  </ol>`;
+
+const ENG_AWARD_HTML = `
+  <p style="margin:0 0 8px;">For the Bachelor of Engineering Honours combined with the Bachelor of Project Management, a candidate must complete a total of 240 credit points and satisfy any additional requirements specified in the following clauses.</p>
+  <p style="margin:0 0 6px;">For the Bachelor of Engineering Honours component, candidates must complete a minimum of 156 credit points comprising:</p>
+  <ol type="i" style="padding-left:20px;margin:0 0 8px;">
+    <li>a minimum of 18 credit points from the Engineering Foundations Table, including all required units;</li>
+    <li>a minimum 18 credit points from the Engineering Projects Table, including all required units; and</li>
+    <li>a minimum of 120 credit points from the Engineering Stream Table for the stream being undertaken, including all required units;</li>
+  </ol>
+  <p style="margin:0 0 8px;">and must successfully complete the requirements of the Professional Engagement Program.</p>
+  <p style="margin:0;">For the Bachelor of Project Management component candidates must complete 84 credit points of units of study from the Bachelor of Project Management Unit of Study Table, including all required units.</p>`;
+
+function setCourseDisclaimer(courseName) {
+  const el = document.getElementById('degree-maps-disclaimer');
+  if (el) el.textContent = `This is a sample course plan only, for the ${courseName}. Always confirm current requirements against the official Handbook.`;
+}
+
+function renderDegreeLinks(links) {
+  const el = document.getElementById('degree-maps-links');
+  if (!el) return;
+  if (!links || !links.length) { el.style.display = 'none'; el.innerHTML = ''; return; }
+  el.innerHTML = links.map(l => `<a href="${l.url}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:5px;padding:5px 13px;border-radius:999px;font-size:11px;font-weight:700;text-decoration:none;background:rgba(255,255,255,.14);color:white;border:1.5px solid rgba(255,255,255,.55);">${l.label} ↗</a>`).join('');
+  el.style.display = 'flex';
+}
+
+function renderAwardRequirements(bodyHtml) {
+  const details = document.getElementById('degree-maps-award-reqs');
+  const body = document.getElementById('degree-maps-award-reqs-body');
+  if (!details || !body) return;
+  if (!bodyHtml) { details.style.display = 'none'; details.open = false; body.innerHTML = ''; return; }
+  body.innerHTML = bodyHtml;
+  details.style.display = 'block';
+}
+
+const MAJOR_GROUPS = {
+  'construction-major': {label: 'Construction', s1: 'construction', s2: 'construction-s2'},
+  'built-env-major':    {label: 'Built Environment', s1: 'built-env', s2: 'built-env-s2'},
+  'tables-major':       {label: 'Table S', s1: 'tables', s2: 'tables-s2'},
+  'tables-ext-major':   {label: 'PM Table S Major — in another degree', s1: 's1', s2: 's2', useExternalRenderer: true},
+};
+const majorGroupEntry = {}; // remembers each group's last-viewed S1/S2 tab independently
+
+function renderMajorGroupTabsUI(groupId, activeEntry) {
+  const tabsEl = document.getElementById('degree-maps-stream-tabs');
+  if (!tabsEl) return;
+  const entries = [['s1', 'S1 Entry'], ['s2', 'S2 Entry']];
+  tabsEl.innerHTML = entries.map(([id, label]) => {
+    const active = id === activeEntry;
+    const style = active
+      ? 'background:white;color:var(--usyd-red);border-color:white;'
+      : 'background:transparent;color:white;border-color:rgba(255,255,255,.5);';
+    return `<button onclick="selectMajorGroupEntry('${groupId}','${id}')" style="padding:5px 13px;border-radius:999px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid;transition:all .15s ease;${style}">${label}</button>`;
+  }).join('');
+  tabsEl.style.display = 'flex';
+}
+
+function selectMajorGroupEntry(groupId, entry) {
+  majorGroupEntry[groupId] = entry;
+  renderMajorGroupView(groupId);
+}
+
+function renderMajorGroupView(groupId) {
+  const group = MAJOR_GROUPS[groupId];
+  if (!group) return;
+  const entry = majorGroupEntry[groupId] || 's1';
+  renderMajorGroupTabsUI(groupId, entry);
+  if (group.useExternalRenderer) {
+    renderExternalTableSMap(group[entry]);
+  } else {
+    renderDegreePlanner('degree-maps-major-selector', 'degree-maps-grid', group[entry]);
+    renderDegreeLinks([
+      {label: 'Course Page', url: BPM_LINKS.coursePage},
+      {label: 'Handbook', url: BPM_LINKS.handbook},
+      {label: 'Major Handbook', url: BPM_LINKS.majorHandbook[groupId]},
+      {label: 'UAC', url: BPM_LINKS.uac},
+    ]);
+    renderAwardRequirements(BPM_AWARD_HTML);
+  }
+}
+
 function renderDegreeMaps() {
   const sel = document.getElementById('degree-maps-major-selector');
-  const value = sel ? sel.value : 'construction';
-  if (value === 'tables-ext-s1') { renderExternalTableSMap('s1'); return; }
-  if (value === 'tables-ext-s2') { renderExternalTableSMap('s2'); return; }
+  const value = sel ? sel.value : 'construction-major';
+  const tabsEl = document.getElementById('degree-maps-stream-tabs');
+  // Reset here rather than only inside renderDegreePlanner — the Engineering
+  // view (renderEngStreamMap) and the external Table S view
+  // (renderExternalTableSMap) never call renderDegreePlanner at all, so
+  // without this the minor picker would keep showing whatever it last had.
+  const minorPickerEl = document.getElementById('degree-maps-minor-picker');
+  if (minorPickerEl) { minorPickerEl.innerHTML = ''; minorPickerEl.style.display = 'none'; }
+  if (value === 'beeng-bpm') { renderEngStreamMap(engStreamActive || ENG_STREAM_ORDER[0]); return; }
+  if (MAJOR_GROUPS[value]) { renderMajorGroupView(value); return; }
+  if (tabsEl) { tabsEl.style.display = 'none'; tabsEl.innerHTML = ''; }
+  renderDegreeLinks(null);
+  renderAwardRequirements(null);
   renderDegreePlanner('degree-maps-major-selector', 'degree-maps-grid');
 }
 
@@ -1254,18 +2541,132 @@ function exportDegreeMapJPEG(){
   const sel=document.getElementById('degree-maps-major-selector');
   const majorLabel = sel ? sel.options[sel.selectedIndex].text.replace(/\s+/g,'_') : 'Degree_Map';
   showBanner('Generating high-resolution JPEG…');
+
+  // The exported image should only show the degree title, the key/legend,
+  // the semester-entry badge, and the map itself — not the interactive
+  // controls around them (stream/minor tabs, the course-links row, the
+  // explanatory subtitle, or the collapsible award-requirements box). Rather
+  // than hiding those live (which would flash on screen), clone the capture
+  // element off-screen and strip just those pieces from the CLONE, so the
+  // page the person is actually looking at is never touched.
+  const liveWidth = el.getBoundingClientRect().width;
+  const clone = el.cloneNode(true);
+  ['degree-maps-stream-tabs', 'degree-maps-links', 'degree-maps-subtitle', 'degree-maps-award-reqs', 'degree-maps-minor-picker']
+    .forEach(id => { const node = clone.querySelector(`#${id}`); if (node) node.remove(); });
+  // An explicit width matching the live element is essential here: the map's
+  // tile sizing is driven by a CSS container query (--dm-scale, in cqw units,
+  // measured off #degree-maps-card's own resolved width). Without a fixed
+  // width the clone has nothing solid to size itself against once detached
+  // into an off-screen host, and cqw collapses toward zero — which is what
+  // was producing a technically-valid but absurdly narrow/tall JPEG (a real
+  // image, ~250px × ~9500px, rather than an empty file).
+  clone.style.cssText = `width:${liveWidth}px;background:var(--bg);padding:clamp(6px,2.2vw,22px);border-radius:14px;`;
+  // Off-screen, not display:none/visibility:hidden (html2canvas renders
+  // those as blank) and not an extreme offset like -99999px (that earlier
+  // attempt made html2canvas try to allocate a canvas roughly 100,000px
+  // wide to reach it, past the browser's canvas size limit, producing the
+  // original empty/0-byte JPEG). A modest, fixed-position offset keeps the
+  // clone genuinely off the visible page without hitting either failure mode.
+  const hiddenHost = document.createElement('div');
+  hiddenHost.style.cssText = 'position:fixed;top:0;left:-20000px;';
+  hiddenHost.appendChild(clone);
+  document.body.appendChild(hiddenHost);
+  // Force a synchronous reflow before measuring anything below — the tile
+  // grid's sizing runs on a CSS container query (--dm-scale), and container
+  // query resolution for a freshly-inserted, freshly-explicit-width clone
+  // isn't always guaranteed to have settled by the very next line the way a
+  // plain box-model reflow would be, which was occasionally leaving the PM
+  // outline computed against stale (pre-settle) cell positions — most
+  // reliably reproduced after switching between several streams right
+  // before exporting. Reading a layout-dependent property here forces the
+  // browser to fully resolve layout (container queries included) first.
+  void clone.offsetHeight;
+
+  // The Engineering view's dashed PM-core outline is an SVG whose path was
+  // drawn using absolute pixel coordinates measured from the LIVE page. That
+  // path was cloned along with everything else, but the clone sits in a
+  // different spot (and briefly with no id-stripped ancestors reflowed yet),
+  // so the old coordinates no longer line up with the clone's own layout —
+  // it needs to be redrawn from scratch against the clone now that it's
+  // actually attached to the document, exactly the same way the resize
+  // handler already does for a live on-screen resize.
+  const cloneGrid = clone.querySelector('#degree-maps-grid');
+  const cloneWrap = cloneGrid ? cloneGrid.querySelector('#beeng-table-wrap') : null;
+  if (cloneWrap) {
+    cloneWrap.querySelectorAll('svg').forEach(svg => svg.remove());
+    drawEngStreamPMOutline(cloneGrid);
+  }
+
+  // Minor-badged tiles must stay EXACTLY the same fixed height as every
+  // other tile in the grid — a neighbouring plain tile (e.g. a two-line
+  // "Capstone Project B") never grows, so a badged tile that grows taller
+  // than it breaks row alignment and looks mismatched against everything
+  // around it. But html2canvas doesn't honour -webkit-line-clamp at all, so
+  // left alone, a long untruncated name at standard font-size would paint
+  // past the fixed box and overlap the badge beneath it, even though a real
+  // browser truncates it cleanly to fit. So instead of resizing the TILE,
+  // the export clone shrinks only the NAME's font-size, just enough for the
+  // full, untruncated text to fit within the space actually left over once
+  // the code line, badge, and padding are accounted for — every tile keeps
+  // an identical height, and a short name (most of them) never needs to
+  // shrink at all since it already fits at full size.
+  clone.querySelectorAll('.dp-unit-badged').forEach(el => {
+    const nameEl = el.querySelector('.dp-unit-name');
+    if (!nameEl) return;
+    nameEl.style.setProperty('-webkit-line-clamp', 'unset', 'important');
+    nameEl.style.setProperty('-webkit-box-orient', 'unset', 'important');
+    nameEl.style.setProperty('display', 'block', 'important');
+
+    // Available space = the tile's own fixed height minus its padding minus
+    // every OTHER child stacked in the same flex column (code line, badge,
+    // any "deleted" label) — i.e. whatever's left over is what the name is
+    // allowed to use. Absolutely-positioned children (like the merge dot)
+    // don't take up column space, so they're excluded from the subtraction.
+    const tileStyles = getComputedStyle(el);
+    let available = el.getBoundingClientRect().height
+      - parseFloat(tileStyles.paddingTop) - parseFloat(tileStyles.paddingBottom);
+    Array.from(el.children).forEach(child => {
+      if (child !== nameEl && getComputedStyle(child).position !== 'absolute') {
+        available -= child.getBoundingClientRect().height;
+      }
+    });
+
+    // Shrink in small steps until the name's natural (unclamped) height
+    // fits the available space, with a floor so text never becomes
+    // illegible — most names fit already and this loop never runs for them.
+    let fontSize = parseFloat(getComputedStyle(nameEl).fontSize);
+    const minFontSize = fontSize * 0.6;
+    let guard = 0;
+    while (nameEl.scrollHeight > available && fontSize > minFontSize && guard < 24) {
+      fontSize -= 0.5;
+      nameEl.style.setProperty('font-size', `${fontSize}px`, 'important');
+      guard++;
+    }
+  });
+
+  // Ids are stripped only now (after the outline redraw and the badged-tile
+  // fix above both needed them for their own querySelector/CSS lookups) so a
+  // duplicate id briefly existing in the document (clone + live original)
+  // can't confuse any other code that happens to call getElementById while
+  // the clone is attached.
+  clone.querySelectorAll('[id]').forEach(node => node.removeAttribute('id'));
+
   // scale:4 renders at 4x the on-screen pixel density (vs. 2x previously) for a
   // noticeably crisper export, especially when printed or zoomed; quality raised
   // to near-lossless since the larger canvas already keeps file size reasonable.
   // backgroundColor matches --bg so the cream frame around the banner/card carries
   // through into the exported image rather than being clipped to just the card.
-  html2canvas(el,{scale:6,backgroundColor:'#fcede2',useCORS:true,logging:false}).then(canvas=>{
+  html2canvas(clone,{scale:6,backgroundColor:'#fcede2',useCORS:true,logging:false}).then(canvas=>{
+    document.body.removeChild(hiddenHost);
     const link=document.createElement('a');
-    link.download=`BPM_Degree_Map_${majorLabel}.jpg`;
+    link.download=`BPM_Sample_Course_Plans_${majorLabel}.jpg`;
     link.href=canvas.toDataURL('image/jpeg',0.98);
     link.click();
-    showBanner('Degree map saved as high-resolution JPEG.');
-  }).catch(()=>showBanner('Export failed. Try a screenshot.'));
+    showBanner('Sample course plan saved as high-resolution JPEG.');
+  }).catch(()=>{
+    if (hiddenHost.parentNode) document.body.removeChild(hiddenHost);
+    showBanner('Export failed. Try a screenshot.');
+  });
 }
 
 function showBanner(msg){

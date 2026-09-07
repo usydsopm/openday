@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Company Updates</title>
+<style>
+  :root {
+    --li-blue: #0A66C2;
+    --ink: #1B1F23;
+    --line: #E3E7EB;
+    --bg: #FFFFFF;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  .feed-wrap {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 20px 16px 8px;
+  }
+  .feed-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .feed-head svg { flex: 0 0 auto; }
+  .feed-head h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+  }
+  .feed-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .feed-item {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .feed-item iframe {
+    display: block;
+    width: 100%;
+    border: none;
+  }
+  .empty-state {
+    border: 1px dashed var(--line);
+    border-radius: 8px;
+    padding: 28px 20px;
+    text-align: center;
+    color: #6B7280;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .empty-state code {
+    background: #F3F4F6;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+  .feed-foot {
+    text-align: center;
+    padding: 14px 0 24px;
+  }
+  .feed-foot a {
+    color: var(--li-blue);
+    font-size: 13px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .feed-foot a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="feed-wrap">
+  <div class="feed-head">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+    <h2>Company updates</h2>
+  </div>
+
+  <div class="feed-list" id="feed-list"></div>
+
+  <div class="feed-foot">
+    <a href="https://www.linkedin.com/company/REPLACE-WITH-YOUR-COMPANY-SLUG" target="_blank" rel="noopener">Follow us on LinkedIn</a>
+  </div>
+</div>
+
+<script>
+  /* ============================================================
+     HOW TO ADD A POST
+     ------------------------------------------------------------
+     1. Open the post on LinkedIn (linkedin.com).
+     2. Click the "..." (more) icon on the post.
+     3. Choose "Embed this post".
+     4. Copy the URN from the iframe src it gives you — it looks
+        like: urn:li:share:1234567890123456789
+        or:   urn:li:ugcPost:1234567890123456789
+     5. Paste just that URN string into the POSTS array below,
+        newest post first.
+
+     This only works for posts that are set to public visibility.
+     LinkedIn does not provide a way to auto-pull new posts
+     without partner API access, so this list is updated by hand.
+     ============================================================ */
+
+  const POSTS = [
+    "urn:li:activity:7501816882975555585",
+    "urn:li:activity:7500503533507620864",
+    "urn:li:activity:7489548383653752833",
+    "urn:li:activity:7489548309183799297",
+    "urn:li:activity:7489548250421792769",
+  ];
+
+  const list = document.getElementById('feed-list');
+
+  if (POSTS.length === 0) {
+    list.innerHTML = `
+      <div class="empty-state">
+        No posts added yet.<br>
+        Open the <code>&lt;script&gt;</code> section of this file and add post URNs
+        to the <code>POSTS</code> array to have them appear here.
+      </div>`;
+  } else {
+    POSTS.forEach(urn => {
+      const item = document.createElement('div');
+      item.className = 'feed-item';
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.linkedin.com/embed/feed/update/${urn}`;
+      iframe.height = '480';
+      iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.setAttribute('title', 'Embedded LinkedIn post');
+      iframe.setAttribute('loading', 'lazy');
+      item.appendChild(iframe);
+      list.appendChild(item);
+    });
+  }
+</script>
+
+</body>
+</html>

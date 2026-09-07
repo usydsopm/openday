@@ -3,14 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Postgraduate Sample Course Plans - School of Project Management</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Prospective Student Resources - School of Project Management</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -83,8 +75,9 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);font-si
 .header-badge{background:var(--usyd-red);color:white;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:3px;}
 
 /* Tabs */
-.tabs{background:var(--usyd-dark);border-bottom:1px solid rgba(255,255,255,.1);display:flex;padding:0 28px;}
-.tab{padding:12px 18px;cursor:pointer;font-size:14px;font-weight:500;color:rgba(255,255,255,.5);border-bottom:3px solid transparent;transition:all .15s;white-space:nowrap;}
+.tabs{background:var(--usyd-dark);border-bottom:1px solid rgba(255,255,255,.1);display:flex;padding:0 28px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{padding:12px 18px;cursor:pointer;font-size:14px;font-weight:500;color:rgba(255,255,255,.5);border-bottom:3px solid transparent;transition:all .15s;white-space:nowrap;flex-shrink:0;}
 .tab:hover{color:rgba(255,255,255,.85);}
 .tab.active{color:white;border-bottom-color:var(--usyd-red);}
 
@@ -104,12 +97,546 @@ html,body{overflow-x:hidden;max-width:100%;}
   .tabs{padding:0 10px;}
   .tab{padding:9px 12px;font-size:12.5px;}
   .main{padding:12px 10px;}
+  .map-controls-row{justify-content:flex-start;}
+  .map-controls-selector{flex-wrap:wrap;width:100%;}
+  .map-controls-selector select{max-width:100%;flex:1 1 auto;min-width:0;}
+  .mobile-disclaimer{display:block !important;}
+  body{padding-bottom:34px;}
 }
+.mobile-disclaimer{display:none;position:fixed;left:0;right:0;bottom:0;background:var(--usyd-dark);color:rgba(255,255,255,.85);text-align:center;font-size:10.5px;line-height:1.4;padding:6px 10px;z-index:9999;border-top:1px solid rgba(255,255,255,.15);}
+.panel{display:none;}
+.panel.active{display:block;}
+.section-title{font-size:22px;font-weight:500;color:var(--text);margin-bottom:5px;}
+.section-sub{font-size:14px;color:var(--text-muted);margin-bottom:16px;}
 
-.panel{display:block;}
+/* Combined filter + legend bar */
+.control-bar{display:flex;flex-wrap:wrap;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px 14px;margin-bottom:4px;align-items:center;}
+.ctrl-sep{width:1px;height:18px;background:var(--border);flex-shrink:0;}
+.ctrl-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);white-space:nowrap;}
+.fcheck{display:inline-flex;align-items:center;gap:4px;font-size:11px;cursor:pointer;user-select:none;white-space:nowrap;}
+.fcheck input{accent-color:var(--usyd-red);width:13px;height:13px;}
+.swatch-check{display:inline-flex;align-items:center;gap:5px;font-size:11px;cursor:pointer;user-select:none;white-space:nowrap;}
+.swatch-check input{accent-color:var(--usyd-red);width:13px;height:13px;}
+.swatch{width:13px;height:13px;border-radius:3px;flex-shrink:0;display:inline-block;}
+.plo-fcheck{display:inline-flex;align-items:center;gap:2px;font-size:10px;cursor:pointer;user-select:none;}
+.plo-fcheck input{accent-color:var(--usyd-red);}
+.plo-badge-f{width:17px;height:17px;border-radius:3px;background:var(--usyd-red);color:white;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;}
+
+/* PLO Drawer */
+.plo-drawer-toggle{display:inline-flex;align-items:center;gap:6px;background:var(--usyd-red);color:white;border:none;border-radius:6px;padding:6px 13px;font-size:11px;font-weight:600;cursor:pointer;margin-bottom:12px;transition:background .15s;}
+.plo-drawer-toggle:hover{background:#c73d20;}
+.plo-drawer{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:14px;display:none;}
+.plo-drawer.open{display:block;}
+.plo-drawer-title{font-size:14px;font-weight:400;color:var(--text);margin-bottom:10px;}
+.plo-list{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.plo-list-item{display:flex;align-items:flex-start;gap:8px;}
+.plo-num-sm{width:26px;height:26px;border-radius:5px;flex-shrink:0;background:var(--usyd-red);color:white;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:var(--font-mono);}
+.plo-list-text{font-size:11px;line-height:1.4;padding-top:3px;}
+
+/* Bucket layout */
+.hubs-outer{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;align-items:start;margin-top:0;}
+@media(max-width:1200px){.hubs-outer{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:800px){.hubs-outer{grid-template-columns:1fr 1fr;}}
+
+.hub-bucket{display:flex;flex-direction:column;position:relative;font-size:0;line-height:0;}
+/* The SVG bucket illustration sits on top, units hang below it */
+.bucket-svg-wrap{width:100%;display:block;overflow:visible;line-height:0;font-size:0;}
+.bucket-units-below{
+  border:3px solid;
+  border-top:none;
+  border-radius:0 0 10px 10px;
+  background:var(--surface);
+  padding:0 8px 10px;
+  display:flex;flex-direction:column;gap:5px;min-height:20px;
+  position:relative;z-index:1;
+  font-size:14px;line-height:1.5;
+  transition:background .2s;
+}
+.bucket-units-below.drag-over{background:#fffbe6 !important;outline:3px dashed gold;}
+
+/* Unallocated box */
+.unallocated-box{margin-top:18px;background:var(--surface);border:2px dashed #AAB7B8;border-radius:10px;overflow:hidden;}
+.unallocated-header{background:#f0f0f0;padding:10px 14px;display:flex;align-items:center;gap:8px;}
+.unallocated-title{font-size:15px;font-weight:500;color:#555;font-family:var(--font-heading);}
+.unallocated-units{padding:8px 12px 12px;display:flex;flex-wrap:wrap;gap:8px;}
+
+/* Unit card */
+.unit-card{border-radius:6px;padding:6px 8px;border:1.5px solid;transition:transform .1s,box-shadow .1s;position:relative;}
+.unit-card.hidden-card{display:none;}
+.unit-card:hover{transform:translateY(-1px);box-shadow:0 3px 8px rgba(0,0,0,.1);}
+.unit-card.core{background:var(--core-bg);border-color:var(--core-border);}
+.unit-card.elective{background:var(--elective-bg);border-color:var(--elective-border);}
+.unit-card.rested{background:var(--rested-bg);border-color:var(--rested-border);opacity:.7;}
+.unit-card.proposed-new{border-style:dashed;border-color:#27AE60;background:#EAFAF1;}
+.unit-card.hub-moved{outline:2.5px solid gold;outline-offset:1px;}
+/* Drag state */
+.unit-card[draggable=true]{cursor:grab;}
+.unit-card[draggable=true]:active{cursor:grabbing;}
+.unit-card.dragging{opacity:.4;transform:scale(.97);}
+.unit-top{display:flex;align-items:center;justify-content:space-between;gap:4px;}
+.unit-code{font-family:var(--font-mono);font-size:10px;font-weight:600;color:var(--unit-code-color);}
+.unit-badges{display:flex;gap:3px;align-items:center;flex-wrap:wrap;}
+.badge{font-size:8px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:1px 4px;border-radius:3px;}
+.badge-core{background:#adf3ab;color:#1a5c19;border:1px solid #adf3ab;}
+.badge-elective{background:#72d3fa;color:#0a4f6b;border:1px solid #72d3fa;}
+.badge-construction{background:#f58509;color:#ffffff;border:1px solid #c06000;}
+.badge-minor-pc{background:#ede4fb;color:#5b3a99;border:1px solid #a78bda;white-space:nowrap;}
+.badge-minor-proj{background:#dff5f2;color:#0f6b5c;border:1px solid #4fb3a0;white-space:nowrap;}
+.badge-s1{background:#E8F5E9;color:#2E7D32;border:1px solid #A5D6A7;}
+.badge-s2{background:#FFF3E0;color:#E65100;border:1px solid #FFCC80;}
+.badge-tbc{background:#F0F0F0;color:#666666;border:1px solid #CCCCCC;}
+.badge-permission{background:#FDE8E8;color:#B91C1C;border:1px solid #F5B5B5;}
+.badge-both{background:#F3E5F5;color:#6A1B9A;border:1px solid #CE93D8;}
+.badge-rested{background:#ECEFF1;color:#607D8B;border:1px solid #B0BEC5;}
+.badge-level{background:#F5F5F5;color:#616161;border:1px solid #E0E0E0;}
+.unit-name{font-size:10.5px;font-weight:600;margin-top:2px;line-height:1.3;}
+.unit-plo-row{display:flex;gap:2px;margin-top:4px;flex-wrap:wrap;}
+.plo-pip{width:17px;height:17px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;}
+.plo-pip.hit{background:var(--plo-open);color:#7a0033;}
+.plo-pip.secured{background:var(--plo-secured);color:#fff;}
+.plo-pip.miss{background:var(--plo-miss);color:var(--plo-miss-text);}
+.unit-move-tag{font-size:9px;font-weight:600;color:#7a5500;background:#fff3cd;border:1px solid #ffd06b;border-radius:3px;padding:1px 5px;margin-top:3px;display:inline-block;}
+
+/* Tooltip */
+.tooltip-wrap{position:relative;}
+.tooltip{display:none;position:absolute;z-index:300;background:var(--usyd-dark);color:white;font-size:10px;line-height:1.5;padding:7px 9px;border-radius:5px;width:200px;pointer-events:none;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);box-shadow:0 4px 14px rgba(0,0,0,.25);}
+.tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:var(--usyd-dark);}
+.tooltip-wrap:hover .tooltip{display:block;}
+
+/* Propose drag modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:white;border-radius:12px;padding:24px;width:520px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.25);}
+.modal h3{font-size:15px;font-weight:700;margin-bottom:4px;}
+.modal-sub{font-size:12px;color:var(--text-muted);margin-bottom:16px;}
+.modal-field{margin-bottom:12px;}
+.modal-field label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);margin-bottom:4px;}
+.modal-field select,.modal-field input{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:13px;}
+.modal-actions{display:flex;gap:8px;margin-top:16px;}
+.modal-note{font-size:10px;color:var(--text-muted);margin-top:10px;background:#f9f9f9;border:1px solid var(--border);border-radius:6px;padding:7px 10px;line-height:1.5;}
+
+/* Drag-mode name picker bar */
+.drag-mode-bar{background:#fffbe6;border:2px solid #f5c518;border-radius:8px;padding:10px 14px;margin-bottom:12px;display:none;align-items:center;gap:12px;flex-wrap:wrap;}
+.drag-mode-bar.active{display:flex;}
+.drag-mode-hint{font-size:13px;color:#7a5500;font-weight:400;}
+.drag-mode-pending{display:none;background:#fff8dc;border:1px solid #f5c518;border-radius:6px;padding:8px 12px;margin-bottom:10px;font-size:11px;}
+.drag-mode-pending.show{display:block;}
+
+/* Change log */
+.change-log{margin-bottom:6px;margin-top:0;}
+.change-log-title{font-size:12px;font-weight:700;margin-bottom:8px;color:var(--text-muted);}
+.change-entry{background:#fffbf0;border:1px solid #f0d98a;border-radius:6px;padding:7px 10px;margin-bottom:6px;font-size:11px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+.change-entry-info{flex:1;}
+.change-entry-name{font-weight:700;color:#7a4f00;}
+.change-entry-desc{color:var(--text-muted);margin-top:1px;}
+.change-entry-time{font-size:9px;color:#aaa;white-space:nowrap;}
+.change-remove-btn{font-size:10px;color:#c0392b;cursor:pointer;background:none;border:none;padding:0 2px;flex-shrink:0;}
+.change-remove-btn:hover{text-decoration:underline;}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:8px 15px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .15s;font-family:inherit;}
+.btn-primary{background:var(--usyd-red);color:white;}
+.btn-primary:hover{background:#c73d20;}
+.btn-secondary{background:var(--surface);color:var(--text);border:1px solid var(--border);}
+.btn-secondary:hover{background:var(--bg);}
+.btn-ghost{background:transparent;color:var(--text-muted);font-size:11px;}
+.btn-ghost:hover{color:var(--text);}
+.btn-full{width:100%;}
+.btn-amber{background:#f5c518;color:#2b1a14;border:none;}
+.btn-amber:hover{background:#e0b010;}
+
+/* PLO Coverage */
+.plo-controls{display:flex;flex-wrap:wrap;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:9px 14px;margin-bottom:14px;align-items:center;}
+.toggle-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 11px;border-radius:20px;border:1.5px solid;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;background:var(--surface);font-family:inherit;}
+.toggle-btn.shape-rect{border-radius:6px;}
+.toggle-btn.active-pmgt{background:#fde2e2;border-color:#e64626;color:#8a1f0f;}
+.toggle-btn.active-pmgt.is-on{background:#e64626;border-color:#a8301a;color:#ffffff;}
+.toggle-btn.active-civl{background:#d7f5f0;border-color:#14b8a6;color:#0a5c52;}
+.toggle-btn.active-civl.is-on{background:#14b8a6;border-color:#0d7a6e;color:#ffffff;}
+.toggle-btn.shape-square{border-radius:4px;padding:4px 10px;}
+.toggle-btn.active-core{background:var(--core-bg);border-color:var(--core-border);color:#1a5c19;}
+.toggle-btn.active-core.is-on{background:#adf3ab;border-color:#5cb85c;color:#0a3d0a;}
+.toggle-btn.active-l1000,.toggle-btn.active-l2000,.toggle-btn.active-l3000{background:#f0eafb;border-color:#9b6fdc;color:#4a1a8a;}
+.toggle-btn.active-l1000.is-on,.toggle-btn.active-l2000.is-on,.toggle-btn.active-l3000.is-on{background:#9b6fdc;border-color:#6f3fc4;color:#ffffff;}
+.toggle-btn.active-s1plo{background:#e6f4ea;border-color:#5aaa70;color:#1a5c2a;}
+.toggle-btn.active-s2plo{background:#fff4e6;border-color:#f09030;color:#8a4a00;}
+.toggle-btn.active-elective{background:var(--elective-bg);border-color:var(--elective-border);color:#0a4f6b;}
+.toggle-btn.active-elective.is-on{background:#72d3fa;border-color:#2196c9;color:#06344a;}
+.toggle-btn.active-open{background:#ffb7c8;border-color:#e0607c;color:#7a0030;}
+.toggle-btn.active-secured{background:#fd689a;border-color:#c0205a;color:#fff;}
+.toggle-btn.inactive{background:#f2f5fa;border-color:#d0d7e0;color:#aab3c0;text-decoration:line-through;}
+.plo-two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.plo-row{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;}
+.plo-row-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;}
+.plo-row-title{display:flex;align-items:center;gap:10px;}
+.plo-num{width:38px;height:38px;border-radius:7px;background:var(--usyd-red);color:white;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;font-family:var(--font-mono);}
+.plo-text{font-size:13px;font-weight:500;line-height:1.4;}
+
+/* Degree Structure matrix */
+.degree-table{border-collapse:collapse;font-size:11px;width:100%;min-width:1500px;table-layout:fixed;}
+.degree-table th,.degree-table td{border:1px solid var(--border);}
+.degree-corner,.degree-corner-sub{background:var(--surface);min-width:280px;max-width:280px;}
+.degree-th-group{background:var(--usyd-dark);color:white;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:6px 4px;text-align:center;white-space:nowrap;}
+.degree-th-code{background:var(--surface);padding:4px 2px;height:46px;vertical-align:middle;text-align:justify;text-align-last:center;}
+.degree-th-code-label{display:block;font-size:12px;font-weight:700;color:var(--text);line-height:1.35;text-align:justify;text-align-last:center;}
+.degree-th-code-prefix{display:block;font-size:10px;font-weight:600;color:var(--text-muted);letter-spacing:.03em;}
+.degree-th-code.core{background:var(--core-bg)!important;color:#1a5c19;}
+.degree-th-code.elective{background:var(--elective-bg)!important;color:#0a4f6b;}
+.degree-cell.elective{outline:1px dashed var(--elective-border);outline-offset:-3px;}
+.degree-tooltip{display:none;position:fixed;z-index:500;background:var(--usyd-dark);color:white;font-size:11px;line-height:1.5;padding:8px 11px;border-radius:6px;max-width:260px;pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,.3);}
+.spacing-tooltip{display:none;position:fixed;z-index:500;background:var(--usyd-dark);color:white;font-size:11px;line-height:1.5;padding:8px 11px;border-radius:6px;max-width:280px;pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,.3);white-space:pre-line;}
+.spacing-block{background:white;border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-bottom:18px;overflow-x:auto;}
+.spacing-block-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.spacing-block-sub{font-size:11px;color:var(--text-muted);margin-bottom:12px;}
+.spacing-table{border-collapse:collapse;width:100%;min-width:920px;font-size:10.5px;}
+.spacing-table th,.spacing-table td{border:1px solid var(--border);}
+.spacing-col-head{background:#faf5f0;padding:5px 3px;text-align:center;font-weight:700;color:var(--text-muted);font-size:9.5px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;}
+.spacing-col-head.spacing-boundary-left{border-left:2px solid var(--usyd-dark);}
+.spacing-row-header{background:#fff;padding:6px 9px;text-align:left;min-width:190px;max-width:190px;font-size:11px;}
+.spacing-row-header .sp-code{font-weight:700;color:var(--unit-code-color);font-family:var(--font-mono);font-size:11px;}
+.spacing-row-header .sp-name{display:block;color:var(--text-muted);font-size:9.5px;margin-top:1px;}
+.spacing-cell{height:32px;min-width:38px;padding:2px;text-align:center;vertical-align:middle;cursor:default;position:relative;}
+.spacing-cell.spacing-boundary-left{border-left:2px solid var(--usyd-dark);}
+.spacing-cell-val{font-weight:700;font-size:10px;line-height:1.1;}
+.spacing-cell-approx::after{content:'~';position:absolute;top:1px;right:2px;font-size:8px;font-weight:700;color:var(--text-muted);}
+.spacing-combined-row .spacing-row-header{background:var(--usyd-warm);font-weight:700;}
+.spacing-combined-row .spacing-cell{font-weight:700;}
+.spacing-legend{display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:10px;color:var(--text-muted);background:white;border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:14px;}
+.spacing-hotspot-callout{font-size:11.5px;font-weight:600;color:#b91c1c;background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;padding:8px 12px;margin-bottom:10px;}
+.spacing-hotspot-callout.spacing-hotspot-clear{color:#15803d;background:#f0fdf4;border-color:#86efac;}
+.degree-row-header{background:white;padding:8px 10px;text-align:left;min-width:280px;max-width:280px;vertical-align:middle;}
+.degree-row-header-inner{display:flex;align-items:flex-start;gap:7px;height:100%;}
+.degree-plo-badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:6px;background:var(--usyd-red);color:white;font-size:10px;font-weight:700;flex-shrink:0;font-family:var(--font-mono);margin-top:1px;}
+.degree-plo-text{font-size:10.5px;color:var(--text);line-height:1.4;}
+.degree-cell{height:34px;padding:0;cursor:default;}
+.degree-cell.secured{background:#fd689a;}
+.degree-cell.open{background:#ffb7c8;}
+.degree-cell.none{background:#f2f2f2;background-image:repeating-linear-gradient(45deg,transparent,transparent 3px,rgba(65,64,66,.28) 3px,rgba(65,64,66,.28) 4px);}
+.degree-year-start{border-left:3px solid var(--usyd-dark)!important;}
+.constr-tile:hover{box-shadow:0 3px 10px rgba(0,0,0,.08);}
+.constr-tile.active{border-color:var(--usyd-red)!important;border-width:3px!important;background:white!important;}
+.constr-unit-pending{background:#f2f2f2;border:1px dashed var(--border);border-radius:8px;padding:12px 14px;font-size:11px;color:var(--text-muted);font-style:italic;}
+.plo-coverage-bar-wrap{display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.plo-coverage-bar{width:80px;height:7px;background:var(--border);border-radius:4px;overflow:hidden;}
+.plo-coverage-fill{height:100%;border-radius:4px;transition:width .4s;}
+.plo-count{font-size:12px;font-weight:600;color:var(--text-muted);white-space:nowrap;}
+.plo-unit-chips{display:flex;flex-wrap:wrap;gap:5px;}
+.plo-chip{font-family:var(--font-mono);font-size:10px;font-weight:600;padding:3px 7px;border-radius:4px;border:1.5px solid;display:flex;flex-direction:column;align-items:center;gap:0;position:relative;}
+.plo-chip-lg{font-size:12px;padding:6px 9px;}
+.plo-chip-type{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;opacity:.75;}
+.plo-chip.open{background:#ffb7c8;border-color:#e0607c;color:#7a0030;}
+.plo-chip.secured{background:#fd689a;border-color:#c0205a;color:#fff;}
+.plo-chip.removed{opacity:.3;text-decoration:line-through;}
+.plo-chip .strength-dot{position:absolute;top:-5px;right:-5px;width:11px;height:11px;border-radius:50%;border:1.5px solid white;font-size:7px;display:flex;align-items:center;justify-content:center;}
+.plo-legend-item{display:flex;align-items:center;gap:4px;font-size:12px;}
+.plo-legend-pip{width:13px;height:13px;border-radius:3px;flex-shrink:0;}
+
+/* Scenario */
+.scenario-layout{display:grid;grid-template-columns:320px 1fr;gap:18px;align-items:start;}
+.scenario-sidebar{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;position:sticky;top:108px;}
+.scenario-sidebar h3{font-size:13px;font-weight:700;margin-bottom:12px;}
+.scenario-unit-list{display:flex;flex-direction:column;gap:5px;max-height:65vh;overflow-y:auto;padding-right:3px;}
+.scenario-unit-item{display:flex;align-items:center;gap:7px;padding:6px 8px;border-radius:5px;border:1.5px solid;background:var(--bg);cursor:pointer;font-size:11px;transition:all .12s;user-select:none;}
+.scenario-unit-item:hover{filter:brightness(.96);}
+.scenario-unit-item.selected{outline:2.5px solid var(--usyd-red);outline-offset:1px;box-shadow:0 0 0 3px rgba(230,70,38,.15);}
+.scenario-unit-item.removed-item{background:#f0f0f0 !important;border-color:#bbb !important;opacity:.5;}
+.scenario-unit-item input[type=checkbox]{accent-color:var(--usyd-red);flex-shrink:0;}
+.scenario-unit-code{font-family:var(--font-mono);font-size:9px;color:var(--unit-code-color);width:68px;flex-shrink:0;}
+.scenario-unit-name{flex:1;}
+.scenario-actions{margin-top:12px;display:flex;flex-direction:column;gap:7px;}
+.scenario-main{display:flex;flex-direction:column;gap:14px;}
+.scenario-summary{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;}
+.scenario-summary h3{font-size:13px;font-weight:700;margin-bottom:10px;}
+.impact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.impact-stat{text-align:center;padding:10px 6px;background:var(--bg);border-radius:7px;}
+.impact-num{font-size:22px;font-weight:700;color:var(--text);line-height:1;}
+.impact-num.warn{color:var(--usyd-red);}
+.impact-label{font-size:10px;color:var(--text-muted);margin-top:3px;}
+.delta-indicator{font-size:10px;font-weight:600;padding:1px 4px;border-radius:3px;margin-left:3px;}
+.delta-down{background:#fde8f1;color:var(--usyd-red);}
+.delta-up{background:#EAFAF1;color:#1E8449;}
+.compare-row{display:grid;grid-template-columns:210px 1fr 1fr;gap:9px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);}
+.compare-row:last-child{border-bottom:none;}
+.compare-plo-label{font-size:11px;font-weight:600;}
+.compare-plo-sub{font-size:10px;color:var(--text-muted);margin-top:1px;}
+.compare-bar-wrap{display:flex;flex-direction:column;gap:3px;}
+.compare-bar-label{font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;}
+.compare-bar-track{height:10px;background:#e8e8e8;border-radius:5px;overflow:hidden;position:relative;}
+.compare-bar-fill{height:100%;border-radius:5px;transition:width .5s;}
+.add-unit-form{background:#EAFAF1;border:1.5px dashed #27AE60;border-radius:7px;padding:10px;margin-top:8px;display:none;}
+.add-unit-form.open{display:block;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.form-field{display:flex;flex-direction:column;gap:3px;}
+.form-field label{font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;}
+.form-field input,.form-field select{padding:6px 9px;border:1px solid var(--border);border-radius:4px;font-family:inherit;font-size:11px;background:white;}
+.form-full{grid-column:1/-1;}
+.export-zone{background:var(--surface);border:1px dashed var(--border);border-radius:10px;padding:18px;text-align:center;}
+
+
+
+/* Share bar */
+#share-bar{display:none;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:11px;color:var(--text-muted);}
+
+/* Banner */
+.banner{position:fixed;bottom:22px;right:22px;background:var(--usyd-dark);color:white;padding:10px 18px;border-radius:7px;font-size:12px;font-weight:500;z-index:999;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;max-width:300px;border-left:3px solid var(--usyd-red);}
+.banner.show{opacity:1;transform:translateY(0);}
+
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#e0c4b8;border-radius:3px;}
+
+/* ── Degree Planner ── */
+.dp-table{border-collapse:separate;border-spacing:5px;width:100%;table-layout:fixed;}
+.dp-sem-header{font-size:14px;font-weight:700;letter-spacing:.04em;color:var(--text);padding:4px 0 5px;text-align:center;}
+.dp-year-label{font-size:13px;font-weight:700;color:var(--text-muted);text-align:right;padding-right:8px;vertical-align:middle;white-space:nowrap;width:52px;}
+.dp-cell{vertical-align:top;padding:2px;width:11%;}
+.pm-outline-top{border-top:2.5px dashed var(--core-border) !important;}
+.pm-outline-bottom{border-bottom:2.5px dashed var(--core-border) !important;}
+.pm-outline-left{border-left:2.5px dashed var(--core-border) !important;}
+.pm-outline-right{border-right:2.5px dashed var(--core-border) !important;}
+.dp-spacer-col{width:14px;}
+.dp-unit{
+  border-radius:6px;border:2px solid;padding:5px 6px;
+  width:100%;height:72px;
+  display:flex;flex-direction:column;position:relative;
+  overflow:hidden;box-sizing:border-box;
+}
+.dp-unit.core{background:var(--core-bg);border-color:var(--core-border);}
+.dp-unit.elective{background:var(--elective-bg);border-color:var(--elective-border);border-style:solid;}
+/* Major types */
+.dp-unit.major-construction{background:#fff4e6;border-color:#f58509;}
+.dp-unit.major-construction .dp-unit-code{color:#c06000;}
+.dp-unit.major-built-env{background:#c8b6fe;border-color:#6739b3;}
+.dp-unit.major-built-env .dp-unit-code{color:#4a2080;}
+.dp-unit.major-tables{background:#fffc19;border-color:#b8b800;}
+.dp-unit.major-tables .dp-unit-code{color:#6a6000;}
+.dp-unit.removed{background:#f0f0f0 !important;border:2px dashed #bbb !important;opacity:.45;}
+.dp-unit.merged-result{background:#e8f4ff !important;border-color:#0875a8 !important;border-style:dashed !important;border-width:2px !important;}
+.dp-unit.merged-source{background:#e8f4ff !important;border-color:#0875a8 !important;border-style:dashed !important;border-width:2px !important;opacity:.45;}
+.dp-unit-code{font-family:var(--font-mono);font-size:10.5px;font-weight:700;color:var(--unit-code-color);margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.dp-unit-name{font-size:10.5px;font-weight:500;line-height:1.3;color:var(--text);overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;}
+.dp-unit.removed .dp-unit-code,.dp-unit.removed .dp-unit-name{color:#bbb;}
+.dp-merge-dot{
+  position:absolute;top:-5px;right:-5px;width:12px;height:12px;border-radius:50%;
+  background:#f58509;border:2px solid white;
+  display:flex;align-items:center;justify-content:center;
+  font-size:6px;color:white;font-weight:700;line-height:1;
+}
+.dp-empty{
+  border-radius:6px;background:rgba(0,0,0,.025);border:1.5px dashed #ddd;
+  width:100%;height:72px;display:flex;align-items:center;justify-content:center;
+  box-sizing:border-box;
+}
+.dp-empty-label{font-size:8px;color:#ccc;text-transform:uppercase;letter-spacing:.05em;text-align:center;padding:3px;}
+
+/* ── Degree Maps tab: presentation-sized version of the degree planner ──
+   Scoped to #degree-maps-grid so the compact Scenario Planner editing view
+   is unaffected. !important is needed to beat the inline height/font-size
+   set by the shared renderSlot() template.
+   Base tier below is sized for laptop/desktop viewing at 100% zoom.
+   See the (max-width:926px) and (max-width:640px) media queries further
+   down for the landscape-mobile and portrait-mobile tiers. ──────────── */
+/* --dm-scale: one shared length that every degree-map GRID TILE dimension
+   below is a plain-number multiple of. Uses container query units (cqw),
+   scoped to #degree-maps-card (the element that actually constrains the
+   table's available width), so the scale is driven by the real available
+   space rather than raw viewport width — this is what makes it shrink
+   exactly enough to always fit without overflowing, instead of clipping
+   mid-shrink like a viewport-based clamp() would. */
+#degree-maps-card{container-type:inline-size;--dm-scale:clamp(0.19px, 0.0595cqw, 1px);}
+
+/* ── Single shared scale factor: every dimension below is calc(--dm-scale * N)
+   where N is a bare number and --dm-scale is one shared length (defined on
+   #degree-maps-capture). This makes width, height, font-size, padding etc.
+   all exact linear multiples of the SAME value, so their ratios to each
+   other never change — the whole grid + elective bank scale up/down as one
+   rigid unit, preserving the base proportions exactly at every width. ──── */
+#degree-maps-grid .dp-table{border-spacing:calc(var(--dm-scale) * 8);width:auto;table-layout:auto;}
+#degree-maps-grid .dp-cell{width:auto !important;}
+#degree-maps-grid colgroup col:first-child{width:calc(var(--dm-scale) * 44) !important;}
+#degree-maps-grid colgroup col:nth-child(6){width:calc(var(--dm-scale) * 14) !important;}
+#degree-maps-grid .dp-sem-header{font-size:calc(var(--dm-scale) * 16) !important;padding:calc(var(--dm-scale) * 4) 0 calc(var(--dm-scale) * 8) !important;}
+#degree-maps-grid .dp-year-label{font-size:calc(var(--dm-scale) * 13) !important;width:calc(var(--dm-scale) * 60) !important;padding-right:calc(var(--dm-scale) * 8) !important;}
+#degree-maps-grid .dp-unit,
+#degree-maps-grid .dp-empty{width:calc(var(--dm-scale) * 178) !important;height:calc(var(--dm-scale) * 96) !important;border-radius:calc(var(--dm-scale) * 7) !important;padding:calc(var(--dm-scale) * 7) calc(var(--dm-scale) * 9) !important;}
+/* Badged tiles (minor double-counts) deliberately stay the SAME standard
+   height as every other tile on screen — -webkit-line-clamp correctly
+   truncates the name to fit in a real browser, so there's no need to make
+   these visibly taller than their neighbours. The export path needs a
+   taller box instead (html2canvas doesn't honour line-clamp, so the export
+   function grows .dp-unit-badged tiles dynamically on the CLONE only,
+   right before capture) — see exportDegreeMapJPEG. */
+/* PEP tiles (abbreviated "PEP") and true blank filler tiles carry very
+   little content, so they're rendered noticeably narrower than a normal
+   180-wide unit tile — table-layout:auto sizes each column to its widest
+   cell, so narrowing these specifically shrinks the whole PEP column and
+   removes most of the need to scroll on the Engineering stream view.
+   (Elective placeholder tiles reuse .dp-empty too but carry a full label,
+   so they're deliberately excluded via the extra class check.) */
+#degree-maps-grid .dp-unit.pep-narrow{width:calc(var(--dm-scale) * 68) !important;}
+#degree-maps-grid .dp-empty.dp-empty-blank{width:calc(var(--dm-scale) * 52) !important;}
+#degree-maps-grid .dp-unit-code{font-size:calc(var(--dm-scale) * 13.5) !important;margin-bottom:calc(var(--dm-scale) * 3) !important;}
+#degree-maps-grid .dp-unit-name{font-size:calc(var(--dm-scale) * 12.5) !important;line-height:1.3 !important;-webkit-line-clamp:3 !important;}
+#degree-maps-grid .dp-empty-label{font-size:calc(var(--dm-scale) * 11) !important;}
+#degree-maps-grid .dp-empty > div{font-size:calc(var(--dm-scale) * 13) !important;}
+#degree-maps-grid .eb-panel{border-radius:9px !important;}
+#degree-maps-grid .eb-header{background:var(--usyd-warm) !important;padding:9px 12px !important;}
+#degree-maps-grid .eb-title{font-size:13px !important;}
+#degree-maps-grid .eb-list{padding:10px !important;gap:7px !important;}
+#degree-maps-grid .eb-unit{width:calc(var(--dm-scale) * 180) !important;flex:0 0 calc(var(--dm-scale) * 180) !important;padding:calc(var(--dm-scale) * 7) calc(var(--dm-scale) * 9) !important;}
+#degree-maps-grid .eb-unit-code{font-size:calc(var(--dm-scale) * 11.5) !important;}
+#degree-maps-grid .eb-unit-name{font-size:calc(var(--dm-scale) * 11.5) !important;line-height:1.3 !important;}
+#degree-maps-grid .eb-unit-sem,
+#degree-maps-grid .badge{font-size:calc(var(--dm-scale) * 11) !important;padding:1px 6px !important;}
+
+/* ── Degree Maps: all responsive scaling (grid tiles, banner/title/card/
+   legend, elective-bank cards) is now handled via clamp() in the base
+   rules above, so it scales continuously with viewport width instead of
+   jumping at fixed breakpoints — this avoids the "squish then jump" effect
+   where a percentage-width grid kept shrinking between breakpoints while
+   height/font stayed flat. ─────────────────────────────────────────────── */
+
+/* ── Unit Profiles ── */
+.profile-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:16px;overflow:hidden;}
+.profile-card.strength-strong{background:#f0fdf4;border-color:#86efac;}
+.profile-card.strength-medium{background:#fef3e2;border-color:#fb923c;}
+.profile-card.strength-weak{background:#fee2e2;border-color:#f87171;}
+.toggle-btn.active-str-strong{background:#dcfce7;border-color:#22c55e;color:#14532d;}
+.toggle-btn.active-str-medium{background:#fef3e2;border-color:#fb923c;color:#9a3412;}
+.toggle-btn.active-str-weak{background:#fee2e2;border-color:#ef4444;color:#7f1d1d;}
+.profile-header{padding:14px 16px 10px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;cursor:pointer;user-select:none;}
+.profile-header:hover{background:rgba(0,0,0,.02);}
+.profile-title-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.profile-unit-name{font-family:var(--font-heading);font-weight:500;font-size:16px;color:var(--text);}
+.profile-body{display:none;padding:0 16px 16px;border-top:1px solid var(--border);}
+.profile-body.open{display:block;}
+.profile-chevron{font-size:12px;color:var(--text-muted);flex-shrink:0;transition:transform .2s;}
+.profile-chevron.open{transform:rotate(180deg);}
+
+/* Strength badges */
+.strength-badge{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;white-space:nowrap;}
+.strength-badge.strong{background:#e4fae5;color:#1a7a1a;border:1px solid #adf3ab;}
+.strength-badge.medium{background:#fef3e2;color:#9a3412;border:1px solid #fb923c;}
+.strength-badge.weak{background:#fee2e2;color:#b91c1c;border:1px solid #f87171;}
+
+/* Assessment table */
+.assessment-table{width:100%;border-collapse:collapse;font-size:11px;margin-top:8px;}
+.assessment-table th{text-align:left;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);padding:4px 8px;border-bottom:2px solid var(--border);background:#fafafa;}
+.assessment-table td{padding:6px 8px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.4;}
+.assessment-table tr:last-child td{border-bottom:none;}
+.assessment-table tr.secured-row{background:#fff8f8;}
+.assessment-table tr.open-row{background:#fafafa;}
+.sec-pill{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:600;padding:1px 6px;border-radius:8px;}
+.sec-pill.secured{background:#fd689a;color:white;}
+.sec-pill.open{background:#ffb7c8;color:#7a0030;}
+.eft-pill{display:inline-flex;align-items:center;font-size:8px;font-weight:600;padding:1px 5px;border-radius:8px;background:#fff4e6;color:#c06000;border:1px solid #f58509;margin-left:4px;}
+.ai-pill{font-size:8px;padding:1px 5px;border-radius:8px;border:1px solid var(--border);color:var(--text-muted);}
+
+/* ULO list */
+.ulo-list{list-style:none;padding:0;margin:0;}
+.ulo-item{display:flex;gap:8px;padding:5px 0;border-bottom:1px solid #f0f0f0;font-size:11px;line-height:1.4;}
+.ulo-item:last-child{border-bottom:none;}
+.ulo-num{flex-shrink:0;width:24px;height:24px;border-radius:50%;background:var(--usyd-red);color:white;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-family:var(--font-mono);}
+.ulo-secured-indicator{flex-shrink:0;font-size:9px;color:var(--text-muted);}
+
+/* PLO strength summary */
+.plo-strength-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.plo-strength-pill{display:inline-flex;align-items:center;gap:4px;font-size:10px;padding:3px 8px;border-radius:12px;border:1px solid;font-family:var(--font-mono);}
+.plo-strength-pill.strong{background:#e4fae5;border-color:#adf3ab;color:#1a7a1a;}
+.plo-strength-pill.medium{background:#fef3e2;border-color:#fb923c;color:#9a3412;}
+.plo-strength-pill.weak{background:#fee2e2;border-color:#f87171;color:#b91c1c;}
+.dp-layout{display:flex;flex-direction:column;gap:14px;}
+.eb-panel{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.eb-header{background:transparent;border-bottom:1px solid var(--border);padding:7px 10px;}
+.eb-title{font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.07em;}
+.eb-list{display:flex;flex-wrap:wrap;gap:6px;padding:8px;}
+.eb-unit{border-radius:5px;border:2.5px dashed var(--elective-border);background:var(--elective-bg);padding:5px 8px;position:relative;width:180px;flex:0 0 180px;transition:all .2s;}
+.eb-unit.draggable{cursor:grab;}
+.eb-unit.draggable:active{cursor:grabbing;}
+.eb-unit.draggable:hover{box-shadow:0 2px 8px rgba(0,0,0,.12);}
+.eb-list.drag-over-bank{background:rgba(230,70,38,.06);outline:2px dashed var(--usyd-red);outline-offset:-4px;border-radius:6px;}
+.dp-elective-drop{transition:all .15s;}
+.dp-elective-drop.drag-over{outline:2.5px solid #1a5c19;outline-offset:-3px;background:#d4f5d8!important;}
+.dp-elective-drop.drag-invalid{outline:2.5px solid #dc2626;outline-offset:-3px;background:#fde2e2!important;cursor:not-allowed;}
+/* The extra top padding exists only to clear the ✕ remove-button, which is
+   itself only rendered for a free Table A choice the student dragged in
+   themselves (see removeBtn in renderSlot) — a minor-driven placement has no
+   button, so it's marked with .dp-unit-badged instead, and giving it this
+   padding too just wastes vertical space it never needed. */
+.dp-elective-filled:not(.dp-unit-badged){padding-top:16px!important;}
+.dp-elective-remove{position:absolute;top:2px;right:2px;width:15px;height:15px;border-radius:50%;border:none;background:rgba(0,0,0,.12);color:#333;font-size:9px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
+.dp-elective-remove:hover{background:var(--usyd-red);color:white;}
+.eb-unit.removed{background:#f0f0f0 !important;border:1.5px dashed #bbb !important;opacity:.45;}
+.eb-unit.merged-source{opacity:.35;}
+.eb-unit.merged-result{background:#e8f4ff !important;border-color:#0875a8 !important;border-style:dashed !important;}
+.eb-unit-code{font-family:var(--font-mono);font-size:10px;font-weight:600;color:var(--unit-code-color);}
+.eb-unit-name{font-size:11px;font-weight:500;line-height:1.3;color:var(--text);margin-top:1px;}
+.eb-unit-sem{font-size:10px;color:var(--text-muted);margin-top:2px;}
+.eb-unit.removed .eb-unit-name,.eb-unit.removed .eb-unit-code{color:#bbb;text-decoration:line-through;}
+.eb-merge-dot{position:absolute;top:-4px;right:-4px;width:11px;height:11px;border-radius:50%;background:#f58509;border:2px solid white;display:flex;align-items:center;justify-content:center;font-size:6px;color:white;font-weight:700;}
+
+/* ── Postgraduate programme map ── */
+:root{
+  /* Core (discipline) unit tiles */
+  --pg-tech-bg:#e4fae5; --pg-tech-border:#adf3ab; --pg-tech-text:#22682D;
+  --pg-lead-bg:#d4f6ff; --pg-lead-border:#72d3fa; --pg-lead-text:#2A4B5C;
+  --pg-strat-bg:#fff4e6; --pg-strat-border:#f58509; --pg-strat-text:#92592E;
+  /* Generic fallback (Thesis units, open elective slots — units that don't
+     belong to a single Technical/Leadership/Strategic discipline). */
+  --pg-thesis-bg:#a2d9c7; --pg-thesis-border:#26A69A; --pg-thesis-text:#00413B;
+  /* Elective Bank tiles */
+  --pg-tech-eb-bg:#f0fdf1; --pg-tech-eb-border:#adf3ab; --pg-tech-eb-text:#366E47;
+  --pg-lead-eb-bg:#eafbff; --pg-lead-eb-border:#72d3fa; --pg-lead-eb-text:#296E82;
+  --pg-strat-eb-bg:#fff9f0; --pg-strat-eb-border:#f58509; --pg-strat-eb-text:#906335;
+  /* Light grey signals "draggable" on both the bank tiles and the open slots. */
+  --pg-elective-grey-bg:#eeeeee; --pg-elective-grey-border:#bdbdbd; --pg-elective-grey-text:#5a5a5a;
+}
+.pg-sem-col{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;container-type:inline-size;}
+.pg-sem-title{font-family:var(--font-heading);font-size:15px;font-weight:500;margin-bottom:10px;color:var(--text);}
+.pg-sem-units{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:stretch;}
+@container (max-width:780px){
+  .pg-sem-units{grid-template-columns:repeat(2,1fr);}
+}
+@container (max-width:360px){
+  .pg-sem-units{grid-template-columns:1fr;}
+}
+.pg-unit{border-radius:6px;border:2.5px solid;padding:8px 10px;min-height:138px;min-width:0;display:flex;flex-direction:column;justify-content:center;}
+.pg-unit-top{display:flex;align-items:flex-start;justify-content:space-between;gap:4px;}
+.pg-unit-code{font-family:var(--font-mono);font-size:11px;font-weight:700;}
+.pg-unit-badges{display:flex;gap:3px;flex-wrap:wrap;flex-shrink:0;}
+.pg-unit-name{font-size:11.5px;font-weight:500;margin-top:2px;line-height:1.3;}
+.pg-unit-note{font-size:9.5px;margin-top:3px;opacity:.85;line-height:1.25;}
+.pg-unit.pg-tech{background:var(--pg-tech-bg);border-color:var(--pg-tech-border);color:var(--pg-tech-text);}
+.pg-unit.pg-lead{background:var(--pg-lead-bg);border-color:var(--pg-lead-border);color:var(--pg-lead-text);}
+.pg-unit.pg-strat{background:var(--pg-strat-bg);border-color:var(--pg-strat-border);color:var(--pg-strat-text);}
+.pg-unit.pg-thesis{background:var(--pg-thesis-bg);border-color:var(--pg-thesis-border);color:var(--pg-thesis-text);}
+/* Elective Bank tiles, coloured per discipline column to match their core-unit counterparts. */
+/* Elective Bank tiles — light grey, signalling they can be dragged onto an open elective slot. */
+.eb-unit.pg-eb-tech{background:var(--pg-tech-eb-bg);border-color:var(--pg-tech-eb-border);color:var(--pg-tech-eb-text);}
+.eb-unit.pg-eb-lead{background:var(--pg-lead-eb-bg);border-color:var(--pg-lead-eb-border);color:var(--pg-lead-eb-text);}
+.eb-unit.pg-eb-strat{background:var(--pg-strat-eb-bg);border-color:var(--pg-strat-eb-border);color:var(--pg-strat-eb-text);}
+.eb-unit.pg-eb-tech .eb-unit-sem,.eb-unit.pg-eb-lead .eb-unit-sem,.eb-unit.pg-eb-strat .eb-unit-sem{color:inherit;opacity:.8;}
+.eb-unit[draggable="true"]{cursor:grab;}
+.eb-unit[draggable="true"]:active{cursor:grabbing;}
+.eb-unit.pg-placed{opacity:.5;border-style:dashed;}
+.pg-elective-slot{background:var(--pg-elective-grey-bg);border:2.5px dashed var(--pg-elective-grey-border);border-radius:6px;padding:8px 10px;min-height:138px;min-width:0;display:flex;align-items:center;justify-content:center;text-align:center;font-size:10.5px;color:var(--pg-elective-grey-text);font-style:italic;line-height:1.3;transition:background .12s,border-color .12s;}
+.pg-elective-slot.pg-drop-ok{background:#e4fae5;border-color:#2E8B3D;border-style:solid;color:#2E8B3D;}
+.pg-elective-slot.pg-drop-bad{background:#fdeaea;border-color:#c0392b;border-style:solid;color:#c0392b;}
+.pg-unit-remove{position:absolute;top:-6px;right:-6px;width:16px;height:16px;border-radius:50%;background:white;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;line-height:1;cursor:pointer;color:var(--text-muted);}
+.pg-unit-remove:hover{background:var(--usyd-red);border-color:var(--usyd-red);color:white;}
+.pg-unit.pg-placed-unit{position:relative;}
+.pg-milestone{background:var(--usyd-warm);border:1.5px dashed var(--usyd-red);border-radius:8px;padding:9px 11px;margin-top:8px;font-size:11px;line-height:1.5;}
+.pg-milestone b{color:var(--usyd-red);}
+.pg-pathway-toggle{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;cursor:pointer;user-select:none;}
+.pg-pathway-toggle input{accent-color:var(--usyd-red);width:14px;height:14px;}
+@media (max-width:900px){
+  .pg-two-col{grid-template-columns:1fr !important;}
+  #pg-grid, #pg-elective-bank{max-width:none !important;}
+}
 </style>
 </head>
 <body>
+<div class="mobile-disclaimer">This site is best viewed on a tablet or desktop.</div>
 <div class="header">
   <div class="header-left">
     <div class="header-logo">
@@ -133,7 +660,6 @@ html,body{overflow-x:hidden;max-width:100%;}
     </a>
   </div>
 </div>
-
 <div class="tabs">
   <a href="BPM_Degree_Maps.html" class="tab" style="text-decoration:none;">Undergraduate Sample Course Plans</a>
   <a href="Postgraduate_Degree_Maps.html" class="tab active" style="text-decoration:none;">Postgraduate Sample Course Plans</a>
@@ -141,14 +667,596 @@ html,body{overflow-x:hidden;max-width:100%;}
 </div>
 
 <div class="main">
-  <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:clamp(40px,10vw,90px) 24px;text-align:center;margin-top:22px;">
-    <div style="font-family:var(--font-heading);font-weight:500;font-size:clamp(22px,4vw,34px);color:var(--text);margin-bottom:12px;">Postgraduate Sample Course Plans</div>
-    <div style="display:inline-block;background:var(--usyd-red);color:white;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:6px 16px;border-radius:999px;margin-bottom:20px;">Coming Soon</div>
-    <div style="font-size:14px;color:var(--text-muted);max-width:560px;margin:0 auto;line-height:1.6;">
-      Degree maps for the Graduate Certificate, Graduate Diploma, and Master of Project Management are being prepared and will appear here.
+<div class="panel active" id="pg-panel">
+
+  <div class="map-controls-row" style="display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap;margin:14px 0 16px;">
+    <button class="btn btn-primary" onclick="exportPGMapJPEG()" style="font-size:12.5px;padding:7px 14px;">&#11015; Export as JPEG</button>
+    <div class="map-controls-selector" style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+      <label style="font-size:12.5px;font-weight:600;color:var(--text-muted);white-space:nowrap;">Award:</label>
+      <select id="pg-award-selector" onchange="renderPGMap()" style="padding:6px 10px;border:1px solid var(--border);border-radius:5px;font-size:12.5px;background:white;cursor:pointer;">
+        <option value="masters" selected>Master of Project Management (72cp, 1.5 yrs)</option>
+        <option value="dip">Graduate Diploma in Project Management (48cp, 1 yr)</option>
+        <option value="cert">Graduate Certificate in Project Management (24cp, 0.5 yr)</option>
+      </select>
     </div>
   </div>
-</div>
 
+  <div id="pg-capture-root" style="background:var(--bg);padding:clamp(6px,2.2vw,22px);border-radius:14px;">
+    <div id="pg-banner" style="background:var(--usyd-red);border-radius:12px;padding:clamp(8px,2vw,20px) clamp(10px,2.4vw,24px);margin-bottom:clamp(8px,2vw,20px);">
+      <div id="pg-title" style="font-family:var(--font-heading);font-weight:700;font-size:clamp(12px,2.2vw,22px);line-height:1.2;color:white;">Master of Project Management</div>
+      <div id="pg-disclaimer" style="font-family:var(--font-body);font-size:clamp(7px,1vw,11px);font-style:italic;color:rgba(255,255,255,.8);margin-top:4px;"></div>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px;">
+        <div id="pg-commencing-tabs" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+        <div id="pg-links" style="display:flex;flex-wrap:wrap;gap:8px;margin-left:auto;">
+          <a href="https://www.sydney.edu.au/handbooks/engineering-pg/project-management/project-management/unit-of-study-table.html" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:5px;padding:5px 13px;border-radius:999px;font-size:11px;font-weight:700;text-decoration:none;background:rgba(255,255,255,.14);color:white;border:1.5px solid rgba(255,255,255,.55);">Handbook &#8599;</a>
+          <a href="https://www.sydney.edu.au/courses/courses/pc/master-of-project-management.html" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:5px;padding:5px 13px;border-radius:999px;font-size:11px;font-weight:700;text-decoration:none;background:rgba(255,255,255,.14);color:white;border:1.5px solid rgba(255,255,255,.55);">Course Page &mdash; MPM &#8599;</a>
+          <a href="https://www.sydney.edu.au/courses/courses/pc/graduate-diploma-in-project-management.html" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:5px;padding:5px 13px;border-radius:999px;font-size:11px;font-weight:700;text-decoration:none;background:rgba(255,255,255,.14);color:white;border:1.5px solid rgba(255,255,255,.55);">Course Page &mdash; Grad Dip &#8599;</a>
+          <a href="https://www.sydney.edu.au/courses/courses/pc/graduate-certificate-in-project-management.html" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:5px;padding:5px 13px;border-radius:999px;font-size:11px;font-weight:700;text-decoration:none;background:rgba(255,255,255,.14);color:white;border:1.5px solid rgba(255,255,255,.55);">Course Page &mdash; Grad Cert &#8599;</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="pg-card" style="background:white;border:1px solid var(--border);border-radius:10px;padding:clamp(6px,2.2vw,22px);">
+      <details id="pg-award-reqs" style="margin-bottom:14px;border:1px solid var(--border);border-radius:8px;padding:8px 12px;background:var(--bg);">
+        <summary style="cursor:pointer;font-weight:700;font-size:12.5px;color:var(--text);">Award requirements</summary>
+        <div id="pg-award-reqs-body" style="font-size:12px;line-height:1.6;color:var(--text);margin-top:8px;"></div>
+      </details>
+
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:clamp(6px,1.6vw,16px);margin-bottom:8px;">
+        <div style="display:flex;gap:clamp(6px,1.6vw,16px);flex-wrap:wrap;font-size:clamp(8px,1.3vw,13px);align-items:center;">
+          <div class="swatch-check"><div class="swatch" style="background:var(--pg-tech-bg);border:2.5px solid var(--pg-tech-border);"></div> Technical core</div>
+          <div class="swatch-check"><div class="swatch" style="background:var(--pg-lead-bg);border:2.5px solid var(--pg-lead-border);"></div> Leadership core</div>
+          <div class="swatch-check"><div class="swatch" style="background:var(--pg-strat-bg);border:2.5px solid var(--pg-strat-border);"></div> Strategic core</div>
+          <div class="swatch-check"><div class="swatch" style="background:var(--pg-thesis-bg);border:2.5px solid var(--pg-thesis-border);"></div> Thesis unit</div>
+          <div class="swatch-check"><div class="swatch" style="background:var(--pg-elective-grey-bg);border:2.5px dashed var(--pg-elective-grey-border);"></div> Open elective &mdash; drag a unit here</div>
+        </div>
+        <div id="pg-pathway-picker" style="display:flex;align-items:center;gap:8px;margin-left:auto;font-size:12px;flex-wrap:wrap;">
+          <span class="ctrl-label" id="pg-pathway-label">Pathway</span>
+          <label class="pg-pathway-toggle" id="pg-pathway-coursework-label">
+            <input type="radio" name="pg-pathway" value="coursework" checked onchange="renderPGMap()"> Coursework Pathway
+          </label>
+          <label class="pg-pathway-toggle" id="pg-pathway-research-label">
+            <input type="radio" name="pg-pathway" value="research" onchange="renderPGMap()"> Research Pathway (Thesis)
+          </label>
+        </div>
+      </div>
+      <div id="pg-dnd-hint" style="font-size:11px;color:var(--text-muted);margin:0 0 16px;font-style:italic;">Drag a unit from the Elective Bank below onto an open elective slot. Slots only accept units offered in that slot's calendar semester (based on your commencing semester above).</div>
+
+      <div class="pg-two-col" style="display:grid;grid-template-columns:3fr 2fr;gap:20px;align-items:stretch;">
+        <div id="pg-grid" style="min-width:0;height:100%;"></div>
+        <div id="pg-elective-bank" style="min-width:400px;max-width:580px;height:100%;"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+<script>
+// ─── Master of Project Management — nested Grad Cert / Grad Dip / Masters map ───
+// Source: PDF "Master of Project Management — Unit of study table" (credit-point
+// rules, prerequisites, elective categories) + the MPM Programme Structure SVG
+// (exact semester placement and offering/discontinued flags). All core units are
+// offered in both S1 and S2, so the Grad Certificate's four required units
+// (PMGT5205 + PMGT5811 + PMGT5858 + PMGT5872) and the Grad Diploma's six core
+// units both land within the first two semesters of the continuing-student
+// sequence shown here; a standalone one-semester Cert enrolment would simply
+// take the same four units together in Semester 1.
+
+// Each unit carries the AWARD TIER it belongs to — the earliest exit point
+// that requires it — so the "Award" selector can show/dim the right units:
+// 'cert' units are needed for all three awards, 'dip' units for Diploma and
+// Masters, 'masters' units for the Masters only.
+const PG_CORE_UNITS = {
+  s1: [
+    { code:'PMGT5205', name:'Professional Project Practice', cat:'tech', tier:'cert', sem:'S1 + S2' },
+    { code:'PMGT5811', name:'Critical and Systems Thinking', cat:'lead', tier:'cert', sem:'S1 + S2' },
+    { code:'PMGT5858', name:'Project Initiation', cat:'strat', tier:'cert', sem:'S1 + S2' },
+  ],
+  s2: [
+    { code:'PMGT5820', name:'Execution and Acceptance', cat:'tech', tier:'dip', sem:'S1 + S2', note:'P PMGT5205 + PMGT5858 + PMGT5811' },
+    { code:'PMGT5871', name:'Project Planning', cat:'tech', tier:'dip', sem:'S1 + S2', note:'P PMGT5205 + PMGT5858 + PMGT5811' },
+    { code:'PMGT5872', name:'People and Communications', cat:'lead', tier:'cert', sem:'S1 + S2' },
+  ],
+  s3: [
+    { code:'PMGT5850', name:'Project Management Capstone Project', cat:'tech', tier:'masters', sem:'S1 + S2', note:'P 36cp of Core units' },
+  ],
+};
+
+// The "4th slot" in each semester: an open elective by default, or — with the
+// Research Pathway toggle on — the fixed Thesis unit for that semester. The
+// Sem 1/2 slots are Diploma-tier (2 electives are part of the 48cp Diploma);
+// the Sem 3 slot is Masters-tier (the remaining electives/thesis units).
+const PG_TOGGLE_SLOTS = {
+  s1: { code:'PMGT5862', name:'Introduction to Research in Project Studies', cat:'thesis', tier:'dip', sem:'S1 + S2', note:'Starts the Research Pathway thesis sequence' },
+  s2: { code:'PMGT5883', name:'Project Studies Thesis A', cat:'thesis', tier:'dip', sem:'S1 + S2', note:'A \u226580 in PMGT5862 and WAM \u226575 in enrolled MPM/MPPM program \u00b7 P PMGT5862', permission:true },
+  s3: { code:'PMGT5884', name:'Project Studies Thesis B', cat:'thesis', tier:'masters', sem:'S1 + S2', note:'P PMGT5883 + PMGT5862' },
+};
+const PG_ELECTIVE_TIER = { s1:'dip', s2:'dip', s3:'masters' };
+const PG_AWARD_RANK = { cert:0, dip:1, masters:2 };
+const PG_AWARD_LABEL = { cert:'Graduate Certificate in Project Management', dip:'Graduate Diploma in Project Management', masters:'Master of Project Management' };
+
+// Year 2 Semester 1 always has two further open elective slots regardless of
+// pathway (coursework: 3 electives total that semester; research: 2 electives
+// + the fixed Thesis B toggle slot above).
+const PG_ELECTIVE_SLOTS_S3 = 2;
+
+const PG_ELECTIVE_BANK = {
+  technical: [
+    { code:'PMGT5873', name:'Project Economics and Procurement', sem:'S1' },
+    { code:'PMGT5895', name:'Contracts Management', sem:'S1' },
+    { code:'PMGT5887', name:'Computer Applications', sem:'S1 + S2' },
+    { code:'PMGT5889', name:'Project Controls', sem:'S2' },
+    { code:'PMGT6885', name:'Project Placement Special Topic', sem:'S1 + S2', note:'P 48cp of 5000/6000-level units, WAM \u226575 & Director approval' },
+    { code:'PMGT5866', name:'Quantitative Methods: Project Management', sem:'\u2014' },
+  ],
+  leadership: [
+    { code:'COMP9208', name:'Artificial Intelligence and Society', sem:'S1', note:'Assumed knowledge: 1st-year mathematics' },
+    { code:'PMGT5876', name:'Change Implementation', sem:'S1' },
+    { code:'PMGT5875', name:'Project Innovation Management', sem:'S2' },
+    { code:'PMGT6888', name:'International Project Study Tour', sem:'S1 + S2', note:'P 24cp completed with WAM \u226565' },
+  ],
+  strategic: [
+    { code:'PMGT5891', name:'Strategic Risk Management', sem:'S1 + S2' },
+    { code:'PMGT5896', name:'Sustainable Project Practice', sem:'S2' },
+    { code:'PMGT5886', name:'System Dynamics Modelling for PM', sem:'\u2014' },
+    { code:'PMGT5862', name:'Introduction to Research in Project Studies', sem:'S1 + S2', note:'If not continuing to thesis, this counts as a Strategic elective' },
+  ],
+};
+
+const PG_CAT_CLASS = { tech:'pg-tech', lead:'pg-lead', strat:'pg-strat', thesis:'pg-thesis' };
+
+// Flat lookup by unit code, tagged with its discipline, for drag-and-drop:
+// looking up what was dragged, and colouring it correctly once placed.
+const PG_ELECTIVE_LOOKUP = {};
+Object.entries(PG_ELECTIVE_BANK).forEach(([group, list]) => {
+  const cat = { technical:'tech', leadership:'lead', strategic:'strat' }[group];
+  list.forEach(u => { PG_ELECTIVE_LOOKUP[u.code] = { ...u, cat }; });
+});
+
+// slotId -> unit code the user has dragged into that open elective slot.
+let pgPlacements = {};
+// Unit code currently being dragged (dataTransfer.getData isn't reliably
+// readable during dragover, so the in-progress drag is tracked here instead).
+let pgDragCode = null;
+// Commencing semester, chosen via the pill tabs in the banner (mirrors the
+// Undergraduate page's S1/S2 Entry tabs).
+let pgCommencing = 'S1';
+
+// Which elective slot IDs actually exist (open, droppable) for the given
+// award + pathway state — mirrors the slot logic inside renderPGMap.
+function pgGetActiveSlotIds(award, isResearch) {
+  if (award === 'cert') return [];
+  const semKeys = award === 'dip' ? ['s1', 's2'] : ['s1', 's2', 's3'];
+  const awardRank = PG_AWARD_RANK[award];
+  const slots = [];
+  semKeys.forEach(k => {
+    if (k === 's3') {
+      for (let e = 0; e < PG_ELECTIVE_SLOTS_S3; e++) slots.push(`s3-elective-${e}`);
+    }
+    const slotDimmed = PG_AWARD_RANK[PG_ELECTIVE_TIER[k]] > awardRank;
+    if (!slotDimmed && !isResearch) slots.push(`${k}-toggle`);
+  });
+  return slots;
+}
+
+// Calendar semester a given slot resolves to for a commencing value.
+function pgSlotCalSem(slotId, award, commencing) {
+  const semKeys = award === 'dip' ? ['s1', 's2'] : ['s1', 's2', 's3'];
+  const k = slotId.startsWith('s3-elective-') ? 's3' : slotId.replace('-toggle', '');
+  return pgCalendarSem(semKeys.indexOf(k), commencing);
+}
+
+function pgSelectCommencing(value) {
+  if (value === pgCommencing) return;
+
+  const awardSelector = document.getElementById('pg-award-selector');
+  const award = awardSelector ? awardSelector.value : 'masters';
+  const pathwayChecked = document.querySelector('input[name="pg-pathway"]:checked');
+  const isResearch = pathwayChecked ? pathwayChecked.value === 'research' : false;
+
+  const activeSlots = pgGetActiveSlotIds(award, isResearch);
+  const oldPlacements = pgPlacements;
+  const newPlacements = {};
+
+  // Units still valid in their existing slot under the new commencing keep it.
+  activeSlots.forEach(slotId => {
+    const code = oldPlacements[slotId];
+    if (!code) return;
+    const unit = PG_ELECTIVE_LOOKUP[code];
+    const newCalSem = pgSlotCalSem(slotId, award, value);
+    if (unit && pgSemCompatible(unit.sem, newCalSem)) newPlacements[slotId] = code;
+  });
+
+  // Everything else that was placed gets reshuffled into whichever other slot
+  // now matches its offering — swapping units around rather than bumping them
+  // off, since flipping the commencing semester just swaps which slots are S1
+  // vs S2 rather than changing what's actually available.
+  const displaced = activeSlots
+    .filter(slotId => oldPlacements[slotId] && !newPlacements[slotId])
+    .map(slotId => oldPlacements[slotId]);
+  let freeSlots = activeSlots.filter(slotId => !newPlacements[slotId]);
+
+  displaced.forEach(code => {
+    const unit = PG_ELECTIVE_LOOKUP[code];
+    const idx = freeSlots.findIndex(slotId => unit && pgSemCompatible(unit.sem, pgSlotCalSem(slotId, award, value)));
+    if (idx !== -1) {
+      newPlacements[freeSlots[idx]] = code;
+      freeSlots.splice(idx, 1);
+    }
+    // If truly nothing fits anywhere (rare), the unit is dropped back to the bank.
+  });
+
+  pgPlacements = newPlacements;
+  pgCommencing = value;
+  renderPGMap();
+}
+
+function renderPGCommencingTabs(active, visible) {
+  const el = document.getElementById('pg-commencing-tabs');
+  if (!el) return;
+  if (!visible) { el.style.display = 'none'; el.innerHTML = ''; return; }
+  const entries = [['S1', 'S1 Commencing'], ['S2', 'S2 Commencing']];
+  el.innerHTML = entries.map(([id, label]) => {
+    const isActive = id === active;
+    const style = isActive
+      ? 'background:white;color:var(--usyd-red);border-color:white;'
+      : 'background:transparent;color:white;border-color:rgba(255,255,255,.5);';
+    return `<button onclick="pgSelectCommencing('${id}')" style="padding:5px 13px;border-radius:999px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid;transition:all .15s ease;${style}">${label}</button>`;
+  }).join('');
+  el.style.display = 'flex';
+}
+
+// A unit can be dropped into a slot if it's offered in that slot's calendar
+// semester (or offered in both).
+function pgSemCompatible(unitSem, calSem) {
+  return unitSem === 'S1 + S2' || unitSem === calSem;
+}
+
+// Study-semester index (0 = first semester of study, 1 = second, 2 = third)
+// alternates between the two calendar semesters starting from whichever
+// semester the student commences in.
+function pgCalendarSem(studyIndex, commencing) {
+  const other = commencing === 'S1' ? 'S2' : 'S1';
+  return studyIndex % 2 === 0 ? commencing : other;
+}
+
+function pgDragStart(e, code) {
+  pgDragCode = code;
+  e.dataTransfer.setData('text/plain', code);
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function pgDragOver(e, calSem) {
+  const unit = PG_ELECTIVE_LOOKUP[pgDragCode];
+  if (unit && pgSemCompatible(unit.sem, calSem)) {
+    e.preventDefault();
+    e.currentTarget.classList.add('pg-drop-ok');
+  } else if (pgDragCode) {
+    e.currentTarget.classList.add('pg-drop-bad');
+  }
+}
+
+function pgDragLeave(e) {
+  e.currentTarget.classList.remove('pg-drop-ok', 'pg-drop-bad');
+}
+
+function pgDrop(e, slotId, calSem) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('pg-drop-ok', 'pg-drop-bad');
+  const code = pgDragCode;
+  const unit = PG_ELECTIVE_LOOKUP[code];
+  pgDragCode = null;
+  if (!unit || !pgSemCompatible(unit.sem, calSem)) return;
+  // Each unit can only be placed once — clear any previous slot it occupied.
+  Object.keys(pgPlacements).forEach(k => { if (pgPlacements[k] === code) delete pgPlacements[k]; });
+  pgPlacements[slotId] = code;
+  renderPGMap();
+}
+
+function pgRemovePlacement(slotId) {
+  delete pgPlacements[slotId];
+  renderPGMap();
+}
+
+
+// Verbatim from the Handbook's "6 Requirements for award" clause for the
+// Master of Project Management, Graduate Diploma and Graduate Certificate.
+const PG_AWARD_REQS = {
+  cert: `
+    <p style="margin:0 0 6px;">To qualify for the award of the <b>Graduate Certificate in Project Management</b> a candidate must complete 24 credit points, including:</p>
+    <ol type="a" style="padding-left:20px;margin:0;">
+      <li>6 credit points of Project Management Technical Core units of study;</li>
+      <li>6 credit points of Project Management Strategic units of study; and</li>
+      <li>12 credit points of Project Management Leadership units of study.</li>
+    </ol>`,
+  dip: `
+    <p style="margin:0 0 6px;">To qualify for the award of the <b>Graduate Diploma in Project Management</b> a candidate must complete 48 credit points, including:</p>
+    <ol type="a" style="padding-left:20px;margin:0;">
+      <li>18 credit points of Project Management Technical Core units of study;</li>
+      <li>12 credit points of Project Management Leadership Core units of study;</li>
+      <li>6 credit points of Project Management Strategic Core units of study; and</li>
+      <li>12 credit points of Elective units of study, which may include PMGT5862 Introduction to Research in Project Studies.</li>
+    </ol>`,
+  masters: `
+    <p style="margin:0 0 6px;">To qualify for the award of the <b>Master of Project Management</b>, a candidate must complete 72 credit points, including:</p>
+    <ol type="a" style="padding-left:20px;margin:0 0 8px;">
+      <li>24 credit points of Project Management Technical Core units of study;</li>
+      <li>12 credit points of Project Management Leadership Core units of study;</li>
+      <li>6 credit points of Project Management Strategic Core units of study;</li>
+      <li>30 credit points from either the research pathway or the coursework pathway.</li>
+    </ol>
+    <p style="margin:0 0 4px;">To complete the <b>coursework pathway</b> a candidate must complete:</p>
+    <p style="margin:0 0 4px;">30 credit points of Elective units of study, including:</p>
+    <ul style="padding-left:20px;margin:0 0 8px;">
+      <li>A minimum 6 and maximum 18 credit points of Technical Electives</li>
+      <li>A minimum 6 and maximum 18 credit points of Strategic Electives</li>
+      <li>A minimum 6 and maximum 18 credit points of Leadership Electives</li>
+    </ul>
+    <p style="margin:0 0 4px;">To complete the <b>research pathway</b> a candidate must complete:</p>
+    <ul style="padding-left:20px;margin:0;">
+      <li>18 credit points of Thesis units; and</li>
+      <li>12 credit points of elective units of study, including:
+        <ul style="padding-left:20px;margin:2px 0 0;">
+          <li>6 credit points of strategic elective units; and</li>
+          <li>6 credit points of leadership elective units.</li>
+        </ul>
+      </li>
+    </ul>`,
+};
+
+function renderPGAwardRequirements(award) {
+  const body = document.getElementById('pg-award-reqs-body');
+  if (body) body.innerHTML = PG_AWARD_REQS[award] || '';
+}
+
+// Renders semester-offering pills exactly as the Undergraduate Sample Course
+// Plans page does — one badge per offering, S1 green / S2 orange — so a unit
+// offered in both semesters shows both badges side by side. Units with no
+// confirmed semester (not offered this year, and it isn't yet known whether
+// they'll run next year) get a neutral "Availability TBC" badge instead.
+function pgOfferingBadges(sem) {
+  if (sem === 'S1 + S2') return '<span class="badge badge-s1">S1</span><span class="badge badge-s2">S2</span>';
+  if (sem === 'S1') return '<span class="badge badge-s1">S1</span>';
+  if (sem === 'S2') return '<span class="badge badge-s2">S2</span>';
+  return '<span class="badge badge-tbc">Availability TBC</span>';
+}
+
+function pgUnitTile(u, dimmed, dimNote, removeSlotId) {
+  if (!u) return '';
+  const cls = PG_CAT_CLASS[u.cat] || '';
+  const note = dimmed ? (dimNote || u.note) : u.note;
+  return `<div class="pg-unit ${cls}${removeSlotId ? ' pg-placed-unit' : ''}"${dimmed ? ' style="opacity:.4;"' : ''}>
+    ${removeSlotId ? `<div class="pg-unit-remove" onclick="pgRemovePlacement('${removeSlotId}')" title="Remove from this slot">&#10005;</div>` : ''}
+    <div class="pg-unit-top">
+      <div class="pg-unit-code">${u.code}</div>
+      <div class="pg-unit-badges">${pgOfferingBadges(u.sem)}</div>
+    </div>
+    <div class="pg-unit-name">${u.name}</div>
+    ${note ? `<div class="pg-unit-note">${note}</div>` : ''}
+    ${u.permission ? `<div class="pg-unit-badges" style="margin-top:4px;"><span class="badge badge-permission">Departmental Permission Required</span></div>` : ''}
+  </div>`;
+}
+
+// A droppable open-elective slot. If a unit has already been dragged into it
+// (and is still valid for this slot's calendar semester), it renders as a
+// filled, colour-coded tile with a remove button; otherwise it renders as a
+// dashed drop target that only accepts units offered in calSem.
+function pgElectiveSlot(slotId, calSem, dimmed, dimLabel) {
+  if (dimmed) {
+    return `<div class="pg-elective-slot" style="opacity:.4;">${dimLabel}</div>`;
+  }
+  const placedCode = pgPlacements[slotId];
+  const placedUnit = placedCode ? PG_ELECTIVE_LOOKUP[placedCode] : null;
+  if (placedUnit && pgSemCompatible(placedUnit.sem, calSem)) {
+    return pgUnitTile(placedUnit, false, null, slotId);
+  }
+  if (placedCode) delete pgPlacements[slotId]; // no longer valid for this calendar semester
+  return `<div class="pg-elective-slot" data-slot="${slotId}" data-calsem="${calSem}"
+    ondragover="pgDragOver(event,'${calSem}')" ondragleave="pgDragLeave(event)" ondrop="pgDrop(event,'${slotId}','${calSem}')">
+    PM Elective (${calSem})<br>(Technical, Leadership or Strategic)
+  </div>`;
+}
+
+function renderPGMap() {
+  const checked = document.querySelector('input[name="pg-pathway"]:checked');
+  const isResearch = checked ? checked.value === 'research' : false;
+
+  const awardSelector = document.getElementById('pg-award-selector');
+  const award = awardSelector ? awardSelector.value : 'masters';
+  const awardRank = PG_AWARD_RANK[award];
+  renderPGAwardRequirements(award);
+
+  // Banner title + disclaimer, matching the Undergraduate page's pattern:
+  // just the degree name and a one-line "sample course plan only" notice —
+  // no separate descriptive subheading.
+  const titleEl = document.getElementById('pg-title');
+  const disclaimerEl = document.getElementById('pg-disclaimer');
+  titleEl.textContent = PG_AWARD_LABEL[award];
+  disclaimerEl.textContent = award === 'masters'
+    ? 'This is a sample course plan only, for the Master of Project Management (coursework or research pathway). Always confirm current requirements against the official Handbook.'
+    : `This is a sample course plan only, for the ${PG_AWARD_LABEL[award]}. Always confirm current requirements against the official Handbook.`;
+
+  const commencing = pgCommencing;
+
+  // The pathway toggle (coursework vs research) only matters once electives
+  // start being awarded — hide it for the Certificate-only view since none
+  // of its 4 units are elective slots. The commencing-semester tabs stay
+  // visible even for the Certificate — every one of its units is offered in
+  // both S1 and S2, so switching the tab never actually changes anything,
+  // but it's still shown for consistency with the other award views.
+  const showPathway = award !== 'cert';
+  ['pg-pathway-label', 'pg-pathway-coursework-label', 'pg-pathway-research-label'].forEach(id => {
+    document.getElementById(id).style.display = showPathway ? '' : 'none';
+  });
+  renderPGCommencingTabs(commencing, true);
+
+  // The drag-and-drop hint only makes sense once there's an Elective Bank to
+  // drag from — the Certificate has no electives at all.
+  document.getElementById('pg-dnd-hint').style.display = award === 'cert' ? 'none' : '';
+
+  if (award === 'cert') {
+    // Every Certificate unit (PMGT5205, PMGT5811, PMGT5858, PMGT5872) is
+    // offered in both S1 and S2, so — unlike the continuing-student sequence
+    // shown for the Diploma/Masters, where PMGT5872 happens to fall in
+    // Semester 2 — a standalone Certificate student can take all four
+    // together in a single semester and finish in 0.5 years.
+    const certUnits = [...PG_CORE_UNITS.s1, ...PG_CORE_UNITS.s2.filter(u => u.tier === 'cert')];
+    const tiles = certUnits.map(u => pgUnitTile(u)).join('');
+    const milestone = `<div class="pg-milestone"><b>\u{1F393} Graduate Certificate</b> \u2014 complete once all four units below are done (24cp, 4 units)</div>`;
+    document.getElementById('pg-grid').innerHTML =
+      `<div class="pg-sem-col"><div class="pg-sem-title">Semester 1</div><div class="pg-sem-units">${tiles}</div>${milestone}</div>`;
+    document.getElementById('pg-elective-bank').innerHTML = '';
+    return;
+  }
+
+  let semKeys, semLabelBases;
+  if (award === 'dip') {
+    semKeys = ['s1', 's2'];
+    semLabelBases = ['Year 1 \u00b7 Semester 1', 'Year 1 \u00b7 Semester 2'];
+  } else {
+    semKeys = ['s1', 's2', 's3'];
+    semLabelBases = ['Year 1 \u00b7 Semester 1', 'Year 1 \u00b7 Semester 2', 'Year 2 \u00b7 Semester 1'];
+  }
+
+  let colsHtml = '';
+  semKeys.forEach((k, i) => {
+    const calSem = pgCalendarSem(i, commencing);
+    let tiles = PG_CORE_UNITS[k].map(u => {
+      const dimmed = PG_AWARD_RANK[u.tier] > awardRank;
+      return pgUnitTile(u, dimmed, dimmed ? `${PG_AWARD_LABEL[u.tier]} requirement — not needed for the ${PG_AWARD_LABEL[award]}` : u.note);
+    }).join('');
+
+    if (k === 's3') {
+      for (let e = 0; e < PG_ELECTIVE_SLOTS_S3; e++) tiles += pgElectiveSlot(`s3-elective-${e}`, calSem, false);
+    }
+
+    const slotTier = PG_ELECTIVE_TIER[k];
+    const slotDimmed = PG_AWARD_RANK[slotTier] > awardRank;
+    if (slotDimmed) {
+      tiles += pgElectiveSlot(`${k}-toggle`, calSem, true, `Elective slot<br>(part of the ${PG_AWARD_LABEL[slotTier]}, not the ${PG_AWARD_LABEL[award]})`);
+    } else {
+      tiles += isResearch ? pgUnitTile(PG_TOGGLE_SLOTS[k]) : pgElectiveSlot(`${k}-toggle`, calSem, false);
+    }
+
+    let milestone = '';
+    if (k === 's2') {
+      const certPhrase = awardRank > PG_AWARD_RANK.cert
+        ? `<b>\u{1F393} Option to exit early \u2014 Graduate Certificate</b>: available once PMGT5205, PMGT5811, PMGT5858 and PMGT5872 are complete (24cp, 4 units)`
+        : `<b>\u{1F393} Graduate Certificate</b> \u2014 complete once PMGT5205, PMGT5811, PMGT5858 and PMGT5872 are done (24cp, 4 units)`;
+      milestone = `<div class="pg-milestone">${certPhrase}`;
+      if (awardRank >= PG_AWARD_RANK.dip) {
+        const dipPhrase = awardRank > PG_AWARD_RANK.dip
+          ? `<b>\u{1F393} Option to exit early \u2014 Graduate Diploma</b>: available at the end of this semester, following completion of the 6 core units above plus the 2 electives so far (48cp, 8 units)`
+          : `<b>\u{1F393} Graduate Diploma</b> \u2014 complete at the end of this semester: the 6 core units above plus the 2 electives so far (48cp, 8 units)`;
+        milestone += `<br>${dipPhrase}`;
+      }
+      if (awardRank > PG_AWARD_RANK.dip) {
+        milestone += `<div style="font-weight:400;font-style:italic;margin-top:5px;">Exiting early requires a separate application to transfer awards \u2014 these qualifications are not automatically granted if you continue in the Master of Project Management.</div>`;
+      }
+      milestone += `</div>`;
+    } else if (k === 's3') {
+      milestone = `<div class="pg-milestone">
+        <b>\u{1F393} Master of Project Management</b> \u2014 complete at the end of this semester: 12 units in total (72cp)
+      </div>`;
+    }
+
+    const semLabel = `${semLabelBases[i]} <span style="font-weight:400;color:var(--text-muted);">(${calSem})</span>`;
+    colsHtml += `<div class="pg-sem-col"><div class="pg-sem-title">${semLabel}</div><div class="pg-sem-units">${tiles}</div>${milestone}</div>`;
+  });
+
+  document.getElementById('pg-grid').innerHTML =
+    `<div style="display:flex;flex-direction:column;gap:16px;height:100%;">${colsHtml}<div style="flex:1 0 0;"></div></div>`;
+
+  const bankEl = document.getElementById('pg-elective-bank');
+
+  // For the "placed in ..." note on a bank tile that's currently in the map.
+  const slotLabelMap = {};
+  semKeys.forEach((k, i) => { slotLabelMap[`${k}-toggle`] = semLabelBases[i]; });
+  if (semKeys.includes('s3')) {
+    slotLabelMap['s3-elective-0'] = semLabelBases[semKeys.indexOf('s3')];
+    slotLabelMap['s3-elective-1'] = semLabelBases[semKeys.indexOf('s3')];
+  }
+
+  function pgBankColumn(title, list, catClass, wide) {
+    const items = list.map(u => {
+      const isPlacedByToggle = isResearch && u.code === 'PMGT5862';
+      const placedSlot = Object.keys(pgPlacements).find(k => pgPlacements[k] === u.code);
+      const isPlacedManually = !!placedSlot;
+      const dimmed = isPlacedByToggle || isPlacedManually;
+      const draggable = !dimmed;
+      const badges = pgOfferingBadges(u.sem);
+      return `<div class="eb-unit ${catClass}" style="${wide ? 'width:calc(50% - 5px);flex:0 0 calc(50% - 5px);' : 'width:100%;flex:1 1 auto;'}${dimmed ? 'opacity:.5;' : ''}"
+        ${draggable ? `draggable="true" ondragstart="pgDragStart(event,'${u.code}')"` : ''}
+        title="${draggable ? 'Drag onto a matching open elective slot' : ''}">
+        <div class="eb-unit-code">${u.code}</div>
+        <div class="eb-unit-name">${u.name}</div>
+        <div style="display:flex;gap:3px;flex-wrap:wrap;align-items:center;margin-top:4px;">
+          ${badges}
+          ${u.note ? `<span class="eb-unit-sem" style="color:inherit;opacity:.8;">${badges ? '\u00b7 ' : ''}${u.note}</span>` : ''}
+        </div>
+        ${isPlacedByToggle ? '<div style="font-size:9px;color:var(--usyd-red);font-weight:700;margin-top:2px;">Placed automatically via Research Pathway toggle</div>' : ''}
+        ${isPlacedManually ? `<div style="font-size:9px;color:var(--usyd-red);font-weight:700;margin-top:2px;">Placed in ${slotLabelMap[placedSlot] || 'the map'}</div>` : ''}
+      </div>`;
+    }).join('');
+    return `<div class="eb-panel">
+      <div class="eb-header"><div class="eb-title">${title}</div></div>
+      <div class="eb-list" style="flex-direction:${wide ? 'row' : 'column'};flex-wrap:${wide ? 'wrap' : 'nowrap'};">${items}</div>
+    </div>`;
+  }
+
+  document.getElementById('pg-elective-bank').innerHTML = `
+    <div style="display:flex;flex-direction:column;height:100%;">
+      <div class="section-title" style="font-size:16px;margin-bottom:8px;">Elective Bank</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        ${pgBankColumn('Technical Electives', PG_ELECTIVE_BANK.technical, 'pg-eb-tech')}
+        ${pgBankColumn('Leadership Electives', PG_ELECTIVE_BANK.leadership, 'pg-eb-lead')}
+        <div style="grid-column:1 / -1;">${pgBankColumn('Strategic Electives', PG_ELECTIVE_BANK.strategic, 'pg-eb-strat', true)}</div>
+      </div>
+      <div style="flex:1 0 0;"></div>
+    </div>`;
+}
+
+function exportPGMapJPEG() {
+  const el = document.getElementById('pg-capture-root');
+  if (!el) return;
+  const rect = el.getBoundingClientRect();
+  const clone = el.cloneNode(true);
+  // Preserve the element's own background/padding/border-radius — only add
+  // the positioning needed to render it off-screen at the same width.
+  clone.style.width = `${rect.width}px`;
+  clone.style.position = 'fixed';
+  clone.style.top = '0';
+  clone.style.left = '-20000px';
+  document.body.appendChild(clone);
+
+  // The exported image should only show the banner, the legend, and the map
+  // itself — not the interactive controls around them (the commencing-
+  // semester tabs, the course-links row, the pathway picker, the drag-and-
+  // drop hint, or the collapsible award-requirements box). Strip just those
+  // from the CLONE so the live page the person is looking at is untouched.
+  ['pg-commencing-tabs', 'pg-links', 'pg-award-reqs', 'pg-pathway-picker', 'pg-dnd-hint']
+    .forEach(id => { const node = clone.querySelector(`#${id}`); if (node) node.remove(); });
+
+  void clone.offsetHeight; // force reflow before capture
+
+  const pathway = document.querySelector('input[name="pg-pathway"]:checked');
+  const pathwayName = pathway && pathway.value === 'research' ? 'research' : 'coursework';
+
+  html2canvas(clone, { scale:6, backgroundColor:'#fcede2', useCORS:true, logging:false }).then(canvas => {
+    document.body.removeChild(clone);
+    const link = document.createElement('a');
+    link.download = `MPM_Programme_Map_${pathwayName}.jpg`;
+    link.href = canvas.toDataURL('image/jpeg', 0.92);
+    link.click();
+  }).catch(err => {
+    document.body.removeChild(clone);
+    console.error('Export failed', err);
+    alert('Sorry, the export failed. Please try again.');
+  });
+}
+
+renderPGMap();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </body>
 </html>

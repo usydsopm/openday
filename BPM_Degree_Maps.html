@@ -549,9 +549,10 @@ html,body{overflow-x:hidden;max-width:100%;}
 .eb-title{font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.07em;}
 .eb-list{display:flex;flex-wrap:wrap;gap:6px;padding:8px;}
 .eb-unit{border-radius:5px;border:1.5px solid var(--elective-border);background:var(--elective-bg);padding:5px 8px;position:relative;width:180px;flex:0 0 180px;transition:all .2s;}
-.eb-unit.draggable{cursor:grab;}
+.eb-unit.draggable{cursor:pointer;}
 .eb-unit.draggable:active{cursor:grabbing;}
 .eb-unit.draggable:hover{box-shadow:0 2px 8px rgba(0,0,0,.12);}
+.eb-unit.tap-selected{outline:3px solid var(--usyd-red);outline-offset:1px;}
 .eb-list.drag-over-bank{background:rgba(230,70,38,.06);outline:2px dashed var(--usyd-red);outline-offset:-4px;border-radius:6px;}
 .dp-elective-drop{transition:all .15s;}
 .dp-elective-drop.drag-over{outline:2.5px solid #1a5c19;outline-offset:-3px;background:#d4f5d8!important;}
@@ -715,6 +716,13 @@ const MAJOR_TO_MINOR_GROUP = {
 };
 const minorSelection = {}; // keyed by group id ('construction-major' etc.), persists across S1/S2 tab switches
 let minorGreyedSlots = {}; // keyed like electiveSlotAssignments — elective slots hidden/greyed while a minor is active
+// Tracks which electiveSlotAssignments entries were placed BY the minor logic
+// itself, as opposed to a unit the person dragged/tapped in manually. Only
+// keys in this set get cleared and reassigned when the minor selection
+// changes or the page re-renders — otherwise a manual placement would be
+// wiped out the instant it was made, since the exact same re-render that's
+// supposed to display it also runs the minor-assignment refresh.
+let minorAssignedSlotKeys = {};
 
 function buildSplitGradient(colors) {
   // Evenly-spaced diagonal split for 2 or 3 colours, reusing the exact
@@ -745,9 +753,14 @@ function isCodeNamedElsewhereInStructure(code, structure) {
 function applyMinorElectiveAssignments(selectedMajor, groupId) {
   // Clear this major's previous minor-driven assignments before reapplying —
   // otherwise switching minors (or switching back to "none") would leave
-  // stale placements behind.
-  Object.keys(electiveSlotAssignments).forEach(k => {
-    if (k.startsWith(selectedMajor + '::')) delete electiveSlotAssignments[k];
+  // stale placements behind. Only slots THIS function previously filled are
+  // touched here — a unit the person dragged or tapped into a plain elective
+  // slot themselves is never in minorAssignedSlotKeys, so it survives.
+  Object.keys(minorAssignedSlotKeys).forEach(k => {
+    if (k.startsWith(selectedMajor + '::')) {
+      delete electiveSlotAssignments[k];
+      delete minorAssignedSlotKeys[k];
+    }
   });
   Object.keys(minorGreyedSlots).forEach(k => {
     if (k.startsWith(selectedMajor + '::')) delete minorGreyedSlots[k];
@@ -777,7 +790,9 @@ function applyMinorElectiveAssignments(selectedMajor, groupId) {
           !electiveSlotAssignments[`${selectedMajor}::y${row.year}${semTag}-${i}`]
         );
         if (idx !== -1) {
-          electiveSlotAssignments[`${selectedMajor}::y${row.year}${semTag}-${idx}`] = code;
+          const key = `${selectedMajor}::y${row.year}${semTag}-${idx}`;
+          electiveSlotAssignments[key] = code;
+          minorAssignedSlotKeys[key] = true;
           placed = true;
           break;
         }
@@ -1000,6 +1015,35 @@ function handleElectiveDragEnd(event) {
   });
   const ebList = document.querySelector('.eb-list.drag-over-bank');
   if (ebList) ebList.classList.remove('drag-over-bank');
+}
+
+// ── Tap-to-place fallback ──────────────────────────────────────────────
+// Native HTML5 drag-and-drop (draggable="true" + dragstart/dragover/drop)
+// never fires from touch input on any mobile browser — touch only produces
+// touchstart/touchmove/touchend, which the Drag and Drop API doesn't listen
+// for at all. Tapping a bank unit "picks it up" (highlighted), and tapping
+// an open elective slot places it — this coexists with, and doesn't change,
+// the existing mouse-drag behaviour above.
+let tapSelectedPayload = null;
+
+function handleElectiveTapSelect(event, code, sem) {
+  event.stopPropagation();
+  tapSelectedPayload = (tapSelectedPayload && tapSelectedPayload.code === code) ? null : {code, sem};
+  refreshDegreePlanners();
+}
+
+function handleElectiveTapPlace(event, fullKey, requiredSem) {
+  event.stopPropagation();
+  if (!tapSelectedPayload) return;
+  if (!electiveSemMatches(tapSelectedPayload.sem, requiredSem)) {
+    const el = event.currentTarget;
+    el.classList.add('drag-invalid');
+    setTimeout(() => el.classList.remove('drag-invalid'), 450);
+    return;
+  }
+  electiveSlotAssignments[fullKey] = tapSelectedPayload.code;
+  tapSelectedPayload = null;
+  refreshDegreePlanners();
 }
 
 function electiveSemMatches(unitSem, requiredSem) {
@@ -1267,10 +1311,21 @@ function renderDegreePlanner(selectorId, gridId, overrideMajor) {
           </div>`;
         }
       }
-      return `<div class="dp-empty dp-elective-drop" data-slot-key="${fullKey}" data-required-sem="${requiredSem}"
+      let tapClass = '';
+      let tapLabel = 'BPM Elective';
+      if (tapSelectedPayload) {
+        if (electiveSemMatches(tapSelectedPayload.sem, requiredSem)) {
+          tapClass = ' drag-over';
+          tapLabel = `Tap to place ${tapSelectedPayload.code} here`;
+        } else {
+          tapLabel = `Not offered in ${requiredSem}`;
+        }
+      }
+      return `<div class="dp-empty dp-elective-drop${tapClass}" data-slot-key="${fullKey}" data-required-sem="${requiredSem}"
         ondragover="handleElectiveDragOver(event,'${requiredSem}')" ondragleave="handleElectiveDragLeave(event)" ondrop="handleElectiveDrop(event,'${fullKey}','${requiredSem}')"
+        onclick="handleElectiveTapPlace(event,'${fullKey}','${requiredSem}')"
         style="background:var(--elective-bg);border:2px dashed var(--elective-border);height:72px;border-radius:6px;display:flex;align-items:center;justify-content:center;">
-        <div style="font-size:8.5px;font-weight:600;color:#0a4f6b;text-transform:uppercase;letter-spacing:.05em;text-align:center;">BPM Elective</div>
+        <div style="font-size:8.5px;font-weight:600;color:#0a4f6b;text-transform:uppercase;letter-spacing:.05em;text-align:center;">${tapLabel}</div>
       </div>`;
     }
 
@@ -1409,11 +1464,13 @@ function renderDegreePlanner(selectorId, gridId, overrideMajor) {
     const isMergedSource = mergedSourceSet.has(u.code);
     const isMergedResult = mergedResultCodes.has(u.code);
     const isDraggable = !isRemoved && !isMergedSource;
+    const isTapSelected = tapSelectedPayload && tapSelectedPayload.code === u.code;
     let cls = 'eb-unit';
     if (isRemoved) cls += ' removed';
     if (isMergedSource) cls += ' merged-source';
     if (isMergedResult) cls += ' merged-result';
     if (isDraggable) cls += ' draggable';
+    if (isTapSelected) cls += ' tap-selected';
     const mergeDot = isMergedResult ? `<div class="eb-merge-dot">⊕</div>` : '';
     const semBadgeEB = offeringBadges(u);
     const lvlBadgeEB = `<span class="badge badge-level">${u.level}</span>`;
@@ -1421,13 +1478,14 @@ function renderDegreePlanner(selectorId, gridId, overrideMajor) {
     const deletedTag = isRemoved ? `<div style="font-size:7px;color:#bbb;font-style:italic;">deleted</div>` : '';
     const mergedTag = isMergedSource ? `<div style="font-size:7px;color:#888;font-style:italic;">→ merged</div>` : '';
     const dragAttrs = isDraggable
-      ? `draggable="true" ondragstart="handleElectiveDragStart(event,'${u.code}','${u.sem}')" ondragend="handleElectiveDragEnd(event)"`
+      ? `draggable="true" ondragstart="handleElectiveDragStart(event,'${u.code}','${u.sem}')" ondragend="handleElectiveDragEnd(event)" onclick="handleElectiveTapSelect(event,'${u.code}','${u.sem}')"`
       : '';
-    return `<div class="${cls}" ${dragAttrs} title="${isDraggable ? 'Drag into a matching S1/S2 elective slot' : ''}">${mergeDot}
+    return `<div class="${cls}" ${dragAttrs} title="${isDraggable ? 'Drag, or tap to select then tap a matching slot' : ''}">${mergeDot}
       <div class="eb-unit-code">${u.code}</div>
       <div class="eb-unit-name">${u.name}</div>
       <div style="display:flex;gap:3px;flex-wrap:wrap;margin-top:3px;">${minorBadgeEB}${lvlBadgeEB}${semBadgeEB}</div>
       ${deletedTag}${mergedTag}
+      ${isTapSelected ? '<div style="font-size:8px;color:var(--usyd-red);font-weight:700;margin-top:2px;">Selected — tap an open slot to place it</div>' : ''}
     </div>`;
   }).join('');
 

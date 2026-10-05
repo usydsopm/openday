@@ -2,6 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script>
+/* URL switches (see the notes in the Canvas embed guide):
+   ?embed=1            hide the site header + tabs (for iframing into Canvas)
+   ?view=semesters     MPM only: show just the semester grid (&milestones=1, &compact=1 optional)
+*/
+(function(){var p=new URLSearchParams(location.search),c=document.documentElement.classList;
+if(p.get('embed')==='1')c.add('embed');
+if(p.get('view')==='semesters'){c.add('view-semesters');if(p.get('milestones')==='1')c.add('show-milestones');if(p.get('compact')==='1')c.add('compact');}})();
+</script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Prospective Student Resources - School of Project Management</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -597,12 +607,6 @@ html,body{overflow-x:hidden;max-width:100%;}
 .pg-sem-col{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;container-type:inline-size;}
 .pg-sem-title{font-family:var(--font-heading);font-size:15px;font-weight:500;margin-bottom:10px;color:var(--text);}
 .pg-sem-units{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:stretch;}
-@container (max-width:780px){
-  .pg-sem-units{grid-template-columns:repeat(2,1fr);}
-}
-@container (max-width:360px){
-  .pg-sem-units{grid-template-columns:1fr;}
-}
 .pg-unit{border-radius:6px;border:2.5px solid;padding:8px 10px;min-height:138px;min-width:0;display:flex;flex-direction:column;justify-content:center;}
 .pg-unit-top{display:flex;align-items:flex-start;justify-content:space-between;gap:4px;}
 .pg-unit-code{font-family:var(--font-mono);font-size:11px;font-weight:700;}
@@ -619,12 +623,14 @@ html,body{overflow-x:hidden;max-width:100%;}
 .eb-unit.pg-eb-lead{background:var(--pg-lead-eb-bg);border-color:var(--pg-lead-eb-border);color:var(--pg-lead-eb-text);}
 .eb-unit.pg-eb-strat{background:var(--pg-strat-eb-bg);border-color:var(--pg-strat-eb-border);color:var(--pg-strat-eb-text);}
 .eb-unit.pg-eb-tech .eb-unit-sem,.eb-unit.pg-eb-lead .eb-unit-sem,.eb-unit.pg-eb-strat .eb-unit-sem{color:inherit;opacity:.8;}
-.eb-unit[draggable="true"]{cursor:grab;}
+.eb-unit[draggable="true"]{cursor:pointer;}
 .eb-unit[draggable="true"]:active{cursor:grabbing;}
 .eb-unit.pg-placed{opacity:.5;border-style:dashed;}
 .pg-elective-slot{background:var(--pg-elective-grey-bg);border:2.5px dashed var(--pg-elective-grey-border);border-radius:6px;padding:8px 10px;min-height:138px;min-width:0;display:flex;align-items:center;justify-content:center;text-align:center;font-size:10.5px;color:var(--pg-elective-grey-text);font-style:italic;line-height:1.3;transition:background .12s,border-color .12s;}
 .pg-elective-slot.pg-drop-ok{background:#e4fae5;border-color:#2E8B3D;border-style:solid;color:#2E8B3D;}
 .pg-elective-slot.pg-drop-bad{background:#fdeaea;border-color:#c0392b;border-style:solid;color:#c0392b;}
+.pg-elective-slot.pg-slot-awaiting-tap{background:#e4fae5;border-color:#2E8B3D;border-style:solid;color:#2E8B3D;cursor:pointer;}
+.eb-unit.pg-eb-selected{outline:3px solid var(--usyd-red);outline-offset:1px;}
 .pg-unit-remove{position:absolute;top:-6px;right:-6px;width:16px;height:16px;border-radius:50%;background:white;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;line-height:1;cursor:pointer;color:var(--text-muted);}
 .pg-unit-remove:hover{background:var(--usyd-red);border-color:var(--usyd-red);color:white;}
 .pg-unit.pg-placed-unit{position:relative;}
@@ -632,9 +638,79 @@ html,body{overflow-x:hidden;max-width:100%;}
 .pg-milestone b{color:var(--usyd-red);}
 .pg-pathway-toggle{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;cursor:pointer;user-select:none;}
 .pg-pathway-toggle input{accent-color:var(--usyd-red);width:14px;height:14px;}
-@media (max-width:900px){
+/* Below ~1180px the Elective Bank drops under the semesters so each semester
+   keeps all four tiles on one row instead of squeezing both side by side. */
+@media (max-width:1180px){
   .pg-two-col{grid-template-columns:1fr !important;}
   #pg-grid, #pg-elective-bank{max-width:none !important;min-width:0 !important;}
+}
+@media (min-width:641px) and (max-width:1180px){
+  /* Technical | Leadership | Strategic side by side, each a single column of tiles */
+  #pg-elective-bank > div > div:nth-child(2){grid-template-columns:repeat(3,1fr) !important;align-items:start;}
+  #pg-elective-bank > div > div:nth-child(2) > div{grid-column:auto !important;}
+  #pg-elective-bank .eb-list{flex-direction:column !important;flex-wrap:nowrap !important;}
+  #pg-elective-bank .eb-unit{width:100% !important;flex:1 1 auto !important;}
+}
+
+/* ── Embed mode (?embed=1): same page, minus the site chrome ── */
+html.embed .header, html.embed .tabs { display:none !important; }
+
+/* ── Semester-only view (?view=semesters): just the MPM semester blocks ── */
+html.view-semesters, html.view-semesters body { background:transparent !important; }
+html.view-semesters body { padding:2px !important; }
+html.view-semesters body > *:not(#semesters-host) { display:none !important; }
+html.view-semesters #pg-grid, html.view-semesters #pg-grid > div { height:auto !important; }
+html.view-semesters #pg-grid > div > div:empty { display:none; }
+html.view-semesters:not(.show-milestones) .pg-milestone { display:none; }
+html.view-semesters .pg-elective-slot { cursor:default; }
+html.view-semesters.compact .pg-unit, html.view-semesters.compact .pg-elective-slot { min-height:90px; }
+
+/* ── Unit tile text — same look as the BPM map: the unit code is a mid-dark
+      shade of the tile's own colour, the unit name a much darker shade of it.
+      Applies to every view (full tool, ?embed=1 and ?view=semesters). ── */
+.pg-unit-code { font-size:14px; }
+.pg-unit-name { font-size:15.5px; }
+.pg-unit-note { font-size:11.5px; }
+.pg-elective-slot { font-size:13px; }
+.pg-unit.pg-tech   .pg-unit-code { color:#1F7332; }   .pg-unit.pg-tech   .pg-unit-name, .pg-unit.pg-tech   .pg-unit-note { color:#103A1A; }
+.pg-unit.pg-lead   .pg-unit-code { color:#17708F; }   .pg-unit.pg-lead   .pg-unit-name, .pg-unit.pg-lead   .pg-unit-note { color:#0B3345; }
+.pg-unit.pg-strat  .pg-unit-code { color:#A85200; }   .pg-unit.pg-strat  .pg-unit-name, .pg-unit.pg-strat  .pg-unit-note { color:#47250A; }
+.pg-unit.pg-thesis .pg-unit-code { color:#005F54; }   .pg-unit.pg-thesis .pg-unit-name, .pg-unit.pg-thesis .pg-unit-note { color:#00302B; }
+.eb-unit-code { font-size:12px; }
+.eb-unit-name { font-size:13px; }
+.eb-unit-sem  { font-size:11px; }
+.eb-unit.pg-eb-tech  .eb-unit-code { color:#1F7332; }  .eb-unit.pg-eb-tech  .eb-unit-name { color:#103A1A; }
+.eb-unit.pg-eb-lead  .eb-unit-code { color:#17708F; }  .eb-unit.pg-eb-lead  .eb-unit-name { color:#0B3345; }
+.eb-unit.pg-eb-strat .eb-unit-code { color:#A85200; }  .eb-unit.pg-eb-strat .eb-unit-name { color:#47250A; }
+/* Each semester card keeps 4 tiles per row (one row per semester) down to a
+   560px-wide card, trimming text/padding slightly as it narrows so names wrap
+   cleanly; 2 per row below that, 1 per row on very narrow cards. */
+.pg-unit-name { overflow-wrap:break-word; }
+@container (max-width:700px){
+  .pg-unit-code { font-size:13px; }
+  .pg-unit-name { font-size:14px; }
+  .pg-unit-note { font-size:10.5px; }
+  .pg-elective-slot { font-size:12px; }
+  .pg-unit, .pg-elective-slot { padding:7px 9px; }
+  .pg-sem-units { gap:8px; }
+}
+@container (max-width:600px){
+  .pg-unit-name { font-size:13.5px; }
+  .pg-unit, .pg-elective-slot { padding:7px 8px; }
+}
+@container (max-width:559px){
+  .pg-sem-units { grid-template-columns:repeat(2,1fr); }
+}
+@container (max-width:360px){
+  .pg-sem-units { grid-template-columns:1fr; }
+}
+@media (max-width:640px){
+  .pg-unit-code { font-size:13px; }
+  .pg-unit-name { font-size:14px; }
+  .pg-unit-note { font-size:10.5px; }
+  .pg-elective-slot { font-size:12px; }
+  .eb-unit-code { font-size:11.5px; }
+  .eb-unit-name { font-size:12.5px; }
 }
 </style>
 </head>
@@ -723,7 +799,7 @@ html,body{overflow-x:hidden;max-width:100%;}
           </label>
         </div>
       </div>
-      <div id="pg-dnd-hint" style="font-size:11px;color:var(--text-muted);margin:0 0 16px;font-style:italic;">Drag a unit from the Elective Bank below onto an open elective slot. Slots only accept units offered in that slot's calendar semester (based on your commencing semester above).</div>
+      <div id="pg-dnd-hint" style="font-size:11px;color:var(--text-muted);margin:0 0 16px;font-style:italic;">Drag a unit from the Elective Bank below onto an open elective slot — or on a touchscreen, tap a unit then tap the slot. Slots only accept units offered in that slot's calendar semester (based on your commencing semester above).</div>
 
       <div class="pg-two-col" style="display:grid;grid-template-columns:3fr 2fr;gap:20px;align-items:stretch;">
         <div id="pg-grid" style="min-width:0;height:100%;"></div>
@@ -950,6 +1026,10 @@ function pgDrop(e, slotId, calSem) {
   const unit = PG_ELECTIVE_LOOKUP[code];
   pgDragCode = null;
   if (!unit || !pgSemCompatible(unit.sem, calSem)) return;
+  pgPlaceUnit(code, slotId);
+}
+
+function pgPlaceUnit(code, slotId) {
   // Each unit can only be placed once — clear any previous slot it occupied.
   Object.keys(pgPlacements).forEach(k => { if (pgPlacements[k] === code) delete pgPlacements[k]; });
   pgPlacements[slotId] = code;
@@ -959,6 +1039,39 @@ function pgDrop(e, slotId, calSem) {
 function pgRemovePlacement(slotId) {
   delete pgPlacements[slotId];
   renderPGMap();
+}
+
+// ── Tap-to-place fallback ──────────────────────────────────────────────
+// Native HTML5 drag-and-drop (draggable="true" + dragstart/dragover/drop)
+// never fires from touch input on any mobile browser — touch only produces
+// touchstart/touchmove/touchend, which the Drag and Drop API doesn't listen
+// for at all. Rather than build a touch-drag polyfill, tapping a bank unit
+// "picks it up" (highlighted below), and tapping an open slot places it —
+// this works identically with a mouse click, so nothing changes for desktop
+// users who still prefer to literally drag.
+let pgSelectedCode = null;
+
+function pgTapSelectBank(e, code) {
+  if (e) e.stopPropagation();
+  pgSelectedCode = (pgSelectedCode === code) ? null : code;
+  renderPGMap();
+}
+
+function pgTapPlaceSlot(e, slotId, calSem) {
+  if (e) e.stopPropagation();
+  if (!pgSelectedCode) return;
+  const unit = PG_ELECTIVE_LOOKUP[pgSelectedCode];
+  const el = e ? e.currentTarget : null;
+  if (!unit || !pgSemCompatible(unit.sem, calSem)) {
+    if (el) {
+      el.classList.add('pg-drop-bad');
+      setTimeout(() => el.classList.remove('pg-drop-bad'), 450);
+    }
+    return;
+  }
+  const code = pgSelectedCode;
+  pgSelectedCode = null;
+  pgPlaceUnit(code, slotId);
 }
 
 
@@ -1054,9 +1167,22 @@ function pgElectiveSlot(slotId, calSem, dimmed, dimLabel) {
     return pgUnitTile(placedUnit, false, null, slotId);
   }
   if (placedCode) delete pgPlacements[slotId]; // no longer valid for this calendar semester
-  return `<div class="pg-elective-slot" data-slot="${slotId}" data-calsem="${calSem}"
-    ondragover="pgDragOver(event,'${calSem}')" ondragleave="pgDragLeave(event)" ondrop="pgDrop(event,'${slotId}','${calSem}')">
-    PM Elective (${calSem})<br>(Technical, Leadership or Strategic)
+
+  let label = `Project Management Elective`;
+  let extraClass = '';
+  if (pgSelectedCode) {
+    const selUnit = PG_ELECTIVE_LOOKUP[pgSelectedCode];
+    if (selUnit && pgSemCompatible(selUnit.sem, calSem)) {
+      label = `Tap to place ${selUnit.code} here`;
+      extraClass = ' pg-slot-awaiting-tap';
+    } else {
+      label = `Not offered in ${calSem}`;
+    }
+  }
+  return `<div class="pg-elective-slot${extraClass}" data-slot="${slotId}" data-calsem="${calSem}"
+    ondragover="pgDragOver(event,'${calSem}')" ondragleave="pgDragLeave(event)" ondrop="pgDrop(event,'${slotId}','${calSem}')"
+    onclick="pgTapPlaceSlot(event,'${slotId}','${calSem}')">
+    ${label}
   </div>`;
 }
 
@@ -1142,7 +1268,7 @@ function renderPGMap() {
     }
 
     let milestone = '';
-    if (k === 's2') {
+    if (k === 's2' && award !== 'masters') {
       const certPhrase = awardRank > PG_AWARD_RANK.cert
         ? `<b>\u{1F393} Option to exit early \u2014 Graduate Certificate</b>: available once PMGT5205, PMGT5811, PMGT5858 and PMGT5872 are complete (24cp, 4 units)`
         : `<b>\u{1F393} Graduate Certificate</b> \u2014 complete once PMGT5205, PMGT5811, PMGT5858 and PMGT5872 are done (24cp, 4 units)`;
@@ -1187,10 +1313,11 @@ function renderPGMap() {
       const isPlacedManually = !!placedSlot;
       const dimmed = isPlacedByToggle || isPlacedManually;
       const draggable = !dimmed;
+      const isSelected = pgSelectedCode === u.code;
       const badges = pgOfferingBadges(u.sem);
-      return `<div class="eb-unit ${catClass}" style="${wide ? 'width:calc(50% - 5px);flex:0 0 calc(50% - 5px);' : 'width:100%;flex:1 1 auto;'}${dimmed ? 'opacity:.5;' : ''}"
-        ${draggable ? `draggable="true" ondragstart="pgDragStart(event,'${u.code}')"` : ''}
-        title="${draggable ? 'Drag onto a matching open elective slot' : ''}">
+      return `<div class="eb-unit ${catClass}${isSelected ? ' pg-eb-selected' : ''}" style="${wide ? 'width:calc(50% - 5px);flex:0 0 calc(50% - 5px);' : 'width:100%;flex:1 1 auto;'}${dimmed ? 'opacity:.5;' : ''}"
+        ${draggable ? `draggable="true" ondragstart="pgDragStart(event,'${u.code}')" onclick="pgTapSelectBank(event,'${u.code}')"` : ''}
+        title="${draggable ? 'Drag, or tap to select, then tap an open slot' : ''}">
         <div class="eb-unit-code">${u.code}</div>
         <div class="eb-unit-name">${u.name}</div>
         <div style="display:flex;gap:3px;flex-wrap:wrap;align-items:center;margin-top:4px;">
@@ -1199,6 +1326,7 @@ function renderPGMap() {
         </div>
         ${isPlacedByToggle ? '<div style="font-size:9px;color:var(--usyd-red);font-weight:700;margin-top:2px;">Placed automatically via Research Pathway toggle</div>' : ''}
         ${isPlacedManually ? `<div style="font-size:9px;color:var(--usyd-red);font-weight:700;margin-top:2px;">Placed in ${slotLabelMap[placedSlot] || 'the map'}</div>` : ''}
+        ${isSelected ? '<div style="font-size:9px;color:var(--usyd-red);font-weight:700;margin-top:2px;">Selected \u2014 tap an open slot to place it</div>' : ''}
       </div>`;
     }).join('');
     return `<div class="eb-panel">
@@ -1257,6 +1385,28 @@ function exportPGMapJPEG() {
     alert('Sorry, the export failed. Please try again.');
   });
 }
+
+// ── URL presets, so a link/iframe can open straight onto a given variant ──
+(function initFromUrl() {
+  const p = new URLSearchParams(location.search);
+  const a = p.get('award');
+  if (['masters','dip','cert'].includes(a)) document.getElementById('pg-award-selector').value = a;
+  const pw = p.get('pathway');
+  if (pw === 'research' || pw === 'coursework') {
+    const r = document.querySelector(`input[name="pg-pathway"][value="${pw}"]`);
+    if (r) r.checked = true;
+  }
+  if (p.get('commencing') === 'S2') pgCommencing = 'S2';
+  if (document.documentElement.classList.contains('view-semesters')) {
+    const host = document.createElement('div');
+    host.id = 'semesters-host';
+    host.appendChild(document.getElementById('pg-grid'));
+    document.body.appendChild(host);
+    const report = () => { try { parent.postMessage({ type:'pg-embed-height', height: Math.ceil(document.body.getBoundingClientRect().height) }, '*'); } catch (e) {} };
+    window.addEventListener('load', report);
+    window.addEventListener('resize', report);
+  }
+})();
 
 renderPGMap();
 </script>

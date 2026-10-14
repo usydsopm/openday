@@ -110,6 +110,10 @@ html,body{overflow-x:hidden;max-width:100%;}
 .section-title{font-size:22px;font-weight:500;color:var(--text);margin-bottom:5px;font-family:var(--font-heading);}
 .section-sub{font-size:14px;color:var(--text-muted);margin-bottom:16px;}
 
+
+/* "New applications paused" strip on the MPPM tile */
+.paused-ribbon{position:absolute;top:0;left:0;right:0;background:#cf3f20;color:#fff;text-align:center;font-size:clamp(11px,1vw,12.5px);font-weight:700;letter-spacing:.02em;line-height:1.35;padding:4px 12px;}
+@media (max-width:420px){ .paused-ribbon{position:static;margin:calc(var(--pad) * -1) calc(var(--pad) * -1) 12px;padding:6px 12px;} }
 </style>
 </head>
 <body>
@@ -139,7 +143,7 @@ html,body{overflow-x:hidden;max-width:100%;}
 
 
 <div class="main" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 90px);padding:clamp(20px,6vw,48px) clamp(14px,4vw,28px);">
-  <div style="max-width:1180px;width:100%;">
+  <div style="max-width:920px;width:100%;">
     <div style="text-align:center;margin-bottom:clamp(20px,4vw,44px);">
       <div class="section-title" style="font-size:clamp(19px,3.2vw,34px);">Prospective Student Resources</div>
       <div class="section-sub" style="font-size:clamp(12px,1.6vw,17px);">Choose a resource to explore with prospective students</div>
@@ -181,6 +185,29 @@ html,body{overflow-x:hidden;max-width:100%;}
           <div style="font-family:var(--font-heading);font-weight:500;font-size:clamp(16px,2vw,24px);color:var(--text);margin-bottom:6px;">Postgraduate</div>
           <div style="font-size:clamp(12px,1.3vw,15.5px);color:var(--text-muted);line-height:1.5;">Sample course plans for the Graduate Certificate, Graduate Diploma, and Master of Project Management.</div>
           <div style="margin-top:16px;font-size:clamp(11px,0.9vw,13px);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--usyd-red);">View Postgraduate Plans &rarr;</div>
+        </div>
+      </a>
+
+      <a href="MPPM_Degree_Maps.html" style="text-decoration:none;color:inherit;flex:1 1 340px;max-width:420px;">
+        <div style="--pad:clamp(16px,3.2vw,34px);position:relative;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:var(--pad);padding-top:max(var(--pad),34px);overflow:hidden;transition:box-shadow .2s ease, transform .2s ease;box-shadow:0 1px 3px rgba(0,0,0,.06);height:100%;" onmouseover="this.style.boxShadow='0 8px 24px rgba(0,0,0,.12)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='0 1px 3px rgba(0,0,0,.06)';this.style.transform='translateY(0)'">
+          <div class="paused-ribbon">New applications are paused for the moment</div>
+          <div style="margin-bottom:clamp(12px,2.5vw,24px);max-width:240px;margin-left:auto;margin-right:auto;"><svg viewBox="0 0 220 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+  <rect x="4" y="4" width="48" height="40" rx="6" fill="#fff4e6" stroke="#f58509" stroke-width="2"/>
+  <rect x="58" y="4" width="48" height="40" rx="6" fill="#d4f6ff" stroke="#72d3fa" stroke-width="2" stroke-dasharray="4,3"/>
+  <rect x="114" y="4" width="48" height="40" rx="6" fill="#fff4e6" stroke="#f58509" stroke-width="2"/>
+  <rect x="168" y="4" width="48" height="40" rx="6" fill="#d4f6ff" stroke="#72d3fa" stroke-width="2" stroke-dasharray="4,3"/>
+  <rect x="4" y="52" width="48" height="40" rx="6" fill="#fff4e6" stroke="#f58509" stroke-width="2"/>
+  <rect x="58" y="52" width="48" height="40" rx="6" fill="#e4fae5" stroke="#adf3ab" stroke-width="2"/>
+  <rect x="114" y="52" width="48" height="40" rx="6" fill="#d4f6ff" stroke="#72d3fa" stroke-width="2" stroke-dasharray="4,3"/>
+  <rect x="168" y="52" width="48" height="40" rx="6" fill="#d4f6ff" stroke="#72d3fa" stroke-width="2" stroke-dasharray="4,3"/>
+  <rect x="4" y="100" width="48" height="26" rx="6" fill="#fff4e6" stroke="#f58509" stroke-width="2"/>
+  <rect x="58" y="100" width="48" height="26" rx="6" fill="#d4f6ff" stroke="#72d3fa" stroke-width="2"/>
+  <rect x="114" y="100" width="48" height="26" rx="6" fill="#e4fae5" stroke="#adf3ab" stroke-width="2"/>
+  <rect x="168" y="100" width="48" height="26" rx="6" fill="#d4f6ff" stroke="#72d3fa" stroke-width="2"/>
+</svg></div>
+          <div style="font-family:var(--font-heading);font-weight:500;font-size:clamp(16px,2vw,24px);color:var(--text);margin-bottom:6px;">Online Postgraduate</div>
+          <div style="font-size:clamp(12px,1.3vw,15.5px);color:var(--text-muted);line-height:1.5;">Full-time and part-time sample course plans for the Master of Project and Program Management (online).</div>
+          <div style="margin-top:16px;font-size:clamp(11px,0.9vw,13px);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--usyd-red);">View Online Postgraduate Plans &rarr;</div>
         </div>
       </a>
 

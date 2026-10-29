@@ -5,11 +5,11 @@
 <script>
 /* URL switches (see the notes in the Canvas embed guide):
    ?embed=1            hide the site header + tabs (for iframing into Canvas)
-   ?view=semesters     MPM only: show just the semester grid (&milestones=1, &compact=1 optional)
+   ?view=semesters     MPM only: show just the semester grid (&compact=1 optional)
 */
 (function(){var p=new URLSearchParams(location.search),c=document.documentElement.classList;
 if(p.get('embed')==='1')c.add('embed');
-if(p.get('view')==='semesters'){c.add('view-semesters');if(p.get('milestones')==='1')c.add('show-milestones');if(p.get('compact')==='1')c.add('compact');}})();
+if(p.get('view')==='semesters'){c.add('view-semesters');if(p.get('compact')==='1')c.add('compact');}})();
 </script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -634,8 +634,6 @@ html,body{overflow-x:hidden;max-width:100%;}
 .pg-unit-remove{position:absolute;top:-6px;right:-6px;width:16px;height:16px;border-radius:50%;background:white;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;line-height:1;cursor:pointer;color:var(--text-muted);}
 .pg-unit-remove:hover{background:var(--usyd-red);border-color:var(--usyd-red);color:white;}
 .pg-unit.pg-placed-unit{position:relative;}
-.pg-milestone{background:var(--usyd-warm);border:1.5px dashed var(--usyd-red);border-radius:8px;padding:9px 11px;margin-top:8px;font-size:11px;line-height:1.5;}
-.pg-milestone b{color:var(--usyd-red);}
 .pg-pathway-toggle{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;cursor:pointer;user-select:none;}
 .pg-pathway-toggle input{accent-color:var(--usyd-red);width:14px;height:14px;}
 /* Below ~1180px the Elective Bank drops under the semesters so each semester
@@ -661,7 +659,6 @@ html.view-semesters body { padding:2px !important; }
 html.view-semesters body > *:not(#semesters-host) { display:none !important; }
 html.view-semesters #pg-grid, html.view-semesters #pg-grid > div { height:auto !important; }
 html.view-semesters #pg-grid > div > div:empty { display:none; }
-html.view-semesters:not(.show-milestones) .pg-milestone { display:none; }
 html.view-semesters .pg-elective-slot { cursor:default; }
 html.view-semesters.compact .pg-unit, html.view-semesters.compact .pg-elective-slot { min-height:90px; }
 
@@ -1232,9 +1229,8 @@ function renderPGMap() {
     // together in a single semester and finish in 0.5 years.
     const certUnits = [...PG_CORE_UNITS.s1, ...PG_CORE_UNITS.s2.filter(u => u.tier === 'cert')];
     const tiles = certUnits.map(u => pgUnitTile(u)).join('');
-    const milestone = `<div class="pg-milestone"><b>\u{1F393} Graduate Certificate</b> \u2014 complete once all four units below are done (24cp, 4 units)</div>`;
     document.getElementById('pg-grid').innerHTML =
-      `<div class="pg-sem-col"><div class="pg-sem-title">Semester 1</div><div class="pg-sem-units">${tiles}</div>${milestone}</div>`;
+      `<div class="pg-sem-col"><div class="pg-sem-title">Semester 1</div><div class="pg-sem-units">${tiles}</div></div>`;
     document.getElementById('pg-elective-bank').innerHTML = '';
     return;
   }
@@ -1268,30 +1264,8 @@ function renderPGMap() {
       tiles += isResearch ? pgUnitTile(PG_TOGGLE_SLOTS[k]) : pgElectiveSlot(`${k}-toggle`, calSem, false);
     }
 
-    let milestone = '';
-    if (k === 's2' && award !== 'masters') {
-      const certPhrase = awardRank > PG_AWARD_RANK.cert
-        ? `<b>\u{1F393} Option to exit early \u2014 Graduate Certificate</b>: available once PMGT5205, PMGT5811, PMGT5858 and PMGT5872 are complete (24cp, 4 units)`
-        : `<b>\u{1F393} Graduate Certificate</b> \u2014 complete once PMGT5205, PMGT5811, PMGT5858 and PMGT5872 are done (24cp, 4 units)`;
-      milestone = `<div class="pg-milestone">${certPhrase}`;
-      if (awardRank >= PG_AWARD_RANK.dip) {
-        const dipPhrase = awardRank > PG_AWARD_RANK.dip
-          ? `<b>\u{1F393} Option to exit early \u2014 Graduate Diploma</b>: available at the end of this semester, following completion of the 6 core units above plus the 2 electives so far (48cp, 8 units)`
-          : `<b>\u{1F393} Graduate Diploma</b> \u2014 complete at the end of this semester: the 6 core units above plus the 2 electives so far (48cp, 8 units)`;
-        milestone += `<br>${dipPhrase}`;
-      }
-      if (awardRank > PG_AWARD_RANK.dip) {
-        milestone += `<div style="font-weight:400;font-style:italic;margin-top:5px;">Exiting early requires a separate application to transfer awards \u2014 these qualifications are not automatically granted if you continue in the Master of Project Management.</div>`;
-      }
-      milestone += `</div>`;
-    } else if (k === 's3') {
-      milestone = `<div class="pg-milestone">
-        <b>\u{1F393} Master of Project Management</b> \u2014 complete at the end of this semester: 12 units in total (72cp)
-      </div>`;
-    }
-
     const semLabel = `${semLabelBases[i]} <span style="font-weight:400;color:var(--text-muted);">(${calSem})</span>`;
-    colsHtml += `<div class="pg-sem-col"><div class="pg-sem-title">${semLabel}</div><div class="pg-sem-units">${tiles}</div>${milestone}</div>`;
+    colsHtml += `<div class="pg-sem-col"><div class="pg-sem-title">${semLabel}</div><div class="pg-sem-units">${tiles}</div></div>`;
   });
 
   document.getElementById('pg-grid').innerHTML =
